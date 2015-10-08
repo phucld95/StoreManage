@@ -28,6 +28,8 @@ public class DoMain {
             
 			ResultSet re;
 			ProductManager pm = new ProductManager(st);
+			//Layer2Interface lr2 = new Layer2Interface();
+			//lr2.upInterface();
 			int i = 0;
 			String inp = new String();
 			while (i != 0){

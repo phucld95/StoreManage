@@ -10,10 +10,10 @@ public class ProductManager {
 		this.st = st;
 		st.executeUpdate("use lab;");
 	}
+	
 	/*
 	 *	Đưa ra tất cả các sản phẩm và thông tin liên quan. 
-	 */
-	
+	 */	
 	public static ResultSet getAllProduct () throws SQLException{
 		ResultSet rs = st.executeQuery("select * from B1_Mat_Hang;");	
 		return rs;		
