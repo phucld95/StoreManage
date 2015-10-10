@@ -1,2 +1,15 @@
-1) Download phần mềm exe4j về ( Chú ý máy cài tối thiểu jre hoặc jdk 5.0,tối đa 6.0)
-2) 
+
+Lí do chuyển : Do người dùng có thể ko cài jdk hoặc jre nên nếu để file jar  Không chạy được.
+
+Yêu cầu :
+
+1)	Export từ eclipse toàn bộ project ( class+thư viện) ra file jar.Để trên desktop test cho dễ
+
+Trên thanh công cụ,chọn File--> Export-->Runnable Jar File
+
+2)	Download app-framework-1.0.3,swing-layout-1.0.4,swing-worker-1.1,1.Google để down nhé.Down thêm cái file ảnh định dạng icon 48*48.Trong code phải có phần kết nối với swing và framework để chạy.
+
+Nếu xong rồi thì làm đúng các bước theo guide này là chạy được
+
+https://vovanhai.wordpress.com/java/l%E1%BA%ADp-trinh-java-can-b%E1%BA%A3n/dong-goi-1-%E1%BB%A9ng-d%E1%BB%A5ng-java-thanh-file-exe/
+
