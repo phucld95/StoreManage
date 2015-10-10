@@ -12,6 +12,8 @@ public class SearchGroup {
 }
 
 class search {
+	private Scanner nhap;
+
 	public void getData() {
 		// kết nối database
 		ConnectToDTB data = new ConnectToDTB();
@@ -19,7 +21,7 @@ class search {
 		String c = new String();
 		String SQL = new String();
 		int i;
-		Scanner nhap = new Scanner(System.in);
+		nhap = new Scanner(System.in);
 		data.connectDTB();
 		Connection connect;
 		ResultSet rs = null;
@@ -35,40 +37,52 @@ class search {
 				case 1: {
 					Sale_Data.InputName();
 					SQL = String.format(
-							"select distinct Ten_MH,Gia_Ban from mat_hang natural join nhomhang where Ten_Nhomhang = '%s';",
+							"select distinct Ten_MH,Gia_Ban from mat_hang natural join nhomhang natural join thuoc_nhom where Ten_Nhomhang = '%s';",
 							Sale_Data.name);
-					rs = st.executeQuery(SQL);
-					while (rs.next()) {
-						String Ten_MH = rs.getString("Ten_MH");
-						int Gia_Ban = rs.getInt("Gia_Ban");
-						System.out.print("||" + Ten_MH + "||");
-						System.out.println(Gia_Ban + "||");
+					try {
+						rs = st.executeQuery(SQL);
+						rs.next();
+						do {
+							String Ten_MH = rs.getString("Ten_MH");
+							int Gia_Ban = rs.getInt("Gia_Ban");
+							System.out.print("||" + Ten_MH + "||");
+							System.out.println(Gia_Ban + "||");
+						} while (rs.next());
+						rs.close();
+					} catch (SQLException ex) {
+						System.out.println("không tồn tại nhóm hàng");
 					}
-					rs.close();
 					break;
 				}
 				case 2: {
 					Sale_Data.InputID();
-					SQL = String.format("select distinct Ten_MH from mat_hang where ID_NhomHang = '%d';", Sale_Data.id);
-					rs = st.executeQuery(SQL);
-					while (rs.next()) {
-						String Ten_MH = rs.getString("Ten_MH");
-						System.out.println(Ten_MH);
+					SQL = String.format(
+							"select distinct Ten_MH from mat_hang natural join thuoc_nhom where ID_NhomHang = '%d';",
+							Sale_Data.id);
+					try {
+						rs = st.executeQuery(SQL);
+						rs.next();
+						do {
+							String Ten_MH = rs.getString("Ten_MH");
+							System.out.println(Ten_MH);
+						} while (rs.next());
+						rs.close();
+					} catch (SQLException ex) {
+						System.out.println("không tồn tại ID");
 					}
-					rs.close();
 					break;
 				}
 				case 3: {
 					Sale_Data.InputName();
 					Sale_Data.InputID();
-					SQL= String.format("insert into nhomhang values ('%d','%s'); ",Sale_Data.id,Sale_Data.name);
+					SQL = String.format("insert into nhomhang values ('%d','%s'); ", Sale_Data.id, Sale_Data.name);
 					i = st.executeUpdate(SQL);
 					break;
 				}
-				case 4:{
+				case 4: {
 					Sale_Data.InputName();
-					SQL = String.format("delete from nhomhang where Ten_NhomHang='%s'",Sale_Data.name);
-					i=st.executeUpdate(SQL);
+					SQL = String.format("delete from nhomhang where Ten_NhomHang='%s'", Sale_Data.name);
+					i = st.executeUpdate(SQL);
 					break;
 				}
 				}
@@ -76,7 +90,7 @@ class search {
 				c = nhap.nextLine();
 			} while (c.equals("y"));
 			st.close();
-			
+
 			connect.close();
 		} catch (SQLException ex) {
 			System.out.println(ex);
