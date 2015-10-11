@@ -108,7 +108,8 @@ public class Layer2Interface implements ActionListener {
         {
             public void actionPerformed(ActionEvent e)
             {
-                JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+                
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }
         });
 		
