@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 
-public class SimpleTableTest extends JFrame{
+public class TableDatabase extends JFrame{
     private JTable table;
     
     /*
@@ -44,7 +44,7 @@ public class SimpleTableTest extends JFrame{
 	//   }
 	//}
     
-    public SimpleTableTest(ResultSet rs) throws SQLException{
+    public TableDatabase(ResultSet rs) throws SQLException{
         Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
         //TableValues tv = new TableValues();
@@ -53,7 +53,7 @@ public class SimpleTableTest extends JFrame{
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         JScrollPane jsp = new JScrollPane(table);
         pane.add(jsp, BorderLayout.CENTER);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 400);
         this.setVisible(true); 
         this.setIcon();

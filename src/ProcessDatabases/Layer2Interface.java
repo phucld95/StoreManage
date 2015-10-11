@@ -22,7 +22,14 @@ import java.awt.event.ActionEvent;
 public class Layer2Interface implements ActionListener {
 
 	public static JFrame frmStoreManager;
-
+	public static String chose = new String();
+	
+	public static String com11 = "Các mặt hàng đang kinh doanh.";
+	public static String com12 = "Tìm kiếm, chỉnh sửa thông tin sản phẩm.";
+	public static String com13 = "Thêm 1 mặt hàng vào cửa hàng.";
+	public static String com14 = "Xóa 1 mặt hàng đã có.";
+	public static String com15 = "Những sản phẩm sắp hết hàng";
+	public static ProductManage pma = new ProductManage();
 	/**
 	 * Create the application.
 	 */
@@ -36,7 +43,7 @@ public class Layer2Interface implements ActionListener {
 	private void initialize() {
 		frmStoreManager = new JFrame();
 		frmStoreManager.setTitle("Store manager");
-		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Java\\Project\\store_manager\\Untitled-1-01.png"));
+		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frmStoreManager.setBounds(100, 100, 529, 300);
 		frmStoreManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStoreManager.getContentPane().setLayout(null);
@@ -54,7 +61,7 @@ public class Layer2Interface implements ActionListener {
 		 *	ComboBox Các mặt hàng đang kinh doanh.
 		 */
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"C\u00E1c m\u1EB7t h\u00E0ng \u0111ang kinh doanh.", "T\u00ECm ki\u1EBFm, ch\u1EC9nh s\u1EEDa 1 s\u1EA3n ph\u1EA9m.", "Th\u00EAm 1 m\u1EB7t h\u00E0ng v\u00E0o c\u1EEDa h\u00E0ng.", "X\u00F3a1 m\u1EB7t h\u00E0ng \u0111\u00E3 c\u00F3.", "Nh\u1EEFng s\u1EA3n ph\u1EA9m s\u1EAFp h\u1EBFt h\u00E0ng."}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[]{com11, com12, com13, com14, com15} ));
 		comboBox.setToolTipText("");
 		comboBox.setBounds(180, 81, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox);
@@ -108,7 +115,13 @@ public class Layer2Interface implements ActionListener {
         {
             public void actionPerformed(ActionEvent e)
             {
-                
+                chose = comboBox.getSelectedItem().toString();
+                if(chose == com11){
+                	pma.ShowAllProduct();
+                }
+                if(chose == com12){
+                	pma.searchProduct();
+                }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }
         });
