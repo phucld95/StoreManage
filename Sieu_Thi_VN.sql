@@ -1,5 +1,3 @@
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -10,6 +8,12 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Database: `Sieu_Thi_final`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `khuyen_mai`
@@ -125,22 +129,19 @@ DROP TABLE IF EXISTS `mat_hang`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mat_hang` (
-  `MH_ID_MatHang` int(11) NOT NULL,
+  `ID_MatHang` int(11) NOT NULL,
   `Gia_Nhap` int(11) NOT NULL,
   `Gia_Ban` int(11) NOT NULL,
   `Ten_MH` varchar(45) NOT NULL,
   `Soluong` int(11) NOT NULL,
-  `MH_ID_NCC` int(11) NOT NULL,
-  `MH_ID_NhomHang` int(11) NOT NULL,
-  PRIMARY KEY (`MH_ID_MatHang`,`MH_ID_NCC`,`MH_ID_NhomHang`),
-
-  FOREIGN KEY (`MH_ID_NCC`) REFERENCES `ncc` (`Id_NCC`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  FOREIGN KEY (`MH_ID_NhomHang`) REFERENCES `nhomhang` (`ID_NhomHang`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `Id_NCC` int(11) NOT NULL,
+  `ID_NhomHang` int(11) NOT NULL,
+  PRIMARY KEY (`ID_MatHang`,`Id_NCC`,`ID_NhomHang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `mat_hang` WRITE;
 /*!40000 ALTER TABLE `mat_hang` DISABLE KEYS */;
-INSERT INTO `mat_hang`(`MH_ID_MatHang`,`Gia_Nhap`,`Gia_Ban`,`Ten_MH`,`Soluong`,`MH_ID_NCC`,`MH_ID_NhomHang`) VALUES 
+INSERT INTO `mat_hang`(`ID_MatHang`,`Gia_Nhap`,`Gia_Ban`,`Ten_MH`,`Soluong`,`Id_NCC`,`ID_NhomHang`) VALUES 
 (1,5000,6000,'Sữa bột cô gái Hà Lan',10000,1,1),
 (2,400000,620000,'Sữa ANMUM',50,2,1),
 (3,300000,330000,'Sữa ANMUM MATERNA',100,2,1),
@@ -176,16 +177,12 @@ DROP TABLE IF EXISTS `mat_hang_co_khuyen_mai`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mat_hang_co_khuyen_mai` (
-  `ID_Dot_KM` int(11) NOT NULL,
-  `KM_ID_MatHang` int(11) NOT NULL,
-  `KM_ID_NCC` int(11) NOT NULL,
-  `KM_ID_NhomHang` int(11) NOT NULL,
+  `Id_KM` int(11) NOT NULL,
+  `ID_MatHang` int(11) NOT NULL,
+  `Id_NCC` int(11) NOT NULL,
+  `ID_NhomHang` int(11) NOT NULL,
   `Gia_KM` int NOT NULL,
-  PRIMARY KEY (`KM_ID_MatHang`,`KM_ID_NCC`,`KM_ID_NhomHang`),
-  FOREIGN KEY (`KM_ID_MatHang`) REFERENCES `mat_hang` (`MH_ID_MatHang`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  FOREIGN KEY ( `KM_ID_NCC`) REFERENCES `ncc` ( `Id_NCC`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  FOREIGN KEY (`KM_ID_NhomHang`) REFERENCES `nhomhang` (`ID_NhomHang`) ON DELETE NO ACTION ON UPDATE NO ACTION	,
-  FOREIGN KEY(`ID_Dot_KM`)REFERENCES `khuyen_mai`(`Id_KM`)
+  PRIMARY KEY (`ID_MatHang`,`Id_NCC`,`ID_NhomHang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,7 +192,7 @@ CREATE TABLE `mat_hang_co_khuyen_mai` (
 
 LOCK TABLES `mat_hang_co_khuyen_mai` WRITE;
 /*!40000 ALTER TABLE `mat_hang_co_khuyen_mai` DISABLE KEYS */;
-INSERT INTO `mat_hang_co_khuyen_mai`(`ID_Dot_KM`,`KM_ID_MatHang`,`KM_ID_NCC`,`KM_ID_NhomHang`,`Gia_KM`) VALUES 
+INSERT INTO `mat_hang_co_khuyen_mai`(`Id_KM`,`ID_MatHang`,`Id_NCC`,`ID_NhomHang`,`Gia_KM`) VALUES 
 (1,1,1,1,4000),
 (1,2,2,1,60000),
 (1,3,2,1,300000),
@@ -235,5 +232,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-
