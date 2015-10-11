@@ -13,15 +13,13 @@ class getData{
 	public void  DataProcessing(){
 		ConnectToDTB data = new ConnectToDTB();
 		Data Sale_Data = new Data();
-		String c;
+		String c = new String();
 		Scanner nhap = new Scanner(System.in);
 		data.connectDTB();
 		Connection connect;
 		ResultSet rs;
 		try{
 			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sieu_Thi_VN","root","hedspik58");
-			//System.out.println("Get Connect To Database Complete ...\n");	
-			//stmt = connect.createStatement();
         Statement st = connect.createStatement();
         //nhập mặt hàng và đưa ra số tiền phải trả
             do {
@@ -36,7 +34,9 @@ class getData{
                 System.out.print("tiep tu nhap mat hang ? (y/n)");
                 c = nhap.nextLine();
             } while (c.equals("y"));
-            System.out.println("so tien can tra:" + Sale_Data.sum+"VNĐ");
+            //in thời gian mua hàng
+            timeSystem.Date();
+            System.out.println("so tien can tra:" + Sale_Data.sum+" VNĐ");
 			connect.close();
 			st.close();
 			rs.close();
@@ -45,4 +45,3 @@ class getData{
 	}
 }
 }
-//tạo dữ liệu cho các mặt hàng
