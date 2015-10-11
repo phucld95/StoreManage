@@ -4,15 +4,24 @@ import java.util.Scanner;
 
 public class Data {
    public String name;
-   public int so_luong=0,sum=0;
-   private Scanner Input ;
+   public int so_luong;
+   public String inp = new String();
+   String temp = new String();
+   public int sum=0;
+   public int id;
+   private Scanner Input = new Scanner(System.in) ;
    public void InputName() {
-	   Input = new Scanner(System.in);
-       System.out.print("nhap ten mat hang:");
+       System.out.print("nhap ten:");
        name = Input.nextLine();
    }
    public void InputSum(){
 	   System.out.print("nhap so luong:");
-	   so_luong=Input.nextInt();
+	   temp=Input.nextLine();
+	   so_luong=Integer.parseInt(temp);
+   }
+   public void InputID(){
+	   System.out.print("nhap ID:");
+	   temp=Input.nextLine();
+	   id=Integer.parseInt(temp);
    }
 }
