@@ -1,5 +1,4 @@
-package tinh_tien;
-
+package ProcessDatabases;
 import java.util.Scanner;
 
 public class Data {

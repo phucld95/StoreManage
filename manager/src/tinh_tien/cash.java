@@ -13,7 +13,6 @@ public class cash {
 class getData {
 	private Scanner nhap;
 	public String c, time, SQL;
-	public int dot, Gia_Ban, id;
 
 	public void DataProcessing() {
 		ConnectToDTB data = new ConnectToDTB();
@@ -34,28 +33,28 @@ class getData {
 				Sale_Data.InputSum();
 				// kiểm tra xem có đang trong đợt khuyến mãi hay không ?
 				try {
-					SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and '%s'<=TGKT", time, time);
+					SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time, time);
 					result = st.executeQuery(SQL);
 					result.next();
-					dot = result.getInt("Id_KM");
+					Sale_Data.dot = result.getInt("Id_KM");
 					result.close();
 					// lấy giá mặt hàng nếu nằm trong mặt hàng được khuyến mãi
 					SQL = String.format(
 							"select Gia_KM from mat_hang natural join duoc_khuyen_mai where Ten_MH = '%s' and Id_KM = %d;",
-							Sale_Data.name, dot);
+							Sale_Data.name, Sale_Data.dot);
 					rs = st.executeQuery(SQL);
 					rs.next();
-					Gia_Ban = rs.getInt("Gia_KM");
-					Sale_Data.sum = Sale_Data.sum + Gia_Ban * Sale_Data.so_luong;
+					Sale_Data.Gia_Ban = rs.getInt("Gia_KM");
+					Sale_Data.sum = Sale_Data.sum + Sale_Data.Gia_Ban * Sale_Data.so_luong;
 					System.out.println(
-							"mat hang thuoc dot khuyen mai thu: " + dot + "\nCó giá bán khuyến mãi:" + Gia_Ban);
+							"mat hang thuoc dot khuyen mai thu: " + Sale_Data.dot + "\nCó giá bán khuyến mãi:" + Sale_Data.Gia_Ban);
 				} catch (SQLException ex) {
 					SQL = String.format("select Gia_Ban from mat_hang where Ten_MH = '%s';", Sale_Data.name);
 					rs = st.executeQuery(SQL);
 					rs.next();
 					try {
-						Gia_Ban = rs.getInt("Gia_Ban");
-						Sale_Data.sum = Sale_Data.sum + Gia_Ban * Sale_Data.so_luong;
+						Sale_Data.Gia_Ban = rs.getInt("Gia_Ban");
+						Sale_Data.sum = Sale_Data.sum + Sale_Data.Gia_Ban * Sale_Data.so_luong;
 					} catch (SQLException e) {
 						System.out.println("Không tồn tạo mặt hàng");
 					}
