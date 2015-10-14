@@ -16,13 +16,13 @@ class search {
 
 	public void getData() {
 		// kết nối database
-		ConnectToDTB data = new ConnectToDTB();
+		ConnectToDTB con = new ConnectToDTB();
 		Data Sale_Data = new Data();
 		String c = new String();
 		String SQL = new String();
-		int i;
+		int i, j = 1;
 		nhap = new Scanner(System.in);
-		data.connectDTB();
+		con.connectDTB();
 		Connection connect;
 		ResultSet rs = null;
 		try {
@@ -73,10 +73,22 @@ class search {
 					break;
 				}
 				case 3: {
-					Sale_Data.InputName();
-					Sale_Data.InputID();
+					while (j == 1) {
+						Sale_Data.Input_NameGroup();
+						Sale_Data.Input_idGroup();
+						SQL = String.format(
+								"select Ten_Nhomhang,ID_NhomHang from nhomhang where Ten_Nhomhang = '%s' and ID_NhomHang = %d",
+								Sale_Data.nameGroup, Sale_Data.idGroup);
+						rs=st.executeQuery(SQL);
+						if(rs.next()){
+							c=rs.getString("Ten_Nhomhang");
+							System.out.println("thong tin da ton tai");
+						}
+						else j=0;
+					}
 					SQL = String.format("insert into nhomhang values ('%d','%s'); ", Sale_Data.id, Sale_Data.name);
 					i = st.executeUpdate(SQL);
+					System.out.println("them thanh cong !");
 					break;
 				}
 				case 4: {
