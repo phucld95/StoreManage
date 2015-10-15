@@ -35,10 +35,10 @@ public class ChangeInformation {
 							System.out.println("nhap ten bi trung!");
 						} else {
 							// System.out.println("test");
-							j = 1;
+							break;
 						}
 					}
-					while (j == 1) {
+					while (j == 0) {
 						info.InputID();
 						sql = String.format("select ID_MatHang from mat_hang where ID_MatHang = %d", info.id);
 						rs = st.executeQuery(sql);
@@ -46,7 +46,7 @@ public class ChangeInformation {
 							i = rs.getInt("ID_MatHang");
 							System.out.println("nhap id bi trung!");
 						} else {
-							j = 0;
+							break;
 						}
 					}
 					info.InputSum();
@@ -59,7 +59,7 @@ public class ChangeInformation {
 						rs = st.executeQuery(sql);
 						if (rs.next()) {
 							i = rs.getInt("ID_NhomHang");
-							j = 1;
+							// break;
 						} else {
 							System.out.print("nhom hang chua ton tai!\nThem nhom hang ?(y/n)");
 							c = input.nextLine();
@@ -74,16 +74,17 @@ public class ChangeInformation {
 										c = rs.getString("Ten_NhomHang");
 										System.out.println("Ten nhom hang da ton tai !");
 									} else {
-										j = 1;
+										break;
 									}
 								}
 								sql = String.format("insert into nhomhang values ('%d','%s'); ", info.idGroup,
 										info.nameGroup);
 								st.executeUpdate(sql);
 								System.out.println("them thanh cong !");
-								j = 1;
+								break;
 							}
 						}
+						break;
 					}
 					try {
 						sql = String.format("insert into mat_hang values ('%d','%d','%d','%s','%d'); ", info.id,
@@ -92,16 +93,107 @@ public class ChangeInformation {
 						// System.out
 						sql = String.format("insert into thuoc_nhom values ('%d','%d');", info.id, info.idGroup);
 						st.executeUpdate(sql);
+						System.out.println("them thanh cong !");
 					} catch (SQLException ej) {
 						System.out.println(ej);
 					}
 					break;
 				}
 				case 2: {
+					while (j == 0) {
+						info.InputName();
+						sql = String.format("select Ten_MH from mat_hang where Ten_MH = '%s';", info.name);
+						rs = st.executeQuery(sql);
+						if (rs.next()) {
+							c = rs.getString("Ten_MH");
+							sql = String.format("delete from mat_hang where Ten_MH='%s'", info.name);
+							System.out.println("Xoa thanh cong !");
+							break;
+						} else {
+							System.out.println("mat hang khong ton tai !");
+						}
+					}
 					break;
 				}
 				case 3: {
-					break;
+					while (j == 0) {
+						info.InputName();
+						sql = String.format("select Ten_MH from mat_hang where Ten_MH ='%s';", info.name);
+						rs = st.executeQuery(sql);
+						if (rs.next()) {
+							//c=rs.getString("Ten_MH");
+							System.out.print(
+									"Thong tin muon thay doi !\n1,Ten mat hang\n2,Gia ban\n3,Gia nhap\n4,nhom hang\n5,so luong\nchon:");
+							i = Integer.parseInt(input.nextLine());
+							switch (i) {
+							case 1: {
+								try {
+									System.out.print("Nhap ten sua doi:");
+									c = input.nextLine();
+									sql = String.format("update mat_hang set Ten_MH = '%s' where Ten_MH = '%s'", c,
+											info.name);
+									st.executeUpdate(sql);
+									System.out.println("update thanh cong !");
+								} catch (SQLException a) {
+									System.out.println(a);
+								}
+								break;
+							}
+							case 2: {
+								try {
+									info.Input_GiaBan();
+									sql = String.format("update mat_hang set Gia_Ban = %d where Ten_MH = '%s'",
+											info.Gia_Ban, info.name);
+									st.executeUpdate(sql);
+									System.out.println("update thanh cong !");
+								} catch (SQLException b) {
+									System.out.println(b);
+								}
+								break;
+							}
+							case 3: {
+								try {
+									info.Input_GiaNhap();
+									sql = String.format("update mat_hang set Gia_Nhap = %d where Ten_MH = '%s'",
+											info.Gia_Nhap, info.name);
+									st.executeUpdate(sql);
+									System.out.println("update thanh cong !");
+								} catch (SQLException d) {
+									System.out.println(d);
+								}
+								break;
+							}
+							case 4: {
+								try {
+									info.Input_idGroup();
+									sql = String.format(
+											"update thuoc_nhom,mat_hang set ID_NhomHang=%d where thuoc_nhom.ID_Mathang = mat_hang.ID_matHang and Ten_MH='%s'; ",
+											info.idGroup, info.name);
+									st.executeUpdate(sql);
+									System.out.println("update thanh cong !");
+								} catch (SQLException ab) {
+									System.out.println(ab);
+								}
+								break;
+							}
+							case 5: {
+								try {
+									info.InputSum();
+									sql = String.format("update mat_hang set Soluong = %d where Ten_MH = '%s';",info.so_luong, info.name);
+									st.executeUpdate(sql);
+									System.out.println("update thanh cong !");
+								} catch (SQLException ad) {
+									System.out.println(ad);
+								}
+								break;
+							}
+							}
+							break;
+						}
+						else{
+							System.out.println("Ten mat hang khong ton tai !");
+						}
+					}
 				}
 				}
 				System.out.print("tiếp tục ? (y/n):");

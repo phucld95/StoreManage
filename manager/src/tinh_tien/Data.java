@@ -4,9 +4,12 @@ import java.util.Scanner;
 
 public class Data {
 	public String name, nameGroup;
-	public int so_luong, Gia_Ban, dot, Gia_Nhap,idGroup,id;
+	public int so_luong, Gia_Ban, dot, Gia_Nhap,idGroup,id,Id_KM;
 	public String inp = new String();
 	public String temp = new String();
+	public String Ten_KM = new String();
+	public String TGDR = new String();
+	public String TGKT = new String();
 	public int sum = 0;
 	private Scanner Input = new Scanner(System.in);
 
@@ -45,5 +48,20 @@ public class Data {
 		System.out.print("nhap ten group:");
 		nameGroup = Input.nextLine();
 	}
-
+	public void Input_IdKM() {
+		System.out.print("nhap id dot khuyen mai:");
+		Id_KM = Integer.parseInt(Input.nextLine());
+	}
+	public void Input_TenKM() {
+		System.out.print("nhap ten dot khuyen mai:");
+		Ten_KM = Input.nextLine();
+	}
+	public void Input_TGDR() {
+		System.out.print("nhap TGDR (yyyy/mm/dd):");
+		TGDR = Input.nextLine();
+	}
+	public void Input_TGKT() {
+		System.out.print("nhap TGKT (yyyy/mm/dd):");
+		TGKT = Input.nextLine();
+	}
 }
