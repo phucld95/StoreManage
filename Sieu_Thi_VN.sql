@@ -10,7 +10,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Database: `Sieu_Thi_final`
+-- Database: `csdl`
 --
 
 -- --------------------------------------------------------
@@ -56,8 +56,11 @@ DROP TABLE IF EXISTS `ncc`;
 CREATE TABLE `ncc` (
   `Id_NCC` int(11) NOT NULL,
   `Ten_NCC` varchar(45) NOT NULL,
+  `SDT` int(11) NOT NULL,
+  `Mail` varchar(40) NOT NULL,	
   `TTLH` varchar(45) NOT NULL,
-  PRIMARY KEY (`Id_NCC`)
+
+  PRIMARY KEY (`Id_NCC`,`Ten_NCC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,23 +70,23 @@ CREATE TABLE `ncc` (
 
 LOCK TABLES `ncc` WRITE;
 /*!40000 ALTER TABLE `ncc` DISABLE KEYS */;
-INSERT INTO `ncc`(`Id_NCC`,`Ten_NCC`,`TTLH`) VALUES
-(1,'VINAMILK','Hải Phòng - Việt Nam'),
-(2,'Fonterra','California,USA'),
-(3,'Nestle','South Korea'),
-(4,'Brain TVC','England'),
-(5,'Monte','Việt Nam'),
-(6,'TH TRUE MILK','Ba Vì Việt Nam'),
-(7,'Clear','Thailand'),
-(8,'PS','USA'),
-(9,'Romano','USA'),
-(10,'Lifebuoy','France'),
-(11,'X-men','Japan'),
-(12,'Công ty thực phẩm A','Vĩnh Phúc - Việt Nam'),
-(13,'KFC','Hai Bà Trưng - Hà Nội -Việt Nam'),
-(14,'Thượng Đình','Nguyên Trãi - Hà Nôi - VIệt Nam'),
-(15,'Gia công B','Vũng Tàu- Việt Nam'),
-(16,'Xiaomi','Trung Quốc');
+INSERT INTO `ncc`(`Id_NCC`,`Ten_NCC`,`SDT`,`Mail`,`TTLH`) VALUES
+(1,'VINAMILK',0436523698,'vinamilk@gmail.com','Hải Phòng - Việt Nam'),
+(2,'Fonterra',0326541865,'fonte@gmail.com','California,USA'),
+(3,'Nestle',06985647852,'nestle@yahoo.com','South Korea'),
+(4,'Brain TVC',0954784135,'brain@gmail.com','England'),
+(5,'Monte',043158453,'monte@yahoo.com','Việt Nam'),
+(6,'TH TRUE MILK',3265412589,'th_true_milk@gmail.com','Ba Vì Việt Nam'),
+(7,'Clear',445221354,'clear@yahoo.com','Thailand'),
+(8,'PS',123564234,'ps@gmail.com','USA'),
+(9,'Romano',5432156121,'romano@gmail.com''USA'),
+(10,'Lifebuoy',54321488,'filebouy@gmail.com','France'),
+(11,'X-men',41112233,'x_men@gmail.com','Japan'),
+(12,'Công ty thực phẩm A',45432124,'A_team@gmail.com','Vĩnh Phúc - Việt Nam'),
+(13,'KFC',74422456,'kfc_hbt@gmail.com','Hai Bà Trưng - Hà Nội -Việt Nam'),
+(14,'Thượng Đình',85432451,'thuongdinh@gmail.com','Nguyên Trãi - Hà Nôi - VIệt Nam'),
+(15,'Gia công B',78545321,'B_team@yahoo.com.vn','Vũng Tàu- Việt Nam'),
+(16,'Xiaomi',754512154,'xiaomi_tau@gmail.com','Trung Quốc');
 /*!40000 ALTER TABLE `ncc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +184,10 @@ DROP TABLE IF EXISTS `cung_cap`;
 CREATE TABLE `cung_cap` (
   `ID_MatHang` int(11) NOT NULL,
   `Id_NCC` int(11) NOT NULL,
-  PRIMARY KEY (`ID_MatHang`,`Id_NCC`)
+  
+  PRIMARY KEY (`ID_MatHang`,`Id_NCC`),
+  FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),
+  FOREIGN KEY(`Id_NCC`)REFERENCES `ncc`(`Id_NCC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -300,10 +306,10 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `account` (
-  `STT` int not null,
+  `ID_Account` int not null,
   `username` varchar(10) NOT NULL,
   `password` varchar(10) NOT NULL,
-  PRIMARY KEY (`username`)
+  PRIMARY KEY (`ID_Account`,`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table`account`
