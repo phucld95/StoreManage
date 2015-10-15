@@ -55,7 +55,7 @@ public class SearchAndEditProduct {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNhpTnSn = new JLabel("Nh\u1EADp t\u00EAn s\u1EA3n ph\u1EA9m ho\u1EB7c ID \u0111\u1EC3 t\u00ECm ki\u1EBFm!");
+		JLabel lblNhpTnSn = new JLabel("Nhập thông tin sản phẩm muốn thêm : ");
 		lblNhpTnSn.setBounds(10, 34, 293, 14);
 		frame.getContentPane().add(lblNhpTnSn);
 		
@@ -63,8 +63,8 @@ public class SearchAndEditProduct {
 		lblTnSnPhm.setBounds(10, 66, 85, 14);
 		frame.getContentPane().add(lblTnSnPhm);
 		
-		JLabel lblId = new JLabel("ID : ");
-		lblId.setBounds(284, 66, 46, 14);
+		JLabel lblId = new JLabel("Giá nhập: ");
+		lblId.setBounds(10, 94, 74, 14);
 		frame.getContentPane().add(lblId);
 		
 		textField = new JTextField();
@@ -73,13 +73,9 @@ public class SearchAndEditProduct {
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(307, 63, 86, 20);
+		textField_1.setBounds(94, 91, 86, 20);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
-		
-		JButton btSearch = new JButton("T\u00ECm ki\u1EBFm");
-		btSearch.setBounds(172, 96, 89, 23);
-		frame.getContentPane().add(btSearch);
 		
 		JLabel lblNewLabel = new JLabel("Chỉnh sửa thông tin");
 		lblNewLabel.setBounds(10, 134, 106, 20);
@@ -102,24 +98,8 @@ public class SearchAndEditProduct {
 		lblNewLabel_1.setBounds(10, 181, 85, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		btSearch.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e){
-            	name = textField.getText();
-            	id = textField.getText();
-            	
-            	System.out.println("|"+name+"|"+id+"|");
-            	
-            	if(name.length() != 0){
-            		
-            	}
-            	if(id.length() != 0){
-            		
-            	}
-            	if(id.length() == 0 && name.length() == 0){
-            		JOptionPane.showMessageDialog(null, "Hãy nhập tên sản phẩm hoặc ID trước khi bấm tìm kiếm!");
-            	}
-            }
-        });
+		JLabel label = new JLabel("Giá nhập: ");
+		label.setBounds(215, 94, 74, 14);
+		frame.getContentPane().add(label);
 	}
 }

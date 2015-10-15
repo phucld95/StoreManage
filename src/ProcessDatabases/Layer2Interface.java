@@ -122,6 +122,12 @@ public class Layer2Interface implements ActionListener {
                 if(chose == com12){
                 	pma.searchProduct();
                 }
+                if(chose == com13){
+                	pma.addNewProduct();
+                }
+                if(chose == com14){
+                	pma.deleteProduct();
+                }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }
         });

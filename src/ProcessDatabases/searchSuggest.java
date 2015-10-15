@@ -14,6 +14,10 @@ public class searchSuggest {
 	public static String temp;
 	// private static String //subString;
 
+	private static final String url = "jdbc:mysql://localhost";
+	private static final String user = "root"; 
+	private static final String password = "123456";
+	
 	public static void main(String[] args) {
 		Data searchData = new Data();
 		// ConnectToDTB conn = new ConnectToDTB();
@@ -25,8 +29,9 @@ public class searchSuggest {
 		Connection connect;
 		ResultSet rs;
 		try {
-			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sieu_Thi_VN", "root", "123456");
+			connect = DriverManager.getConnection(url, user, "123456");
 			Statement st = connect.createStatement();
+			st.executeUpdate ("Use test2;");
 			do {
 				searchData.InputName();
 				sql = String.format("select ID_MatHang,Ten_MH,Soluong,Gia_Ban from mat_hang where Ten_MH = '%s';",
