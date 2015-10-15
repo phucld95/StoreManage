@@ -17,6 +17,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
 public class Layer2Interface implements ActionListener {
@@ -29,11 +33,31 @@ public class Layer2Interface implements ActionListener {
 	public static String com13 = "Thêm 1 mặt hàng vào cửa hàng.";
 	public static String com14 = "Xóa 1 mặt hàng đã có.";
 	public static String com15 = "Những sản phẩm sắp hết hàng";
-	public static ProductManage pma = new ProductManage();
+	
+	public static String com21 = "Các nhà cung cấp.";
+	public static String com22 = "Thêm 1 nhà cung cấp.";
+	public static String com23 = "Xóa 1 nhà cung cấp.";
+	public static String com24 = "Sửa thông tin 1 nhà cung cấp.";
+	
+	
+	private static final String url = "jdbc:mysql://localhost";
+	private static final String user = "root"; 
+	private static final String password = "123456";
+	private static java.sql.Connection con;
+	private static Statement st;
 	/**
 	 * Create the application.
 	 */
 	public Layer2Interface() {
+		try {
+        	con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connect Success!");
+            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            st.executeUpdate ("Use test2;");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -41,6 +65,8 @@ public class Layer2Interface implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		ProductManage pma = new ProductManage(st);
+		SupplyManage sma = new SupplyManage(st);
 		frmStoreManager = new JFrame();
 		frmStoreManager.setTitle("Store manager");
 		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -82,7 +108,7 @@ public class Layer2Interface implements ActionListener {
 		 * 	ComboBox Các nhà cung cấp
 		 */
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Tra c\u1EE9u th\u00F4ng tin c\u1EE7a 1 nh\u00E0 cung c\u1EA5p.", "Th\u00EAm nh\u00E0 cung c\u1EA5p.", "X\u00F3a nh\u00E0 cung c\u1EA5p."}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {com21,com22,com23,com24}));
 		comboBox_1.setBounds(180, 111, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_1);
 		
@@ -103,14 +129,12 @@ public class Layer2Interface implements ActionListener {
 		frmStoreManager.getContentPane().add(comboBox_3);
 		
 		JButton btnNewButton = new JButton(">");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnNewButton.setBounds(420, 81, 41, 20);
 		frmStoreManager.getContentPane().add(btnNewButton);
 		
-		// Bắt sự kiện chọn item combobox
+		/*
+		 * Bắt sự kiện chọn fonction trong comboBox quản lý mặt hàng
+		 */
 		btnNewButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -128,6 +152,9 @@ public class Layer2Interface implements ActionListener {
                 if(chose == com14){
                 	pma.deleteProduct();
                 }
+                if(chose == com15){
+                	pma.showProductNeedAdd();
+                }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }
         });
@@ -135,6 +162,30 @@ public class Layer2Interface implements ActionListener {
 		JButton button = new JButton(">");
 		button.setBounds(420, 111, 41, 20);
 		frmStoreManager.getContentPane().add(button);
+		
+		/*
+		 * Bắt sự kiện chọn function trong conbobox quản lý nhà cung cấp
+		 */
+		button.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                chose = comboBox_1.getSelectedItem().toString();
+                if(chose == com21){
+                	sma.ShowAllSupply();
+                }
+                if(chose == com22){
+                	sma.addNewSupply();
+                }
+                if(chose == com23){
+                	sma.deleteSupply();
+                }
+                if(chose == com24){
+                	sma.fixInfomationSupply();
+                }
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+            }
+        });
 		
 		JButton button_1 = new JButton(">");
 		button_1.setBounds(420, 140, 41, 20);

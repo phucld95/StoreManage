@@ -21,14 +21,11 @@ import com.mysql.jdbc.Connection;
 
 public class ProductManage {
 
-	private static final String url = "jdbc:mysql://localhost";
-	private static final String user = "root"; 
-	private static final String password = "123456";
 	private static String sql = new String();
 	private static String name = new String();
 	private static String id = new String();
-	private static java.sql.Connection con;
 	private static Statement st;
+	private static ResultSet rs;
 	private static String cb11 = "Tên mặt hàng.";
 	private static String cb12 = "Giá nhập.";
 	private static String cb13 = "Giá bán.";
@@ -51,7 +48,7 @@ public class ProductManage {
 	private static int idP = 0;
 	private static int idG = 0;
 	private static int idS = 0;
-	private static ResultSet rs;
+	
 	//private static String sql;
 	//private static Statement st;
 	
@@ -61,17 +58,15 @@ public class ProductManage {
 	
 	
 	
-	public ProductManage(){
+	public ProductManage(Statement sts){
+		st = sts;
 		// Connect to database and creat statement.
-        try {
-        	con = DriverManager.getConnection(url, user, password);
-            System.out.println("Connect Success!");
-            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            st.executeUpdate ("Use test2;");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        
+	}
+	public void showProductNeedAdd (){
+		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and soluong <= 20;";
+		inputData(sql);
+      
 	}
 	
 	public void deleteProduct(){
@@ -279,9 +274,6 @@ public class ProductManage {
 	public void searchProduct(){
 		JTextField textField;
 		JTextField textField_1;
-
-		
-		SearchAndEditProduct sae = new SearchAndEditProduct();
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 450, 300);
