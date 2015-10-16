@@ -232,7 +232,9 @@ DROP TABLE IF EXISTS `thuoc_nhom`;
 CREATE TABLE `thuoc_nhom` (
   `ID_MatHang` int(11) NOT NULL,
   `ID_NhomHang` int(11) NOT NULL,
-  PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`)
+  PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`),
+FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),
+FOREIGN KEY(`ID_NhomHang`) REFERENCES `nhomhang`(`ID_NhomHang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -277,8 +279,7 @@ DROP TABLE IF EXISTS `duoc_khuyen_mai`;
 CREATE TABLE `duoc_khuyen_mai` (
   `Id_KM` int(11) NOT NULL,
   `ID_MatHang` int(11) NOT NULL,
-  `Gia_KM` int NOT NULL,
-  PRIMARY KEY (`ID_MatHang`)
+  `Gia_KM` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
