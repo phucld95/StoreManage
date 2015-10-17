@@ -1,0 +1,8 @@
+- Chọn file --> export --> java --> Runnable jar file . Chọn export destination là desktop 
+
+- Download phần mềm exe4j,chú ý add key vào cho nó .
+
+- Lên mạng download 3 thư viện : appframework-1.0.3,swing-layout-1.0.4,swing-worker-1.1 để add vào thêm trong exe4j.
+
+- Cách cài đặt và configure exe4j có "Sử dụng exe4j để chuyển file jar thành file exe" nhé
+
