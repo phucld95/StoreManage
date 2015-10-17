@@ -6,3 +6,6 @@
 
 - Cách cài đặt và configure exe4j có "Sử dụng exe4j để chuyển file jar thành file exe" nhé
 
+- Chú ý là nếu muốn chèn thêm file ảnh vào app thì phải chuyển sang định dạng .ico ( Sử dụng phần mềm any to icon hoặc download sẵn source trên mạng)
+
+
