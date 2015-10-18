@@ -46,8 +46,16 @@ class getData {
 					rs.next();
 					Sale_Data.Gia_Ban = rs.getInt("Gia_KM");
 					Sale_Data.sum = Sale_Data.sum + Sale_Data.Gia_Ban * Sale_Data.so_luong;
-					System.out.println(
-							"mat hang thuoc dot khuyen mai thu: " + Sale_Data.dot + "\nCó giá bán khuyến mãi:" + Sale_Data.Gia_Ban);
+					SQL = String.format("select Soluong from mat_hang where Ten_MH='%s'", Sale_Data.name);
+					rs = st.executeQuery(SQL);
+					rs.next();
+					//update lại số lượng còn lại !
+					SQL = String.format("update mat_hang set Soluong=%d-%d where Ten_MH='%s'", rs.getInt("Soluong"),
+							Sale_Data.so_luong, Sale_Data.name);
+					st.executeUpdate(SQL);
+					System.out.println("mat hang thuoc dot khuyen mai thu: " + Sale_Data.dot
+							+ "\nCó giá bán khuyến mãi:" + Sale_Data.Gia_Ban);
+					// tính tiền mặt hàng nếu không thuộc đợt khuyến mãi !
 				} catch (SQLException ex) {
 					SQL = String.format("select Gia_Ban from mat_hang where Ten_MH = '%s';", Sale_Data.name);
 					rs = st.executeQuery(SQL);
@@ -55,6 +63,13 @@ class getData {
 					try {
 						Sale_Data.Gia_Ban = rs.getInt("Gia_Ban");
 						Sale_Data.sum = Sale_Data.sum + Sale_Data.Gia_Ban * Sale_Data.so_luong;
+						//update lại số lượng còn lại !
+						SQL = String.format("select Soluong from mat_hang where Ten_MH='%s'", Sale_Data.name);
+						rs = st.executeQuery(SQL);
+						rs.next();
+						SQL = String.format("update mat_hang set Soluong=%d-%d where Ten_MH='%s'", rs.getInt("Soluong"),
+								Sale_Data.so_luong, Sale_Data.name);
+						st.executeUpdate(SQL);
 					} catch (SQLException e) {
 						System.out.println("Không tồn tạo mặt hàng");
 					}

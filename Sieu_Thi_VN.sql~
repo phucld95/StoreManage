@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `ncc`;
 CREATE TABLE `ncc` (
   `Id_NCC` int(11) NOT NULL,
   `Ten_NCC` varchar(45) NOT NULL,
-  `SDT` int NOT NULL,
+  `SDT` int(11) NOT NULL,
   `Mail` varchar(40) NOT NULL,	
   `TTLH` varchar(45) NOT NULL,
 
@@ -79,7 +79,7 @@ INSERT INTO `ncc`(`Id_NCC`,`Ten_NCC`,`SDT`,`Mail`,`TTLH`) VALUES
 (6,'TH TRUE MILK',3265412589,'th_true_milk@gmail.com','Ba Vì Việt Nam'),
 (7,'Clear',445221354,'clear@yahoo.com','Thailand'),
 (8,'PS',123564234,'ps@gmail.com','USA'),
-(9,'Romano',5432156121,'romano@gmail.com','USA'),
+(9,'Romano',5432156121,'romano@gmail.com''USA'),
 (10,'Lifebuoy',54321488,'filebouy@gmail.com','France'),
 (11,'X-men',41112233,'x_men@gmail.com','Japan'),
 (12,'Công ty thực phẩm A',45432124,'A_team@gmail.com','Vĩnh Phúc - Việt Nam'),
@@ -232,9 +232,7 @@ DROP TABLE IF EXISTS `thuoc_nhom`;
 CREATE TABLE `thuoc_nhom` (
   `ID_MatHang` int(11) NOT NULL,
   `ID_NhomHang` int(11) NOT NULL,
-  PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`),
-FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),
-FOREIGN KEY(`ID_NhomHang`) REFERENCES `nhomhang`(`ID_NhomHang`)
+  PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -279,7 +277,8 @@ DROP TABLE IF EXISTS `duoc_khuyen_mai`;
 CREATE TABLE `duoc_khuyen_mai` (
   `Id_KM` int(11) NOT NULL,
   `ID_MatHang` int(11) NOT NULL,
-  `Gia_KM` int NOT NULL
+  `Gia_KM` int NOT NULL,
+  PRIMARY KEY (`ID_MatHang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
