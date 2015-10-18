@@ -39,6 +39,10 @@ public class Layer2Interface implements ActionListener {
 	public static String com23 = "Xóa 1 nhà cung cấp.";
 	public static String com24 = "Sửa thông tin 1 nhà cung cấp.";
 	
+	public static String com31 = "Các nhóm hàng đang có.";
+	public static String com32 = "Thêm 1 nhóm hàng mới.";
+	public static String com33 = "Thêm các mặt hàng vào 1 nhóm.";
+	public static String com34 = "Xem các mặt hàng trong 1 nhóm.";
 	
 	private static final String url = "jdbc:mysql://localhost";
 	private static final String user = "root"; 
@@ -67,6 +71,7 @@ public class Layer2Interface implements ActionListener {
 	private void initialize() {
 		ProductManage pma = new ProductManage(st);
 		SupplyManage sma = new SupplyManage(st);
+		ProductGroupManage pgm = new ProductGroupManage(st);
 		frmStoreManager = new JFrame();
 		frmStoreManager.setTitle("Store manager");
 		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -116,7 +121,7 @@ public class Layer2Interface implements ActionListener {
 		 * 	ComboBox tra cứu nhóm hàng.
 		 */
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Tra c\u1EE9u 1 nh\u00F3m h\u00E0ng.", "Th\u00EAm nh\u00F3m h\u00E0ng."}));
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {com31,com32,com33,com34}));
 		comboBox_2.setBounds(180, 140, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_2);
 		
@@ -190,6 +195,27 @@ public class Layer2Interface implements ActionListener {
 		JButton button_1 = new JButton(">");
 		button_1.setBounds(420, 140, 41, 20);
 		frmStoreManager.getContentPane().add(button_1);
+		
+		button_1.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                chose = comboBox_2.getSelectedItem().toString();
+                if(chose == com31){
+                	pgm.ShowAllGroup();
+                }
+                if(chose == com32){
+                	pgm.addNewGroup();
+                }
+                if(chose == com33){
+                	pgm.addProductToGroup();
+                }
+                if(chose == com34){
+                	pgm.showProdutInGroup();
+                }
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+            }
+        });
 		
 		JButton button_2 = new JButton(">");
 		button_2.setBounds(420, 170, 41, 20);

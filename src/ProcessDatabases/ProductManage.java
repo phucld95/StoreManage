@@ -64,7 +64,7 @@ public class ProductManage {
         
 	}
 	public void showProductNeedAdd (){
-		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and soluong <= 20;";
+		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.soluong <= 20;";
 		inputData(sql);
       
 	}
@@ -74,7 +74,7 @@ public class ProductManage {
 	}
 	
 	public void ShowAllProduct(){
-		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang;";
+		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC;";
 		inputData(sql);
       
 	}

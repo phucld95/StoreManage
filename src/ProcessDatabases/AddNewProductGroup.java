@@ -8,17 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
-public class AddNewSupply {
+public class AddNewProductGroup {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextField textField_1;
 	private static String nameS;
 	private static String addressS;
 	private static int idS;
@@ -33,7 +32,7 @@ public class AddNewSupply {
 	/**
 	 * Create the application.
 	 */
-	public AddNewSupply(Statement sts) {
+	public AddNewProductGroup(Statement sts) {
 		st = sts;
 		initialize();
 	}
@@ -48,53 +47,44 @@ public class AddNewSupply {
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 		
-		JLabel lblNewLabel = new JLabel("Nhập thông tin nhà cung cấp :");
-		lblNewLabel.setBounds(10, 23, 227, 14);
+		JLabel lblNewLabel = new JLabel("Nhập thông tin nhóm :");
+		lblNewLabel.setBounds(10, 33, 227, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblTnHngCung = new JLabel("Tên nhà cung cấp :");
-		lblTnHngCung.setBounds(31, 53, 131, 14);
+		JLabel lblTnHngCung = new JLabel("Tên nhóm hàng:");
+		lblTnHngCung.setBounds(29, 78, 131, 14);
 		frame.getContentPane().add(lblTnHngCung);
 		
-		JLabel lblaChLin = new JLabel("Địa chỉ liên hệ :");
-		lblaChLin.setBounds(31, 83, 131, 14);
-		frame.getContentPane().add(lblaChLin);
-		
 		textField = new JTextField();
-		textField.setBounds(151, 47, 213, 20);
+		textField.setBounds(151, 75, 213, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(151, 77, 213, 20);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Thêm nhà cung cấp :");
+		JButton btnNewButton = new JButton("Th\u00EAm nh\u00E0 cung \u1EE9ng");
 		btnNewButton.setBounds(122, 119, 154, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				nameS = textField.getText();
-				addressS = textField_1.getText();
+				//addressS = textField_1.getText();
 				idS = 0;
-				if(nameS.length() == 0 || addressS.length() == 0){
+				if(nameS.length() == 0){
 					JOptionPane.showMessageDialog(null, "Thông tin không được để trống!");
 				}				
 				else{
 	
 					try {						
-						sql = "select Id_NCC from ncc order by Id_NCC ASC;";
+						sql = "select ID_NhomHang from nhomhang	 order by Id_NhomHang ASC;";
 						rs = st.executeQuery(sql);
 						while( rs.next()) {
-							idS = rs.getInt("Id_NCC");
+							idS = rs.getInt("ID_NhomHang");
 						}		
 						idS = idS+1;
 						//System.out.println("Đã nhận dc id = " + idS);
-						sql = "INSERT INTO ncc(Id_NCC, Ten_NCC, TTLH)VALUES ('" + idS + "','" + nameS + "','" + addressS + "');";
+						sql = "INSERT INTO nhomhang(ID_NhomHang, Ten_Nhomhang)VALUES ('" + idS + "','" + nameS + "');";
 						st.executeUpdate(sql);
-						JOptionPane.showMessageDialog(null, "Nhà cung cấp đã được thêm!");
+						JOptionPane.showMessageDialog(null, "Nhóm hàng đã được thêm!");
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
