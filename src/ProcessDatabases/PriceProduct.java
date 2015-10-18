@@ -1,15 +1,15 @@
 package ProcessDatabases;
 
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.mysql.jdbc.Statement;
+import java.sql.Statement;
 
 public class PriceProduct {
-	Statement st;
+	private static Statement st;
 
-	public PriceProduct(Statement st) {
-		this.st = st;
+	public PriceProduct(Statement sts) {
+		st = sts;
 	}
 
 	public int getPriceProduct(int code, int so_luong, String time) throws SQLException {
@@ -22,7 +22,7 @@ public class PriceProduct {
 			result.next();
 			dot = result.getInt("Id_KM");
 			result.close();
-			// lấy giá mặt hàng nếu nằm trong mặt hàng được khuyến mãi
+			// láº¥y giÃ¡ máº·t hÃ ng náº¿u náº±m trong máº·t hÃ ng Ä‘Æ°á»£c khuyáº¿n mÃ£i
 			SQL = String.format(
 					"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_Mat_Hang = %d and Id_KM = %d;",
 					code, dot);
@@ -33,19 +33,19 @@ public class PriceProduct {
 			SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", code);
 			result = st.executeQuery(SQL);
 			result.next();
-			// update lại số lượng còn lại !
+			// update láº¡i sá»‘ lÆ°á»£ng cÃ²n láº¡i !
 			SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
 					so_luong, code);
 			st.executeUpdate(SQL);
 			return sum;
-			// tính tiền mặt hàng nếu không thuộc đợt khuyến mãi !
+			// tÃ­nh tiá»�n máº·t hÃ ng náº¿u khÃ´ng thuá»™c Ä‘á»£t khuyáº¿n mÃ£i !
 		} catch (SQLException ex) {
 			SQL = String.format("select Gia_Ban from mat_hang where ID_MatHang=%d;", code);
 			result = st.executeQuery(SQL);
 			result.next();
 			price = result.getInt("Gia_Ban");
 			sum = sum + price * so_luong;
-			// update lại số lượng còn lại !
+			// update láº¡i sá»‘ lÆ°á»£ng cÃ²n láº¡i !
 			SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", code);
 			result = st.executeQuery(SQL);
 			result.next();
