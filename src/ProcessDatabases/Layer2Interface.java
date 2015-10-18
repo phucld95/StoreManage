@@ -44,6 +44,11 @@ public class Layer2Interface implements ActionListener {
 	public static String com33 = "Thêm các mặt hàng vào 1 nhóm.";
 	public static String com34 = "Xem các mặt hàng trong 1 nhóm.";
 	
+	public static String com41 = "Xem tất cả các sự kiện.";
+	public static String com42 = "Xem chi tiết 1 sự kiện.";
+	public static String com43 = "Tạo thêm 1 sự kiện.";
+	public static String com44 = "Thêm các sản phẩm vào 1 sự kiện.";
+	
 	private static final String url = "jdbc:mysql://localhost";
 	private static final String user = "root"; 
 	private static final String password = "123456";
@@ -72,6 +77,7 @@ public class Layer2Interface implements ActionListener {
 		ProductManage pma = new ProductManage(st);
 		SupplyManage sma = new SupplyManage(st);
 		ProductGroupManage pgm = new ProductGroupManage(st);
+		EvenManage em = new EvenManage(st);
 		frmStoreManager = new JFrame();
 		frmStoreManager.setTitle("Store manager");
 		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -129,7 +135,7 @@ public class Layer2Interface implements ActionListener {
 		 *	Combobox Tra cứu sự kiện.
 		 */
 		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Xem c\u00E1c s\u1EF1 ki\u1EC7n \u0111ang di\u1EC5n ra.", "Th\u00EAm 1 s\u1EF1 ki\u1EC7n."}));
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {com41,com42, com43,com44}));
 		comboBox_3.setBounds(180, 170, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_3);
 		
@@ -220,6 +226,27 @@ public class Layer2Interface implements ActionListener {
 		JButton button_2 = new JButton(">");
 		button_2.setBounds(420, 170, 41, 20);
 		frmStoreManager.getContentPane().add(button_2);
+		
+		button_2.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                chose = comboBox_3.getSelectedItem().toString();
+                if(chose == com41){
+                	em.ShowAllEven();
+                }
+                if(chose == com42){
+                	em.showOneEven();
+                }
+                if(chose == com33){
+                	pgm.addProductToGroup();
+                }
+                if(chose == com34){
+                	pgm.showProdutInGroup();
+                }
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+            }
+        });
 	}
 
 	/*

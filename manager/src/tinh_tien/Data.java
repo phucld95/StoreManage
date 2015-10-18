@@ -2,7 +2,7 @@ package tinh_tien;
 
 import java.util.Scanner;
 
-public class Data {
+public class Data2 {
 	public String name, nameGroup;
 	public int so_luong, Gia_Ban, dot, Gia_Nhap,idGroup,id,Id_KM,Id_NCC,Gia_KM,SDT;
 	public String inp = new String();
