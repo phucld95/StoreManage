@@ -49,24 +49,17 @@ public class Layer2Interface implements ActionListener {
 	public static String com43 = "Tạo thêm 1 sự kiện.";
 	public static String com44 = "Thêm các sản phẩm vào 1 sự kiện.";
 	
-	private static final String url = "jdbc:mysql://localhost";
-	private static final String user = "root"; 
-	private static final String password = "123456";
-	private static java.sql.Connection con;
+	public static String com51 = "Xem tất cả các người dùng.";
+	public static String com52 = "Thêm 1 người dùng mới.";
+	public static String com53 = "Xóa 1 người dùng.";
+	public static String com54 = "Đổi mật khẩu của 1 người dùng.";
+	
 	private static Statement st;
 	/**
 	 * Create the application.
 	 */
-	public Layer2Interface() {
-		try {
-        	con = DriverManager.getConnection(url, user, password);
-            System.out.println("Connect Success!");
-            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            st.executeUpdate ("Use test2;");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public Layer2Interface(Statement sts) {
+		st = sts;
 		initialize();
 	}
 
@@ -78,10 +71,12 @@ public class Layer2Interface implements ActionListener {
 		SupplyManage sma = new SupplyManage(st);
 		ProductGroupManage pgm = new ProductGroupManage(st);
 		EvenManage em = new EvenManage(st);
+		AccManage am = new AccManage(st);
 		frmStoreManager = new JFrame();
+		//frmStoreManager.setVisible(true);
 		frmStoreManager.setTitle("Store manager");
 		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
-		frmStoreManager.setBounds(100, 100, 529, 300);
+		frmStoreManager.setBounds(100, 100, 529, 350);
 		frmStoreManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStoreManager.getContentPane().setLayout(null);
 		
@@ -111,10 +106,13 @@ public class Layer2Interface implements ActionListener {
 		lblNewLabel.setBounds(10, 143, 146, 14);
 		frmStoreManager.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Qu\u1EA3n l\u00FD s\u1EF1 ki\u1EC7n khuy\u1EBFn m\u1EA1i");
+		JLabel lblNewLabel_1 = new JLabel("Quản lý sự kiện ");
 		lblNewLabel_1.setBounds(10, 173, 146, 14);
 		frmStoreManager.getContentPane().add(lblNewLabel_1);
 		
+		JLabel lblNewLabel_2 = new JLabel("Quản lý người dùng ");
+		lblNewLabel_2.setBounds(10, 203, 146, 14);
+		frmStoreManager.getContentPane().add(lblNewLabel_2);
 		/*
 		 * 	ComboBox Các nhà cung cấp
 		 */
@@ -138,6 +136,11 @@ public class Layer2Interface implements ActionListener {
 		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {com41,com42, com43,com44}));
 		comboBox_3.setBounds(180, 170, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_3);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {com51,com52, com53,com54}));
+		comboBox_4.setBounds(180, 200, 230, 20);
+		frmStoreManager.getContentPane().add(comboBox_4);
 		
 		JButton btnNewButton = new JButton(">");
 		btnNewButton.setBounds(420, 81, 41, 20);
@@ -202,6 +205,9 @@ public class Layer2Interface implements ActionListener {
 		button_1.setBounds(420, 140, 41, 20);
 		frmStoreManager.getContentPane().add(button_1);
 		
+		/*
+		 * Bắt sự kiện chọn function trong conbobox quản lý nhóm hàng
+		 */
 		button_1.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -227,6 +233,9 @@ public class Layer2Interface implements ActionListener {
 		button_2.setBounds(420, 170, 41, 20);
 		frmStoreManager.getContentPane().add(button_2);
 		
+		/*
+		 * Bắt sự kiện chọn function trong conbobox quản lý sự kiện
+		 */
 		button_2.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -243,6 +252,33 @@ public class Layer2Interface implements ActionListener {
                 }
                 if(chose == com34){
                 	pgm.showProdutInGroup();
+                }
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+            }
+        });
+		JButton button_3 = new JButton(">");
+		button_3.setBounds(420, 200, 41, 20);
+		frmStoreManager.getContentPane().add(button_3);
+		
+		/*
+		 * Bắt sự kiện chọn function trong conbobox quản lý sự kiện
+		 */
+		button_3.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                chose = comboBox_4.getSelectedItem().toString();
+                if(chose == com51){
+                	am.ShowAllAccount();
+                }
+                if(chose == com52){
+                	am.addNewAccount();
+                }
+                if(chose == com53){
+                	am.deleteAccount();
+                }
+                if(chose == com54){
+                	am.fixAccount();
                 }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }

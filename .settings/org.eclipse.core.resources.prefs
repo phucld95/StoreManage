@@ -1,12 +1,16 @@
 eclipse.preferences.version=1
+encoding//src/ProcessDatabases/AddNewAccount.java=UTF-8
 encoding//src/ProcessDatabases/AddNewEven.java=UTF-8
 encoding//src/ProcessDatabases/AddNewProductGroup.java=UTF-8
 encoding//src/ProcessDatabases/AddNewSupply.java=UTF-8
 encoding//src/ProcessDatabases/AddProductToGroup.java=UTF-8
 encoding//src/ProcessDatabases/Data.java=UTF-8
+encoding//src/ProcessDatabases/DeleteAccount.java=UTF-8
 encoding//src/ProcessDatabases/DeleteProduct.java=UTF-8
 encoding//src/ProcessDatabases/DeleteSupply.java=UTF-8
+encoding//src/ProcessDatabases/FixAccount.java=UTF-8
 encoding//src/ProcessDatabases/FixInfomationSupply.java=UTF-8
+encoding//src/ProcessDatabases/Layer1Interface.java=UTF-8
 encoding//src/ProcessDatabases/Layer2Interface.java=UTF-8
 encoding//src/ProcessDatabases/PriceProduct.java=UTF-8
 encoding//src/ProcessDatabases/ProductManage.java=UTF-8

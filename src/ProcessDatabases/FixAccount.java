@@ -16,12 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class FixInfomationSupply {
+public class FixAccount {
 
-	
-	
-	private static String cb11 = "Tên nhà cung cấp.";
-	private static String cb12 = "Địa chỉ liên hệ.";
+	private static String cb11 = "Mã bảo mật.";
+	//private static String cb12 = "Địa chỉ liên hệ.";
 	private static String chose = new String();
 	private static String newIn = new String();
 	private JFrame frame;
@@ -41,7 +39,7 @@ public class FixInfomationSupply {
 	/**
 	 * Create the application.
 	 */
-	public FixInfomationSupply(Statement sts) {
+	public FixAccount(Statement sts) {
 		st = sts;
 		initialize();
 	}
@@ -58,15 +56,15 @@ public class FixInfomationSupply {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		
 		
-		JLabel lblNhpTnSn = new JLabel("Nhập tên nhà cung cấp hoặc mã số:");
+		JLabel lblNhpTnSn = new JLabel("Nhập thông tin tài khoản :");
 		lblNhpTnSn.setBounds(10, 34, 293, 14);
 		frame.getContentPane().add(lblNhpTnSn);
 		
-		JLabel lblTnSnPhm = new JLabel("Tên NCC : ");
+		JLabel lblTnSnPhm = new JLabel("Tên tài khoản : ");
 		lblTnSnPhm.setBounds(10, 66, 85, 14);
 		frame.getContentPane().add(lblTnSnPhm);
 		
-		JLabel lblId = new JLabel("ID NCC : ");
+		JLabel lblId = new JLabel("Mã bảo mật : ");
 		lblId.setBounds(284, 66, 67, 14);
 		frame.getContentPane().add(lblId);
 		
@@ -92,14 +90,17 @@ public class FixInfomationSupply {
             	
             	//System.out.println("|"+name+"|"+id+"|");
             	
-            	if(name.length() != 0){
-            		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Ten_NCC = '" + name + "';";            		ResultSet rs;
+            	if(name.length() != 0 && id.length() != 0){
+            		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+            		
 					try {
 						rs = st.executeQuery(sql);
+						//System.out.println("Qua");
 						rs.last();
+						
 						//System.out.print(rs.getRow());
 						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có nhà sản xuất có tên cần tìm!");
+							JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần tìm!");
 						}
 						else{
 							rs.beforeFirst();
@@ -108,28 +109,10 @@ public class FixInfomationSupply {
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}                 
+					}					
             	}
-            	else if(id.length() != 0){
-            		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Id_NCC = '" + id + "';";            		ResultSet rs;
-					try {
-						rs = st.executeQuery(sql);
-						rs.last();
-						//System.out.print(rs.getRow());
-						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có nhà sản xuất có mã cần tìm!");
-						}
-						else{
-							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} 
-            	}
-            	if(id.length() == 0 && name.length() == 0){
-            		JOptionPane.showMessageDialog(null, "Hãy nhập tên nhà cung cấp hoặc ID của nhà cung cấp trước khi bấm tìm kiếm!");
+            	else{
+            		JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin trước khi bấm kiểm tra!");
             	}
             }
         });
@@ -140,7 +123,7 @@ public class FixInfomationSupply {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(130, 134, 235, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11,cb12}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11}));
 		frame.getContentPane().add(comboBox);
 		
 		JTextField textField_3 = new JTextField();
@@ -168,56 +151,36 @@ public class FixInfomationSupply {
             		JOptionPane.showMessageDialog(null, "Hãy nhập thông tin mới trước khi chọn chỉnh sửa!");
             	}
             	else{
-            		if(name.length() != 0){
-                		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Ten_NCC = '" + name + "';";            		ResultSet rs;
+            		if(name.length() != 0 && id.length() != 0){
+                		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+                		
     					try {
     						rs = st.executeQuery(sql);
+    						//System.out.println("Qua");
     						rs.last();
+    						
     						//System.out.print(rs.getRow());
     						if(rs.getRow() == 0){
-    							JOptionPane.showMessageDialog(null, "Không có nhà sản xuất có tên cần tìm!");
-    						}
-    						else{
-    							rs.beforeFirst();
-    							TableDatabase stt = new TableDatabase(rs);
-    							JOptionPane.showMessageDialog(null, "Nhập mã sản phẩm để thực hiện chỉnh sửa!");
-    						}
-    					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
-    						e1.printStackTrace();
-    					}                 
-                	}
-                	else if(id.length() != 0){
-                		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Id_NCC = '" + id + "';";            		ResultSet rs;
-    					try {
-    						rs = st.executeQuery(sql);
-    						rs.last();
-    						//System.out.print(rs.getRow());
-    						if(rs.getRow() == 0){
-    							JOptionPane.showMessageDialog(null, "Không có nhà sản xuất có mã cần tìm!");
+    							JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần chỉnh sửa!");
     						}
     						else{
     							if(chose == cb11){
-    								sql = "UPDATE ncc SET Ten_NCC = '" + newIn + "' WHERE Id_NCC = '" + id +"';";
+    								sql = "UPDATE account SET password = '" + newIn + "' where username = '" + name + "' and password = '" + id +"';";
     								st.executeUpdate(sql);
+    								
     							}
-    							if(chose == cb12){
-    								sql = "UPDATE ncc SET TTLH = '" + newIn + "' WHERE Id_NCC = '" + id +"';";
-    								st.executeUpdate(sql);
-    							}
-    							JOptionPane.showMessageDialog(null, "Thông tin sản phẩm đã được chỉnh sửa!");
+    							JOptionPane.showMessageDialog(null, "Thông tin tài khoản đã đươc thay đổi!");
     						}
     					} catch (SQLException e1) {
     						// TODO Auto-generated catch block
     						e1.printStackTrace();
-    					} 
+    					}					
                 	}
-                	if(id.length() == 0 && name.length() == 0){
-                		JOptionPane.showMessageDialog(null, "Hãy nhập tên nhà cung cấp hoặc ID của nhà cung cấp trước khi bấm sửa!");
+                	else{
+                		JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin trước khi bấm chỉnh sửa!");
                 	}
             	}
             }
         });
 	}
-
 }

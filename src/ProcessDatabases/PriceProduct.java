@@ -33,17 +33,11 @@ public class PriceProduct {
 			SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", code);
 			result = st.executeQuery(SQL);
 			result.next();
-<<<<<<< HEAD
-			// update láº¡i sá»‘ lÆ°á»£ng cÃ²n láº¡i !
-=======
-			//update lại số lượng còn lại !
->>>>>>> 28e88b981f79ff2fe3fc8983cef2aab92b9def30
+
 			SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
 					so_luong, code);
 			st.executeUpdate(SQL);
 			return sum;
-<<<<<<< HEAD
-			// tÃ­nh tiá»�n máº·t hÃ ng náº¿u khÃ´ng thuá»™c Ä‘á»£t khuyáº¿n mÃ£i !
 		} catch (SQLException ex) {
 			SQL = String.format("select Gia_Ban from mat_hang where ID_MatHang=%d;", code);
 			result = st.executeQuery(SQL);
@@ -58,23 +52,6 @@ public class PriceProduct {
 					so_luong, code);
 			st.executeUpdate(SQL);
 			return sum;
-=======
-			// tính tiền mặt hàng nếu không thuộc đợt khuyến mãi !
-		}catch (SQLException ex) {
-			SQL = String.format("select Gia_Ban from mat_hang where ID_MatHang=%d;",code);
-			result = st.executeQuery(SQL);
-			result.next();
-				price = result.getInt("Gia_Ban");
-				sum = sum + price * so_luong;
-				//update lại số lượng còn lại !
-				SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", code);
-				result = st.executeQuery(SQL);
-				result.next();
-				SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
-						so_luong, code);
-				st.executeUpdate(SQL);
-				return sum;
->>>>>>> 28e88b981f79ff2fe3fc8983cef2aab92b9def30
 		}
 	}
 }
