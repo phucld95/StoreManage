@@ -1,12 +1,14 @@
-package storeManage;
+package storeManage; // chỗ này thay bằng package của nhóm mình
 
 import java.sql.*;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -38,8 +40,7 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
-		myConn=databaseConnection.databaseConnection();
-		
+		myConn=databaseConnection.databaseConnection();	// hàm databaseConnection viết ở dưới 
 		
 	}
 
@@ -80,7 +81,7 @@ public class Login {
 				
 				try{
 					
-					String query = " SELECT * FROM admin WHERE username=? and password=?  ";
+					String query = " SELECT * FROM admin WHERE name=? and password=?  "; 
 					PreparedStatement myStmt= myConn.prepareStatement(query);
 					
 					myStmt.setString(1,textField.getText());
@@ -91,12 +92,18 @@ public class Login {
 					int count=0;
 					
 					while(myRs.next()){
-						
-						
-						
+						count++;						
 					}
 					
+					if(count==1) JOptionPane.showMessageDialog(null, "Welcome to the database management system!"); // Đăng nhập thành công
+					if(count==0) JOptionPane.showMessageDialog(null, "Failed to connect to the application.Check username and password!"); // Ko đăng nhập được
+					
+					myRs.close();
+					myStmt.close();
 				}catch(Exception exc){
+					
+					JOptionPane.showMessageDialog(null, exc);
+					
 					
 				}
 			}
@@ -106,3 +113,34 @@ public class Login {
 	}
 
 }
+--------------------------------------------------------------------------------------------------------------------------
+// Hàm kết nối cơ sở dữ liệu 
+package storeManage;
+import java.sql.*;
+
+import javax.swing.JOptionPane;
+
+public class databaseConnection {
+	static Connection myConn=null;
+	public static Connection databaseConnection(){	
+			
+		try{
+			final String url="jdbc:mysql://localhost:3306/demo";
+			final String userName="root";
+			final String passWord="hoangson316";
+			
+		myConn=DriverManager.getConnection(url,userName,passWord);		
+		
+		JOptionPane.showMessageDialog(null,"Connection established!!");
+		
+		return myConn;
+		
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null,"Unable to connect to database!");
+			return null;
+			
+		}
+		
+	}
+}
+
