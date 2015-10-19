@@ -1,0 +1,108 @@
+package storeManage;
+
+import java.sql.*;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Login {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login window = new Login();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+    
+	Connection myConn=null;
+	private JTextField textField;
+	private JTextField textField_1;
+	/**
+	 * Create the application.
+	 */
+	public Login() {
+		initialize();
+		myConn=databaseConnection.databaseConnection();
+		
+		
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("K\u1EBFt n\u1ED1i c\u01A1 s\u1EDF d\u1EEF li\u1EC7u ");
+		lblNewLabel.setBounds(154, 11, 99, 50);
+		frame.getContentPane().add(lblNewLabel);
+		
+		textField = new JTextField();
+		textField.setBounds(154, 87, 153, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(154, 143, 153, 20);
+		frame.getContentPane().add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("T\u00EAn \u0111\u0103ng nh\u1EADp ");
+		lblNewLabel_1.setBounds(34, 72, 86, 50);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("M\u1EADt kh\u1EA9u ");
+		lblNewLabel_2.setBounds(34, 128, 86, 50);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JButton btnLogin = new JButton("LOGIN ");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try{
+					
+					String query = " SELECT * FROM admin WHERE username=? and password=?  ";
+					PreparedStatement myStmt= myConn.prepareStatement(query);
+					
+					myStmt.setString(1,textField.getText());
+					myStmt.setString(2,textField_1.getText());
+					
+					ResultSet myRs = myStmt.executeQuery();
+					
+					int count=0;
+					
+					while(myRs.next()){
+						
+						
+						
+					}
+					
+				}catch(Exception exc){
+					
+				}
+			}
+		});
+		btnLogin.setBounds(178, 205, 89, 23);
+		frame.getContentPane().add(btnLogin);
+	}
+
+}
