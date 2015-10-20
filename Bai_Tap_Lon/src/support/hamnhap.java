@@ -9,4 +9,6 @@ public class hamnhap {
 		Scanner nhap = new Scanner(System.in);
 		return nhap.nextInt();
 	}
+	
+
 }

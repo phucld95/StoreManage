@@ -10,11 +10,11 @@ public class getConnection {
 		support.loadDriver a = new support.loadDriver();
 		try{
 			connect = DriverManager.getConnection(a.url,a.username,a.password);
-			//System.out.println("Get Connect To Database Complete ...\n");	
+			System.out.println("Get Connect To Database Complete ...\n");	
 			return connect;
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
+			System.out.println("1");
 			return null;
 		}
 		

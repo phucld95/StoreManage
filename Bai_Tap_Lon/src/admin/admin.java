@@ -12,12 +12,12 @@ public class admin{
 		connect = getConnection.getConnection();
 		int flag =0;
 		int dem=0;
-		int result1;
+		
 		
 		try {
 			stmt = connect.createStatement();
 			try{
-			result = stmt.executeQuery("select * from account order by STT asc;");
+			result = stmt.executeQuery("select * from account order by ID_Account asc;");
 			System.out.println("Tai khoan: ");
 			String userin = hamnhap.nhapchu();
 			while(result.next()){
@@ -32,7 +32,7 @@ public class admin{
 					dem = dem +1;
 					System.out.println("Mat Khau: ");
 					String passwdin = hamnhap.nhapchu();
-					result1 = stmt.executeUpdate("insert into account values('"+dem+"','"+userin+"','"+passwdin+"');");
+					int result1 = stmt.executeUpdate("insert into account values('"+dem+"','"+userin+"','"+passwdin+"');");
 					System.out.println("Them thanh cong.");
 				}
 			connect.close();
@@ -59,22 +59,30 @@ public class admin{
 		
 		try {
 			stmt=connect.createStatement();
-			result =stmt.executeQuery("select username from account");
+			result =stmt.executeQuery("select ID_Account,username from account");
 			System.out.println("Nhap tai khoan muon xoa:\nTai khoan: ");
 			String userin = hamnhap.nhapchu();
 			while(result.next()){
 				if(userin.equals(result.getString("username"))){
 					flag =1;
+					if(result.getInt("ID_Account")==1) flag =-1;
+					break;
+				
 				}
 				
 			}
-			if(flag ==0){
-				System.out.println("Khong co tai khoan "+userin);
-				
+			if(flag ==-1){
+				System.out.println("khong the xoa tai khoan admin");
 			}
 			else{
-				result1=stmt.executeUpdate("delete from account where username = '"+userin+"';");
-				System.out.println("Xoa thanh cong.");
+				if(flag ==0){
+					System.out.println("Khong co tai khoan "+userin);
+				
+				}
+				else{
+					result1=stmt.executeUpdate("delete from account where username = '"+userin+"';");
+					System.out.println("Xoa thanh cong.");
+				}
 			}
 			connect.close();
 		} catch (SQLException e) {
@@ -119,19 +127,19 @@ public class admin{
 		}
 	}
 	public static void main(String args[]){
-		admin a = new admin();
+		
 		int i;
 		System.out.println("1.them\n2.xoa\n3.sua\nNhap lua chon:");
 		i=hamnhap.nhapso();
 		switch (i){
 		case 1:{
-			a.them(); break;
+			admin.them(); break;
 		}
 		case 2: {
-			a.xoa();break;
+			admin.xoa();break;
 		}
 		case 3:{
-			a.sua();break;
+			admin.sua();break;
 		}
 		}
 		
