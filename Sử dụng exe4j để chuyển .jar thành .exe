@@ -1,0 +1,30 @@
+
+Lí do chuyển : Do người dùng có thể ko cài jdk hoặc jre nên nếu để file jar  Không chạy được.
+
+Yêu cầu :
+
+1)	Export từ eclipse toàn bộ project ( class+thư viện) ra file jar.Để trên desktop test cho dễ
+
+Trên thanh công cụ,chọn File--> Export-->Runnable Jar File
+
+2)	Download app-framework-1.0.3,swing-layout-1.0.4,swing-worker-1.1,1.Google để down nhé.Down thêm cái file ảnh định dạng icon 48*48.Trong code phải có phần kết nối với swing và framework để chạy.
+
+Trong màn hình welcome,chọn cái license rồi điền thông tin theo 1 trong 2 cái này
+KEY JAVAR .EXE4J
+
+Key1:
+
+Name: duongOk
+Company: F5S
+License key: A-XVK399823F-1fhhy4i1h93rpe
+
+Key2:
+
+Name: duongOk
+Company: F5S
+License key: A-XVK356565F-4llih1jsxofa
+
+Xong làm theo guide này là ok.Chú ý định dạng file đầu vào là jar ( runnable jar file nhé ) 
+
+https://vovanhai.wordpress.com/java/l%E1%BA%ADp-trinh-java-can-b%E1%BA%A3n/dong-goi-1-%E1%BB%A9ng-d%E1%BB%A5ng-java-thanh-file-exe/
+
