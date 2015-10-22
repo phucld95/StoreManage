@@ -133,8 +133,6 @@ DROP TABLE IF EXISTS `mat_hang`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mat_hang` (
   `ID_MatHang` int(11) NOT NULL,
-  `Gia_Nhap` int(11) NOT NULL,
-  `Gia_Ban` int(11) NOT NULL,
   `Ten_MH` varchar(45) NOT NULL,
   `Soluong` int(11) NOT NULL,
   PRIMARY KEY (`ID_MatHang`)
@@ -146,29 +144,29 @@ CREATE TABLE `mat_hang` (
 
 LOCK TABLES `mat_hang` WRITE;
 /*!40000 ALTER TABLE `mat_hang` DISABLE KEYS */;
-INSERT INTO `mat_hang`(`ID_MatHang`,`Gia_Nhap`,`Gia_Ban`,`Ten_MH`,`Soluong`) VALUES 
-(1,5000,6000,'Sữa bột cô gái Hà Lan',10000),
-(2,400000,620000,'Sữa ANMUM',50),
-(3,300000,330000,'Sữa ANMUM MATERNA',100),
-(4,400000,450000,'Sữa Nan Nga số 3 800g',200),
-(5,420000,450000,'Sữa Nan Nga số 1 800g',150),
-(6,300000,330000,'Sữa Nan Gro 3 900g',100),
-(7,130000,150000,'Nước cốt gà Brain',500),
-(8,50000,55000,'Váng sữa monte',1000),
-(9,20000,25000,'Lốc 4 hộp sữa TH true milk 110ml',1000),
-(10,100000,120000,'Dầu gội đầu clear 650g',1000),
-(11,10000,10500,'Kem đánh răng PS',1500),
-(12,12000,16000,'xà phòng romano 90g',500),
-(13,15000,18000,'xà phong lifebuoy',500),
-(14,13000,17000,'xà phòng x-men 90g',500),
-(15,10000,11000,'Mướp đắng',50),
-(16,12000,15000,'Rau muống',50),
-(17,60000,65000,'Gà rán',50),
-(18,1000000,1500000,'Giày da cao cấp',60),
-(19,2000000,2100000,'Bộ nồi thủy tinh',100),
-(20,100000,200000,'Bộ dao cao cấp',100),
-(21,690000,700000,'BÌnh đun nước siêu tốc',100),
-(22,700000,900000,'Tai nghe xiaomi',100);
+INSERT INTO `mat_hang`(`ID_MatHang`,`Ten_MH`,`Soluong`) VALUES 
+(1,'Sữa bột cô gái Hà Lan',10000),
+(2,'Sữa ANMUM',50),
+(3,'Sữa ANMUM MATERNA',100),
+(4,'Sữa Nan Nga số 3 800g',200),
+(5,'Sữa Nan Nga số 1 800g',150),
+(6,'Sữa Nan Gro 3 900g',100),
+(7,'Nước cốt gà Brain',500),
+(8,'Váng sữa monte',1000),
+(9,'Lốc 4 hộp sữa TH true milk 110ml',1000),
+(10,'Dầu gội đầu clear 650g',1000),
+(11,'Kem đánh răng PS',1500),
+(12,'xà phòng romano 90g',500),
+(13,'xà phong lifebuoy',500),
+(14,'xà phòng x-men 90g',500),
+(15,'Mướp đắng',50),
+(16,'Rau muống',50),
+(17,'Gà rán',50),
+(18,'Giày da cao cấp',60),
+(19,'Bộ nồi thủy tinh',100),
+(20,'Bộ dao cao cấp',100),
+(21,'BÌnh đun nước siêu tốc',100),
+(22,'Tai nghe xiaomi',100);
 
 
 /*!40000 ALTER TABLE `mat_hang` ENABLE KEYS */;
@@ -183,8 +181,10 @@ DROP TABLE IF EXISTS `cung_cap`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cung_cap` (
   `ID_MatHang` int(11) NOT NULL,
-  `Id_NCC` int(11) NOT NULL,
-  
+	`Id_NCC` int(11) NOT NULL,
+  `Gia_Nhap` int(11) NOT NULL,
+  `Gia_Ban` int(11) NOT NULL,
+	`So_Luong_Nhap` int (11) NOT NULL,
   PRIMARY KEY (`ID_MatHang`,`Id_NCC`),
   FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),
   FOREIGN KEY(`Id_NCC`)REFERENCES `ncc`(`Id_NCC`)
@@ -196,29 +196,29 @@ CREATE TABLE `cung_cap` (
 
 LOCK TABLES `cung_cap` WRITE;
 /*!40000 ALTER TABLE `cung_cap` DISABLE KEYS */;
-INSERT INTO `cung_cap`(`ID_MatHang`,`Id_NCC`) VALUES 
-(1,1),
-(2,2),
-(3,2),
-(4,3),
-(5,3),
-(6,3),
-(7,4),
-(8,5),
-(9,6),
-(10,7),
-(11,8),
-(12,9),
-(13,10),
-(14,11),
-(15,12),
-(16,12),
-(17,13),
-(18,14),
-(19,15),
-(20,15),
-(21,2),
-(22,6);
+INSERT INTO `cung_cap`(`ID_MatHang`,`Id_NCC`,`Gia_Nhap`,`Gia_Ban`,`So_Luong_Nhap`) VALUES 
+(1,1,5000,6000,1000),
+(2,2,400000,620000,1000),
+(3,2,300000,330000,500),
+(4,3,400000,450000,600),
+(5,3,420000,450000,800),
+(6,3,300000,330000,700),
+(7,4,130000,150000,600),
+(8,5,50000,55000,1000),
+(9,6,20000,25000,500),
+(10,7,100000,120000,800),
+(11,8,10000,10500,600),
+(12,9,12000,16000,700),
+(13,10,15000,18000,500),
+(14,11,13000,17000,600),
+(15,12,10000,11000,700),
+(16,12,12000,15000,600),
+(17,13,60000,65000,800),
+(18,14,1000000,1500000,900),
+(19,15,2000000,2100000,700),
+(20,15,100000,200000,500),
+(21,2,690000,700000,800),
+(22,6,700000,900000,1000);
 /*!40000 ALTER TABLE `cung_cap` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,6 +297,22 @@ INSERT INTO `duoc_khuyen_mai`(`Id_KM`,`ID_MatHang`,`Gia_KM`) VALUES
 (2,22,800000);
 /*!40000 ALTER TABLE `duoc_khuyen_mai` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `hoa_don`
+--
+
+DROP TABLE IF EXISTS `hoa_don`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hoa_don` (
+	`ID_HoaDon` int not null,
+	`Noi_Dung` varchar(100) not null,
+	`Tong_Tien` int not null,
+	`ID_ThuNgan` int not null,
+	
+  PRIMARY KEY (`ID_HoaDon`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 --
