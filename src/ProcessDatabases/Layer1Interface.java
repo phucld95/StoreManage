@@ -114,9 +114,11 @@ public class Layer1Interface {
 				passS = rs.getString("password");
 				//System.out.println("|"+pass+"|" + passS+"|");
 				if (testString(pass, passS) == 1 && testString(acc, "admin") == 1){
-						return 2;
+					return 2;
 				}
-				if (testString(pass, passS) == 1 && testString(acc, "admin") != 1)return 1;
+				if (testString(pass, passS) == 1 && testString(acc, "admin") == 0){
+					return 1;
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

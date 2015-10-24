@@ -47,9 +47,13 @@ public class DoMain {
         ly1.frame.setVisible(true);
         while(ly1.check() == 0);
         ly1.frame.setVisible(false);
+        if(ly1.check() == 1){
+        	Layer3Interface ly3 = new Layer3Interface(st);
+			ly3.frame.setVisible(true);
+        }
         if(ly1.check() == 2){
-        	Layer2Interface window = new Layer2Interface(st);
-			window.frmStoreManager.setVisible(true);
+        	Layer2Interface ly2 = new Layer2Interface(st);
+			ly2.frmStoreManager.setVisible(true);
        	}
 	}
 	

@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class Data {
 	public String name, nameGroup;
-	public int so_luong, Gia_Ban, dot, Gia_Nhap,idGroup,id,Id_KM,Id_NCC,Gia_KM,SDT;
+	public int so_luong, Gia_Ban, dot, Gia_Nhap,idGroup,id,Id_KM,Id_NCC,Gia_KM,SDT,ID_Account;
+	public int[] id_KM = new int[100];
 	public String inp = new String();
 	public String temp = new String();
 	public String Ten_KM = new String();
@@ -13,6 +14,7 @@ public class Data {
 	public String Ten_NCC = new String();
 	public String TTLH = new String();
 	public String Mail = new String();
+	public String time = new String();
 	public int sum = 0;
 	private Scanner Input = new Scanner(System.in);
 
