@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class timeSystem {
-	public static String Date(){
+	public String Date(){
 		//lấy thời gian hệ thống
 		
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -22,5 +22,14 @@ public class timeSystem {
         Date date = new Date(); // lấy thời gian hệ thống
         String PDate = dateFormat.format(date);//Định dạng thời gian theo trên
         System.out.println("Date: " + PDate);
+	}
+	public String fullDate(){
+		//lấy thời gian hệ thống
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // tạo 1 đối tượng có định dạng thời gian yyyy-MM-dd HH:mm:ss
+        Date date = new Date(); // lấy thời gian hệ thống
+        String stringDate = dateFormat.format(date);//Định dạng thời gian theo trên
+        //System.out.println("Date: " + stringDate);
+        return stringDate;
 	}
 }

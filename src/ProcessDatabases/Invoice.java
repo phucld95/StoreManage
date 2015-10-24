@@ -9,33 +9,34 @@ public class Invoice {
 	private static Statement st;
 	String danhSach = new String();
 	int sumPrice, price;
-	String time = new String();
+	//String time = new String();
 	String Ten_KM = new String();
 	String TGDR = new String();
 	String TGKT = new String();
 	int[] id_KM = new int[100];
+	timeSystem time = new timeSystem();
 	private Scanner Input = new Scanner(System.in);
 
 	public Invoice(Statement sts) {
 		st = sts;
 	}
 	// truyen vao str la idmathang va so luong tra ve so tien !
-	public int getPriceProduct(String str, String time) throws SQLException {
+	public int getPriceProduct(String str) throws SQLException {
 		SetInfo Info = new SetInfo();
 		Info = Info.cat_Chuoi(str);
-		return tinh_tien(Info.id[0], Info.sum[0], time);
+		return tinh_tien(Info.id[0], Info.sum[0]);
 	}
 
 	// in hoa don vao database
-	public void setInvoice(String str, int id_Account, String time) throws SQLException {
+	public void setInvoice(String str, int id_Account) throws SQLException {
 		SetInfo Info = new SetInfo();
 		Info = Info.cat_Chuoi(str);
 		sumPrice = 0;
 		String sql = new String();
 		for (int k = 0; k < Info.temp; k++) {
-			sumPrice = sumPrice + tinh_tien(Info.id[k], Info.sum[k], time);
+			sumPrice = sumPrice + tinh_tien(Info.id[k], Info.sum[k]);
 		}
-		sql = String.format("update hoa_don set Noi_Dung='%s',Tong_Tien=%d,ID_ThuNgan=%d,Thoi_Gian='%s'", str, sumPrice, id_Account,time);
+		sql = String.format("update hoa_don set Noi_Dung='%s',Tong_Tien=%d,ID_ThuNgan=%d,Thoi_Gian='%s'", str, sumPrice, id_Account,time.fullDate());
 		st.executeUpdate(sql);
 	}
 //truyen vao id tra ve tong so tien tuong ung voi id do
@@ -55,13 +56,13 @@ public class Invoice {
 	}
 
 	// method tinh tien cua mot san pham !
-	public int tinh_tien(int id, int sum, String time) throws SQLException {
+	public int tinh_tien(int id, int sum) throws SQLException {
 		ResultSet result;
 		int i = 0;
 		int j;
 		String SQL = new String();
 		try {
-			SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time, time);
+			SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time.Date(), time.Date());
 			result = st.executeQuery(SQL);
 			// result.next();
 			while (!result.next()) {
