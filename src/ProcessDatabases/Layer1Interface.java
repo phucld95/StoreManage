@@ -50,6 +50,7 @@ public class Layer1Interface {
 		frame.setBounds(100, 100, 450, 229);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblngNhp = new JLabel("Nh\u1EADp th\u00F4ng tin ng\u01B0\u1EDDi s\u1EED d\u1EE5ng :");
 		lblngNhp.setBounds(31, 26, 179, 14);
