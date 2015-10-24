@@ -157,10 +157,10 @@ class SetInfo {
 				String rs[] = r.split("[,]");
 				for (int k = 0; k < rs.length; k++) {
 					if (k == 0) {
-						Info.id[Info.temp] = Integer.parseInt("rs[k]");
+						Info.id[Info.temp] = Integer.parseInt(rs[k]);
 					}
 					if (k == 1) {
-						Info.sum[Info.temp] = Integer.parseInt("rs[k]");
+						Info.sum[Info.temp] = Integer.parseInt(rs[k]);
 					}
 				}
 				// Info.sum[temp] = Integer.parseInt(r);
