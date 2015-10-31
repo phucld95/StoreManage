@@ -298,22 +298,6 @@ INSERT INTO `duoc_khuyen_mai`(`Id_KM`,`ID_MatHang`,`Gia_KM`) VALUES
 /*!40000 ALTER TABLE `duoc_khuyen_mai` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `hoa_don`
---
-
-DROP TABLE IF EXISTS `hoa_don`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hoa_don` (
-	`ID_HoaDon` int not null,
-	`Noi_Dung` varchar(100) not null,
-	`Tong_Tien` int not null,
-	`ID_ThuNgan` int not null,
-	
-  PRIMARY KEY (`ID_HoaDon`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 --
 -- Table structure for table `account`
@@ -326,14 +310,47 @@ CREATE TABLE `account` (
   `ID_Account` int not null,
   `username` varchar(10) NOT NULL,
   `password` varchar(10) NOT NULL,
+	`tenNV` varchar(30) NOT NULL,
   PRIMARY KEY (`ID_Account`,`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table`account`
 LOCK TABLES `account` WRITE;
 INSERT INTO `account` VALUES
-('1','admin','admin123');
+('1','admin','admin123','admin');
 UNLOCK TABLES;
+
+--
+-- Table structure for table `hoa_don`
+--
+
+DROP TABLE IF EXISTS `hoa_don`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hoa_don` (
+	`ID_HoaDon` int not null AUTO_INCREMENT,
+	`Noi_Dung` varchar(100) not null,
+	`Tong_Tien` int not null,
+	`ID_ThuNgan` int not null,
+	`Thoi_Gian` datetime not null,
+  PRIMARY KEY (`ID_HoaDon`),
+	FOREIGN KEY (`ID_ThuNgan`) REFERENCES `account`(`ID_Account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `nhap_hang`
+--
+
+DROP TABLE IF EXISTS `nhap_hang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nhap_hang` (
+	`ID_NhanVien` int not null ,
+	`Thoi_Gian` datetime not null,
+  FOREIGN KEY (`ID_NhanVien`) REFERENCES `account`(`ID_Account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

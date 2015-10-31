@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Invoice {
 	private static Statement st;
 	String danhSach = new String();
-	int sumPrice, price;
-	//String time = new String();
+	int sumPrice=0, price=0;
+	// String time = new String();
 	String Ten_KM = new String();
 	String TGDR = new String();
 	String TGKT = new String();
@@ -20,6 +20,7 @@ public class Invoice {
 	public Invoice(Statement sts) {
 		st = sts;
 	}
+
 	// truyen vao str la idmathang va so luong tra ve so tien !
 	public int getPriceProduct(String str) throws SQLException {
 		SetInfo Info = new SetInfo();
@@ -36,20 +37,26 @@ public class Invoice {
 		for (int k = 0; k < Info.temp; k++) {
 			sumPrice = sumPrice + tinh_tien(Info.id[k], Info.sum[k]);
 		}
-		sql = String.format("update hoa_don set Noi_Dung='%s',Tong_Tien=%d,ID_ThuNgan=%d,Thoi_Gian='%s'", str, sumPrice, id_Account,time.fullDate());
+		sql = String.format("insert into hoa_don(Noi_Dung,Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%s',%d,%d,'%s')", str,
+				sumPrice, id_Account, time.fullDate());
 		st.executeUpdate(sql);
 	}
-//truyen vao id tra ve tong so tien tuong ung voi id do
+
+	// truyen vao id tra ve tong so tien tuong ung voi id do
 	public int getInvoice(int id) {
 		ResultSet rs;
-		String sql=new String();
-		try{
-		sql=String.format("insert Tong_Tien from hoa_don where ID_ThuNgan=%d",id);
-		rs=st.executeQuery(sql);
-		rs.next();
-		return rs.getInt("Tong_Tien");
-		
-		}catch(SQLException ex){
+		sumPrice=0;
+		String sql = new String();
+		try {
+			sql = String.format("select Tong_Tien from hoa_don where ID_ThuNgan=%d",id);
+			rs = st.executeQuery(sql);
+			//rs.next();
+			while(rs.next()){
+				sumPrice=sumPrice+rs.getInt("Tong_Tien");
+			}
+			return sumPrice;
+
+		} catch (SQLException ex) {
 			System.out.println(ex);
 			return 0;
 		}
@@ -62,7 +69,8 @@ public class Invoice {
 		int j;
 		String SQL = new String();
 		try {
-			SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time.Date(), time.Date());
+			SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time.Date(),
+					time.Date());
 			result = st.executeQuery(SQL);
 			// result.next();
 			while (!result.next()) {
@@ -83,7 +91,7 @@ public class Invoice {
 					System.out.println(SQL);
 					i--;
 				}
-				//chon dot khuyen mai!
+				// chon dot khuyen mai!
 				System.out.print("moi ban chon dot khuyen mai, nhap id dot khuyen mai:");
 				j = Integer.parseInt(Input.nextLine());
 				// tinh tien theo dot khuyen moi nguoi dung chon!
@@ -106,7 +114,7 @@ public class Invoice {
 			} else {
 				result.close();
 				SQL = String.format(
-						"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_Mat_Hang = %d and Id_KM = %d;",
+						"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_MatHang = %d and Id_KM = %d;",
 						id, id_KM[0]);
 				result = st.executeQuery(SQL);
 				result.next();
@@ -121,7 +129,7 @@ public class Invoice {
 				return sumPrice;
 			}
 		} catch (SQLException ex) {
-			SQL = String.format("select Gia_Ban from mat_hang where ID_MatHang=%d;", id);
+			SQL = String.format("select Gia_Ban from cung_cap where ID_MatHang=%d;", id);
 			result = st.executeQuery(SQL);
 			result.next();
 			price = result.getInt("Gia_Ban");
@@ -157,10 +165,10 @@ class SetInfo {
 				String rs[] = r.split("[,]");
 				for (int k = 0; k < rs.length; k++) {
 					if (k == 0) {
-						Info.id[Info.temp] = Integer.parseInt("rs[k]");
+						Info.id[Info.temp] = Integer.parseInt(rs[k]);
 					}
 					if (k == 1) {
-						Info.sum[Info.temp] = Integer.parseInt("rs[k]");
+						Info.sum[Info.temp] = Integer.parseInt(rs[k]);
 					}
 				}
 				// Info.sum[temp] = Integer.parseInt(r);

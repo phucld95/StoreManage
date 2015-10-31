@@ -309,7 +309,7 @@ CREATE TABLE `hoa_don` (
 	`ID_HoaDon` int not null,
 	`Noi_Dung` varchar(100) not null,
 	`Tong_Tien` int not null,
-	`ID_Thu_Ngan` int not null,
+	`ID_ThuNgan` int not null,
 	
   PRIMARY KEY (`ID_HoaDon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
