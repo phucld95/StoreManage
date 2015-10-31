@@ -73,12 +73,12 @@ public class Layer2Interface implements ActionListener {
 		EvenManage em = new EvenManage(st);
 		AccManage am = new AccManage(st);
 		frmStoreManager = new JFrame();
-		//frmStoreManager.setVisible(true);
 		frmStoreManager.setTitle("Store manager");
 		frmStoreManager.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
-		frmStoreManager.setBounds(100, 100, 529, 350);
+		frmStoreManager.setBounds(100, 100, 529, 330);
 		frmStoreManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStoreManager.getContentPane().setLayout(null);
+		frmStoreManager.setResizable(false);
 		
 		JLabel lblStoreManager = new JLabel("Store Manager");
 		lblStoreManager.setForeground(Color.DARK_GRAY);

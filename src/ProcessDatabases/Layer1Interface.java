@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +53,8 @@ public class Layer1Interface {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Đăng nhập tài khoản");
+		frame.setResizable(false);
 		
 		JLabel lblngNhp = new JLabel("Nh\u1EADp th\u00F4ng tin ng\u01B0\u1EDDi s\u1EED d\u1EE5ng :");
 		lblngNhp.setBounds(31, 26, 179, 14);
@@ -76,6 +80,26 @@ public class Layer1Interface {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(173, 91, 218, 20);
 		frame.getContentPane().add(passwordField);
+		btnNewButton.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+					acc = textField.getText();
+	                pass = passwordField.getText();
+	                if(acc.length() == 0 || pass.length() == 0){
+	                	JOptionPane.showMessageDialog(null, "Không được để trống thông tin!");
+	                }
+	                else{
+	                	if(check() == 0){
+	                		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
+	                	}
+	                	else{
+	                		frame.setVisible(false);
+	                	}
+	                }
+				}
+			}
+		});
 		btnNewButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -85,7 +109,14 @@ public class Layer1Interface {
                 if(acc.length() == 0 || pass.length() == 0){
                 	JOptionPane.showMessageDialog(null, "Không được để trống thông tin!");
                 }
-         
+                else{
+                	if(check() == 0){
+                		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
+                	}
+                	else{
+                		frame.setVisible(false);
+                	}
+                }
             }
         });	
 	}

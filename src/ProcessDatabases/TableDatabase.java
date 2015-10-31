@@ -12,9 +12,10 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 
+
 public class TableDatabase extends JFrame{
     private JTable table;
-    
+    //private static String title;
     /*
      * Đoạn code dưới đây sẽ được viết trong func mà bạn muốn show ra bảng từ database
      */
@@ -43,6 +44,27 @@ public class TableDatabase extends JFrame{
 	//       e.printStackTrace();
 	//   }
 	//}
+    /*
+     * Set tile for table
+     * @see java.awt.Frame#setTitle(java.lang.String)
+     */
+    
+    public TableDatabase(ResultSet rs, String title) throws SQLException{
+        Container pane = getContentPane();
+        pane.setLayout(new BorderLayout());
+        //TableValues tv = new TableValues();
+        table = new JTable();
+        table.setModel(new rsTableModel(rs));
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        JScrollPane jsp = new JScrollPane(table);
+        pane.add(jsp, BorderLayout.CENTER);
+       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(800, 400);
+        this.setVisible(true); 
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setIcon();
+        this.setTitle(title);
+    }
     
     public TableDatabase(ResultSet rs) throws SQLException{
         Container pane = getContentPane();
@@ -56,6 +78,7 @@ public class TableDatabase extends JFrame{
        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 400);
         this.setVisible(true); 
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setIcon();
     }
     

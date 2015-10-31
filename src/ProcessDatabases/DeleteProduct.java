@@ -73,6 +73,9 @@ public class DeleteProduct {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		frame.setTitle("Xóa 1 mặt hàng.");
+		frame.setResizable(false);
+		
 		
 		JLabel lblXaMt = new JLabel("X\u00F3a 1 m\u1EB7t h\u00E0ng \u0111ang kinh doanh.");
 		lblXaMt.setBounds(25, 22, 291, 14);
@@ -109,7 +112,7 @@ public class DeleteProduct {
             	//System.out.println("|"+name+"|"+id+"|");
             	
             	if(name.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and Ten_MH = '" + name + "';";
+            		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and Ten_MH = '" + name + "';";
             		
 					try {
 						rs = st.executeQuery(sql);
@@ -122,7 +125,7 @@ public class DeleteProduct {
 						}
 						else{
 							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
+							TableDatabase stt = new TableDatabase(rs,"Thông tin những mặt hàng có tên muốn xóa.");
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -131,7 +134,7 @@ public class DeleteProduct {
 					
             	}
             	else if(id.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + id + "';";
+            		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and mh.ID_MatHang = '" + id + "';";
             		ResultSet rs;
 					try {
 						rs = st.executeQuery(sql);
@@ -142,7 +145,7 @@ public class DeleteProduct {
 						}
 						else{
 							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
+							TableDatabase stt = new TableDatabase(rs, "Thông tin những sản phẩm có mã muốn xóa.");
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -167,7 +170,7 @@ public class DeleteProduct {
             	id = textField_1.getText();
             	
             	if(id.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + id + "';";
+            		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and mh.ID_MatHang = '" + id + "';";
             		ResultSet rs;
 					try {
 						rs = st.executeQuery(sql);
@@ -182,8 +185,8 @@ public class DeleteProduct {
 							st.executeUpdate(sql);
 							sql = "DELETE FROM thuoc_nhom WHERE ID_MatHang = '"+ id +"';";
 							st.executeUpdate(sql);
-							sql = "DELETE FROM cung_cap WHERE ID_MatHang = '"+ id +"';";
-							st.executeUpdate(sql);
+//							sql = "DELETE FROM cung_cap WHERE ID_MatHang = '"+ id +"';";
+//							st.executeUpdate(sql);
 							JOptionPane.showMessageDialog(null, "Đã xóa thành công mặt hàng!!");
 						}
 					} catch (SQLException e1) {

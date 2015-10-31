@@ -1,9 +1,12 @@
 package ProcessDatabases;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -48,14 +51,21 @@ public class CreateDatabase {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
+		frame.setTitle("Đăng nhập tài khoản MySQL");
+		frame.setResizable(false);
 		
 		JLabel lblNhpThngTin = new JLabel("Nh\u1EADp th\u00F4ng tin c\u01A1 s\u1EDF d\u1EEF li\u1EC7u :");
 		lblNhpThngTin.setBounds(22, 21, 229, 14);
 		frame.getContentPane().add(lblNhpThngTin);
 		
-		JLabel lblTnQuyn = new JLabel("T\u00EAn ng\u01B0\u1EDDi d\u00F9ng mysql :");
+		JLabel lblTnQuyn = new JLabel("Tài khoản mysql :");
 		lblTnQuyn.setBounds(48, 46, 160, 14);
 		frame.getContentPane().add(lblTnQuyn);
+		
+		JLabel lblCh = new JLabel("Ch\u00FA \u00FD : Ph\u1EA3i c\u00E0i \u0111\u1EB7t ph\u1EA7n m\u1EC1m MySQL tr\u01B0\u1EDBc khi s\u1EED d\u1EE5ng ch\u01B0\u01A1ng tr\u00ECnh!");
+		lblCh.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		lblCh.setBounds(24, 143, 397, 21);
+		frame.getContentPane().add(lblCh);
 		
 		JLabel lblMBoMt = new JLabel("M\u00E3 b\u1EA3o m\u1EADt :");
 		lblMBoMt.setBounds(48, 76, 160, 14);
@@ -74,6 +84,27 @@ public class CreateDatabase {
 		JButton btnNewButton = new JButton("X\u00E1c nh\u1EADn");
 		btnNewButton.setBounds(124, 113, 200, 20);
 		frame.getContentPane().add(btnNewButton);
+		btnNewButton.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+					use = textField.getText();
+					pass = textField_1.getText();
+					
+					if(use.length() == 0 || pass.length() == 0){
+						JOptionPane.showMessageDialog(null, "Thông tin không được để trống!");
+					}				
+					else{
+						if(check() == 1){
+							frame.setVisible(false);
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Không kết nối được đến tài khoản MySQL!\nHãy chắc chắn điền đúng tên người dùng và mật khẩu!");
+						}
+					}
+				}
+			}
+		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				use = textField.getText();
@@ -87,11 +118,19 @@ public class CreateDatabase {
 						frame.setVisible(false);
 					}
 					else{
-						JOptionPane.showMessageDialog(null, "Không kết nối được đến tài khoản mysql!\nHãy chắc chắn điền đúng tên người dùng và mật khẩu!");
+						JOptionPane.showMessageDialog(null, "Không kết nối được đến tài khoản MySQL!\nHãy chắc chắn điền đúng tên người dùng và mật khẩu!");
 					}
 				}
 			}
 		});
+	}
+	
+	public static String getUser(){
+		return use;
+	}
+	
+	public static String getPassword(){
+		return pass;
 	}
 	public static int check (){
 		try {						

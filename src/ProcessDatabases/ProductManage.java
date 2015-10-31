@@ -64,9 +64,14 @@ public class ProductManage {
         
 	}
 	public void showProductNeedAdd (){
-		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.soluong <= 20;";
-		inputData(sql);
-      
+		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and Soluong <= So_Luong_Nhap / 5;";
+		try {
+            ResultSet rs = st.executeQuery(sql);
+            TableDatabase stt = new TableDatabase(rs,"All produce need add more.");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public void deleteProduct(){
@@ -74,8 +79,14 @@ public class ProductManage {
 	}
 	
 	public void ShowAllProduct(){
-		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC;";
-		inputData(sql);
+		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC;";
+		try {
+            ResultSet rs = st.executeQuery(sql);
+            TableDatabase stt = new TableDatabase(rs,"All produce in store.");
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
       
 	}
 	
@@ -328,7 +339,7 @@ public class ProductManage {
 						}
 						else{
 							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
+							//TableDatabase stt = new TableDatabase(rs);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -347,7 +358,7 @@ public class ProductManage {
 						}
 						else{
 							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
+							//TableDatabase stt = new TableDatabase(rs);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -403,7 +414,7 @@ public class ProductManage {
 						rs.beforeFirst();
 						if(rs.getRow() > 1){
 							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
+							//TableDatabase stt = new TableDatabase(rs);
 							JOptionPane.showMessageDialog(null, "Mời nhập ID sản phẩm để sửa thông tin!");
 						}
 						else{
@@ -512,11 +523,6 @@ public class ProductManage {
 	}
 	
 	public static void inputData(String sql){
-		try {
-            ResultSet rs = st.executeQuery(sql);
-            TableDatabase stt = new TableDatabase(rs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		
 	}
 }
