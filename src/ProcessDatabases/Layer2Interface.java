@@ -52,7 +52,7 @@ public class Layer2Interface implements ActionListener {
 	public static String com51 = "Xem tất cả các người dùng.";
 	public static String com52 = "Thêm 1 người dùng mới.";
 	public static String com53 = "Xóa 1 người dùng.";
-	public static String com54 = "Đổi mật khẩu của 1 người dùng.";
+	public static String com54 = "Sửa thông tin của 1 người dùng.";
 	
 	private static Statement st;
 	/**
@@ -186,7 +186,12 @@ public class Layer2Interface implements ActionListener {
             {
                 chose = comboBox_1.getSelectedItem().toString();
                 if(chose == com21){
-                	sma.ShowAllSupply();
+                	try {
+						sma.ShowAllSupply();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
                 if(chose == com22){
                 	sma.addNewSupply();
@@ -269,7 +274,12 @@ public class Layer2Interface implements ActionListener {
             {
                 chose = comboBox_4.getSelectedItem().toString();
                 if(chose == com51){
-                	am.ShowAllAccount();
+                	try {
+						am.ShowAllAccount();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
                 if(chose == com52){
                 	am.addNewAccount();

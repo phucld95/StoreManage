@@ -21,10 +21,6 @@ public class ProductGroupManage {
 	}
 	
 	
-	public void fixInfomationSupply(){
-		FixInfomationSupply fx = new FixInfomationSupply(st);
-	}
-	
 	public void deleteSupply(){
 		DeleteSupply ds = new DeleteSupply(st);
 	}

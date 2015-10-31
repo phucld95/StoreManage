@@ -1,6 +1,7 @@
 package ProcessDatabases;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SupplyManage {
@@ -15,7 +16,7 @@ public class SupplyManage {
 	}
 	
 	public void fixInfomationSupply(){
-		FixInfomationSupply fx = new FixInfomationSupply(st);
+		FixInfomationSupply2 fx = new FixInfomationSupply2(st);
 	}
 	
 	public void deleteSupply(){
@@ -23,21 +24,12 @@ public class SupplyManage {
 	}
 	
 	public void addNewSupply(){
-		AddNewSupply ans = new AddNewSupply(st);
+		AddNewSupply2 ans = new AddNewSupply2(st);
 	}
 	
-	public void ShowAllSupply(){
-		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc;";
-		inputData(sql);     
-	}
-	
-	
-	public static void inputData(String sql){
-		try {
-            ResultSet rs = st.executeQuery(sql);
-            TableDatabase stt = new TableDatabase(rs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public void ShowAllSupply() throws SQLException{
+		sql = "Select Id_NCC, Ten_NCC, SDT, Mail, TTLH from ncc;";
+		ResultSet rs = st.executeQuery(sql);
+        TableDatabase stt = new TableDatabase(rs,"Các công ty đang cung cấp sản phẩm cho cửa hàng.");     
 	}
 }

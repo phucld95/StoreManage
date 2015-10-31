@@ -49,6 +49,7 @@ public class DeleteSupply {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		frame.setTitle("Xóa 1 nhà cung cấp.");
 		
 		JLabel lblXaMt = new JLabel("Xóa thông tin 1 nhà cung cấp.");
 		lblXaMt.setBounds(25, 22, 291, 14);
@@ -85,7 +86,8 @@ public class DeleteSupply {
             	//System.out.println("|"+name+"|"+id+"|");
             	
             	if(name.length() != 0){
-            		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Ten_NCC = '" + name + "';";
+            	
+            		sql = "Select Id_NCC, Ten_NCC, SDT, Mail, TTLH from ncc where Ten_NCC = '" + name + "';";
             		
 					try {
 						rs = st.executeQuery(sql);
@@ -107,7 +109,7 @@ public class DeleteSupply {
 					
             	}
             	else if(id.length() != 0){
-            		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Ten_NCC = '" + id + "';";
+            		sql = "Select Id_NCC, Ten_NCC, SDT, Mail, TTLH from ncc where Ten_NCC = '" + id + "';";
             		ResultSet rs;
 					try {
 						rs = st.executeQuery(sql);

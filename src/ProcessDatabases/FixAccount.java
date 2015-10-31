@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 public class FixAccount {
 
 	private static String cb11 = "Mã bảo mật.";
+	private static String cb12 = "Số điện thoại liên hệ.";
+	private static String cb13 = "Địa chỉ liên hệ.";
 	//private static String cb12 = "Địa chỉ liên hệ.";
 	private static String chose = new String();
 	private static String newIn = new String();
@@ -54,7 +56,8 @@ public class FixAccount {
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
-		
+		frame.setTitle("Chỉnh sửa thông tin tài khoản.");
+		frame.setResizable(false);
 		
 		JLabel lblNhpTnSn = new JLabel("Nhập thông tin tài khoản :");
 		lblNhpTnSn.setBounds(10, 34, 293, 14);
@@ -91,7 +94,7 @@ public class FixAccount {
             	//System.out.println("|"+name+"|"+id+"|");
             	
             	if(name.length() != 0 && id.length() != 0){
-            		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+            		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
             		
 					try {
 						rs = st.executeQuery(sql);
@@ -123,7 +126,7 @@ public class FixAccount {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(130, 134, 235, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11,cb12,cb13}));
 		frame.getContentPane().add(comboBox);
 		
 		JTextField textField_3 = new JTextField();
@@ -152,7 +155,7 @@ public class FixAccount {
             	}
             	else{
             		if(name.length() != 0 && id.length() != 0){
-                		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+                		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
                 		
     					try {
     						rs = st.executeQuery(sql);
@@ -166,10 +169,24 @@ public class FixAccount {
     						else{
     							if(chose == cb11){
     								sql = "UPDATE account SET password = '" + newIn + "' where username = '" + name + "' and password = '" + id +"';";
-    								st.executeUpdate(sql);
-    								
+    								st.executeUpdate(sql);	
+    								JOptionPane.showMessageDialog(null, "Thông tin tài khoản đã đươc thay đổi!");
     							}
-    							JOptionPane.showMessageDialog(null, "Thông tin tài khoản đã đươc thay đổi!");
+    							if(chose == cb12){
+    								if(checkString(newIn) == 0){
+    									JOptionPane.showMessageDialog(null, "Số điện thoại không được chứa chữ cái!");
+    								}
+    								else{
+    									sql = "UPDATE account SET SDT = '" + newIn + "' where username = '" + name + "' and password = '" + id +"';";
+        								st.executeUpdate(sql);	
+    									JOptionPane.showMessageDialog(null, "Thông tin tài khoản đã đươc thay đổi!");
+    								}
+    							}
+    							if(chose == cb13){
+    								sql = "UPDATE account SET Dia_Chi = '" + newIn + "' where username = '" + name + "' and password = '" + id +"';";
+    								st.executeUpdate(sql);	
+    								JOptionPane.showMessageDialog(null, "Thông tin tài khoản đã đươc thay đổi!");
+    							}
     						}
     					} catch (SQLException e1) {
     						// TODO Auto-generated catch block
@@ -182,5 +199,13 @@ public class FixAccount {
             	}
             }
         });
+	}
+	public static int checkString(String s){
+		int j;
+		for (j= 0; j< s.length(); j++){
+			if(s.charAt(j) == '+') continue;
+			if(s.charAt(j) > '9' || s.charAt(j) < '0') return 0;
+		}
+		return 1;
 	}
 }

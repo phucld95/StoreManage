@@ -32,35 +32,13 @@ public class DeleteProduct {
 	private static final String user = "root"; 
 	private static final String password = "123456";
 	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Connection con = DriverManager.getConnection(url, user, password);
-//		            System.out.println("Connect Success!");
-//		            st1 = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-//		            st1.executeUpdate ("Use test2;");
-//		            DeleteProduct window = new DeleteProduct(st1);
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
 	 */
-	public DeleteProduct(Statement st1) {
-		
+	public DeleteProduct(Statement st1) {		
 		st = st1;
 		initialize();
-		
 	}
 
 	/**
@@ -69,7 +47,6 @@ public class DeleteProduct {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 535, 192);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
@@ -181,12 +158,13 @@ public class DeleteProduct {
 						}
 						else{
 							rs.beforeFirst();
-							sql = "DELETE FROM mat_hang WHERE ID_MatHang = '"+ id +"';";
-							st.executeUpdate(sql);
+							
 							sql = "DELETE FROM thuoc_nhom WHERE ID_MatHang = '"+ id +"';";
 							st.executeUpdate(sql);
-//							sql = "DELETE FROM cung_cap WHERE ID_MatHang = '"+ id +"';";
-//							st.executeUpdate(sql);
+							sql = "DELETE FROM cung_cap WHERE ID_MatHang = '"+ id +"';";
+							st.executeUpdate(sql);
+							sql = "DELETE FROM mat_hang WHERE ID_MatHang = '"+ id +"';";
+							st.executeUpdate(sql);
 							JOptionPane.showMessageDialog(null, "Đã xóa thành công mặt hàng!!");
 						}
 					} catch (SQLException e1) {

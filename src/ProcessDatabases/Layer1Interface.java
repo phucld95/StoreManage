@@ -90,11 +90,19 @@ public class Layer1Interface {
 	                	JOptionPane.showMessageDialog(null, "Không được để trống thông tin!");
 	                }
 	                else{
-	                	if(check() == 0){
+	                	int i = check();
+	                	if(i == 0){
 	                		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
 	                	}
-	                	else{
+	                	else if (i == 1){
 	                		frame.setVisible(false);
+	                        Layer3Interface ly3 = new Layer3Interface(st);
+	                		ly3.frame.setVisible(true);
+	                    }
+	                	else if(i == 2){
+	                		frame.setVisible(false);
+	                		Layer2Interface ly2 = new Layer2Interface(st);
+	                		ly2.frmStoreManager.setVisible(true);
 	                	}
 	                }
 				}
@@ -137,19 +145,25 @@ public class Layer1Interface {
 	}
 	
 	public static int check(){		
-		sql = "select username, password from account where username = '" + acc + "';";
 		try {
+			rs = null;
+			sql = "select * from account where username = '" + acc + "';";
 			rs = st.executeQuery(sql);
-			while( rs.next()) {
+			while(rs.next()) {
+				accS = rs.getString("ID_Account");
 				accS = rs.getString("username");
 				passS = rs.getString("password");
-				//System.out.println("|"+pass+"|" + passS+"|");
+				accS = rs.getString("tenNV");
+				accS = rs.getString("SDT");
+				accS = rs.getString("Dia_Chi");
+				//System.out.println("|"+passS+"|");
 				if (testString(pass, passS) == 1 && testString(acc, "admin") == 1){
 					return 2;
 				}
-				if (testString(pass, passS) == 1 && testString(acc, "admin") == 0){
+				else if (testString(pass, passS) == 1 && testString(acc, "admin") == 0){
 					return 1;
 				}
+				else return 0;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

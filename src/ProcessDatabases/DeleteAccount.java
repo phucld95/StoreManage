@@ -49,6 +49,8 @@ public class DeleteAccount {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		frame.setTitle("Xóa tài khoản.");
+		frame.setResizable(false);
 		
 		JLabel lblXaMt = new JLabel("Xóa thông tin 1 tài khoản.");
 		lblXaMt.setBounds(25, 22, 291, 14);
@@ -85,7 +87,7 @@ public class DeleteAccount {
             	//System.out.println("|"+name+"|"+id+"|");
             	
             	if(name.length() != 0 && id.length() != 0){
-            		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+            		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
             		
 					try {
 						rs = st.executeQuery(sql);
@@ -123,7 +125,7 @@ public class DeleteAccount {
             	id = textField_1.getText();
             	
             	if(id.length() != 0 && name.length() != 0){
-            		sql = "Select STT, username, password from account where username = '" + name + "' and password = '" + id +"';";
+            		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
             		ResultSet rs;
 					try {
 						rs = st.executeQuery(sql);

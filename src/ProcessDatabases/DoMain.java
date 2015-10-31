@@ -17,21 +17,17 @@ public class DoMain {
 	
 	
 	public static void main(String args[]) {
-        try {
-        	CreateDatabase cd = new CreateDatabase();
-        	cd.frame.setVisible(true);
-        	while(cd.check() == 0);
-        	//System.out.print("Qua");
+		CreateDatabase cd = new CreateDatabase();
+    	cd.frame.setVisible(true);
+    	while(cd.check() == 0);
+		try {
         	user = cd.getUser();
         	password = cd.getPassword();
-        	//System.out.print("Qua 1.");
         	con = DriverManager.getConnection(url, user, password);
         	//System.out.print("Qua 2.");
         	st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         	//System.out.print("Qua 3.");
-        	st.executeUpdate ("Use " + dname +" ;");
-        	
-        	run();	
+        	st.executeUpdate ("Use " + dname +" ;");     	
         }
 		catch(Exception e){
 			System.out.print("Chưa tồn tại database!");
@@ -43,25 +39,14 @@ public class DoMain {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			run();
-//			st.executeUpdate ("Use test3;");
-			//e.printStackTrace();
 		}
+		run();
 	}
 	
 	public static void run(){
 		Layer1Interface ly1 = new Layer1Interface(st);
         ly1.frame.setVisible(true);
-        while(ly1.check() == 0);
-        ly1.frame.setVisible(false);
-        if(ly1.check() == 1){
-        	Layer3Interface ly3 = new Layer3Interface(st);
-			ly3.frame.setVisible(true);
-        }
-        if(ly1.check() == 2){
-        	Layer2Interface ly2 = new Layer2Interface(st);
-			ly2.frmStoreManager.setVisible(true);
-       	}
+        
 	}
 	
 	
@@ -79,11 +64,13 @@ public class DoMain {
 			st.executeUpdate("CREATE TABLE if not exists `account` (`ID_Account` int not null,`username` varchar(10) NOT NULL,`password` varchar(10) NOT NULL,`tenNV` varchar(30) not null,`SDT` int(10),`Dia_Chi` varchar(60), PRIMARY KEY (`ID_Account`,`username`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `hoa_don` (`ID_HoaDon` int not null AUTO_INCREMENT,`Noi_Dung` varchar(100) not null,`Tong_Tien` int not null,`ID_ThuNgan` int not null,`Thoi_Gian` datetime not null,PRIMARY KEY (`ID_HoaDon`),FOREIGN KEY (`ID_ThuNgan`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `nhap_hang` (`ID_NhanVien` int not null ,`Thoi_Gian` datetime not null, FOREIGN KEY (`ID_NhanVien`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-			
-			st.executeUpdate("INSERT INTO `account`(`ID_Account`,`username`,`password`,`tenNV`) VALUES('1','admin','admin123','taikhoanadmin');");
+			ResultSet rs = st.executeQuery("select ID_Account from account ;");
+			if(rs.next()==false){
+				st.executeUpdate("INSERT INTO `account`(`ID_Account`,`username`,`password`,`tenNV`) VALUES('1','admin','admin123','taikhoanadmin');");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

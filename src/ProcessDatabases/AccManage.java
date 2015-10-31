@@ -1,6 +1,7 @@
 package ProcessDatabases;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AccManage {
@@ -23,21 +24,12 @@ public class AccManage {
 	}
 	
 	public void addNewAccount(){
-		AddNewAccount ans = new AddNewAccount(st);
+		AddNewAccount2 ans = new AddNewAccount2(st);
 	}
 	
-	public void ShowAllAccount(){
-		sql = "Select STT, username, password from account;";
-		inputData(sql);     
-	}
-	
-	
-	public static void inputData(String sql){
-		try {
-            ResultSet rs = st.executeQuery(sql);
-            TableDatabase stt = new TableDatabase(rs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public void ShowAllAccount() throws SQLException{
+		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account;";
+		ResultSet rs = st.executeQuery(sql);
+        TableDatabase stt = new TableDatabase(rs,"Các tài khoản đang sử dụng.");    
 	}
 }
