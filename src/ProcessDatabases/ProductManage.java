@@ -64,7 +64,7 @@ public class ProductManage {
         
 	}
 	public void showProductNeedAdd (){
-		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and Soluong <= So_Luong_Nhap / 5;";
+		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and Soluong <= 20;";
 		try {
             ResultSet rs = st.executeQuery(sql);
             TableDatabase stt = new TableDatabase(rs,"All produce need add more.");
@@ -79,7 +79,7 @@ public class ProductManage {
 	}
 	
 	public void ShowAllProduct(){
-		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC;";
+		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC;";
 		try {
             ResultSet rs = st.executeQuery(sql);
             TableDatabase stt = new TableDatabase(rs,"All produce in store.");
@@ -103,7 +103,7 @@ public class ProductManage {
 		frame.setBounds(100, 100, 386, 396);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frame.getContentPane().setLayout(null);
-		frame.setTitle("Thêm 1 mặt hàng.");
+		frame.setTitle("Thêm mặt hàng.");
 		frame.setResizable(false);
 		
 		JLabel lblNhpThngTin = new JLabel("Nh\u1EADp th\u00F4ng tin s\u1EA3n ph\u1EA9m m\u1EDBi c\u1EA7n th\u00EAm:");
@@ -265,10 +265,10 @@ public class ProductManage {
 							st.executeUpdate(sql);
 						}
 						
-						sql = "INSERT INTO mat_hang(ID_MatHang,Ten_MH, Soluong)VALUES ('" + idP + "','" + name +"','" + number + "');";
+						sql = "INSERT INTO mat_hang(ID_MatHang,Ten_MH, Soluong, Gia_Ban)VALUES ('" + idP + "','" + name +"','" + number + "','" + prizeO + "');";
 						st.executeUpdate(sql);
 						//  + prizeI + "','" + prizeO + "','"  	
-						sql = "INSERT INTO cung_cap(ID_MatHang, ID_NCC, Gia_Nhap, Gia_Ban, So_Luong_Nhap)VALUES (" + idP + "," + idS + ",'" +prizeI + "','" + prizeO + "','" + number + "');";
+						sql = "INSERT INTO cung_cap(ID_MatHang, ID_NCC, Gia_Nhap)VALUES (" + idP + "," + idS + ",'" +prizeI + "');";
 						st.executeUpdate(sql);
 						sql = "INSERT INTO thuoc_nhom(ID_MatHang, ID_NhomHang)VALUES (" + idP + "," + idG +");";
 						st.executeUpdate(sql);
@@ -294,7 +294,7 @@ public class ProductManage {
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
-		frame.setTitle("Kiểm tra 1 mặt hàng.");
+		frame.setTitle("Kiểm tra, sửa thông tin mặt hàng.");
 		frame.setResizable(false);
 		
 		JLabel lblNhpTnSn = new JLabel("Nh\u1EADp t\u00EAn s\u1EA3n ph\u1EA9m ho\u1EB7c ID \u0111\u1EC3 t\u00ECm ki\u1EBFm!");
@@ -351,8 +351,8 @@ public class ProductManage {
 					}                 
             	}
             	else if(id.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and ID_MatHang = '" + id + "';";
-            		ResultSet rs;
+            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + id + "';";
+            		ResultSet rs = null;
 					try {
 						rs = st.executeQuery(sql);
 						rs.last();
@@ -381,7 +381,7 @@ public class ProductManage {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(130, 134, 235, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11,cb14}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {cb11,cb12,cb13,cb14}));
 		frame.getContentPane().add(comboBox);
 		
 		JTextField textField_3 = new JTextField();
@@ -404,118 +404,84 @@ public class ProductManage {
             	chose = comboBox.getSelectedItem().toString();
             	newIn = textField_3.getText();
             	//System.out.println("|"+name+"|"+id+"|");
-            	
-            	if(name.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and Ten_MH = '" + name + "';";
-            		ResultSet rs;
-					try {
-						rs = st.executeQuery(sql);
-						rs.last();
-						//System.out.print(rs.getRow());
-						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có sản phẩm có tên cần sửa!");						
-						}	
-						rs.beforeFirst();
-						if(rs.getRow() > 1){
-							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs,"Những sản phẩm có tên cần sửa.");
-							JOptionPane.showMessageDialog(null, "Mời nhập ID sản phẩm để sửa thông tin!");
-						}
-						else{
-							if(chose == cb11){
-								sql = "UPDATE mat_hang SET Ten_MH = '" + newIn + "' WHERE Ten_MH = '" + name +"';";
-								st.executeUpdate (sql);
-								JOptionPane.showMessageDialog(null, "Tên sản phẩm đã được chỉnh sửa!");
-							}
-							else{
-								if(checkString(newIn) == 0){
-									JOptionPane.showMessageDialog(null, "Dữ liệu mới phải là 1 số!");
-								}
-								else{
-//									if(chose == cb12){
-//										sql = "UPDATE mat_hang SET Gia_Nhap = '" + newIn + "' WHERE Ten_MH = '" + name +"';";
-//										st.executeUpdate (sql);
-//										JOptionPane.showMessageDialog(null, "Giá nhập sản phẩm đã được chỉnh sửa!");
-//									}
-//									if(chose == cb13){
-//										sql = "UPDATE mat_hang SET Gia_Ban = '" + newIn + "' WHERE Ten_MH = '" + name +"';";
-//										st.executeUpdate (sql);
-//										JOptionPane.showMessageDialog(null, "Giá bán sản phẩm đã được chỉnh sửa!");
-//									}
-									if(chose == cb14){
-										sql = "UPDATE mat_hang SET Soluong = '" + newIn + "' WHERE Ten_MH = '" + name +"';";
-										st.executeUpdate (sql);
-										JOptionPane.showMessageDialog(null, "Số lượng sản phẩm đã được chỉnh sửa!");
-									}
-									if(chose == cb15){
-//										rsTableModel stt = new rsTableModel(rs);
-//										Object k = stt.getValueAt(1, 1);
-//										sql = "UPDATE cung_cap SET ID_NCC = '" + newIn + "' WHERE ID_MatHang = '" + k +"';";
-//										
-//										st.executeUpdate (sql);
-										JOptionPane.showMessageDialog(null, "Nhà cung cấp sản phẩm đã được chỉnh sửa!");
-									}
-								}
-							}
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}                 
+            	if(newIn.length() == 0){
+            		JOptionPane.showMessageDialog(null, "Thông tin mới không được để trống!");
             	}
-            	else if(id.length() != 0){
-            		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + id + "';";
-            		ResultSet rs;
-					try {
-						rs = st.executeQuery(sql);
-						rs.last();
-						//System.out.print(rs.getRow());
-						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có sản phẩm có tên cần sửa!");						
-						}	
-						else{
-							if(chose == cb11){
-								sql = "UPDATE mat_hang SET Ten_MH = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
-								st.executeUpdate (sql);
-								JOptionPane.showMessageDialog(null, "Tên sản phẩm đã được chỉnh sửa!");
-							}
-							else{
-								if(checkString(newIn) == 0){
-									JOptionPane.showMessageDialog(null, "Dữ liệu mới phải là 1 số!");
-								}
-								else{
-//									if(chose == cb12){
-//										sql = "UPDATE mat_hang SET Gia_Nhap = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
-//										st.executeUpdate (sql);
-//										JOptionPane.showMessageDialog(null, "Giá nhập sản phẩm đã được chỉnh sửa!");
-//									}
-//									if(chose == cb13){
-//										sql = "UPDATE mat_hang SET Gia_Ban = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
-//										st.executeUpdate (sql);
-//										JOptionPane.showMessageDialog(null, "Giá bán sản phẩm đã được chỉnh sửa!");
-//									}
-									if(chose == cb14){
-										sql = "UPDATE mat_hang SET Soluong = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
-										st.executeUpdate (sql);
-										JOptionPane.showMessageDialog(null, "Số lượng sản phẩm đã được chỉnh sửa!");
-									}
-//									if(chose == cb15){
-//										sql = "UPDATE cung_cap SET ID_NCC = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
-//										
-//										st.executeUpdate (sql);
-//										JOptionPane.showMessageDialog(null, "Nhà cung cấp sản phẩm đã được chỉnh sửa!");
-//									}
-								}
-							}
-						}
-					}
-					catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            	}
-            }
+            	else{
+            		if(name.length() != 0 && id.length() == 0){
+                		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and Ten_MH = '" + name + "';";
+                		ResultSet rs;
+    					try {
+    						rs = st.executeQuery(sql);
+    						rs.last();
+    						//System.out.print(rs.getRow());
+    						if(rs.getRow() == 0){
+    							JOptionPane.showMessageDialog(null, "Không có sản phẩm có tên cần sửa!");						
+    						}	
+    						else{
+    							rs.beforeFirst();
+    							TableDatabase stt = new TableDatabase(rs,"Những sản phẩm có tên cần sửa.");
+    							JOptionPane.showMessageDialog(null, "Mời nhập ID sản phẩm để sửa thông tin!");
+    						}					
+    					} catch (SQLException e1) {
+    						// TODO Auto-generated catch block
+    						e1.printStackTrace();
+    					}                 
+                	}
+                	else if(id.length() != 0){
+                		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + id + "';";
+                		ResultSet rs;
+    					try {
+    						rs = st.executeQuery(sql);
+    						rs.last();
+    						//System.out.print(rs.getRow());
+    						if(rs.getRow() == 0){
+    							JOptionPane.showMessageDialog(null, "Không có sản phẩm có tên cần sửa!");						
+    						}	
+    						else{
+    							if(chose == cb11){
+    								sql = "UPDATE mat_hang SET Ten_MH = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
+    								st.executeUpdate (sql);
+    								JOptionPane.showMessageDialog(null, "Tên sản phẩm đã được chỉnh sửa!");
+    							}
+    							else{
+    								if(checkString(newIn) == 0){
+    									JOptionPane.showMessageDialog(null, "Dữ liệu mới phải là 1 số!");
+    								}
+    								else{
+    									if(chose == cb12){
+    									sql = "select mh.ID_MatHang, Ten_MH, cc.Id_NCC, ncc.Ten_NCC, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.Id_NCC and mh.ID_MatHang = '" + id +"';";
+    									rs.beforeFirst();
+    									TableDatabase stt = new TableDatabase(rs,"Những nhà cung cấp sản phẩm.");
+    									fixPriceInput fpi = new fixPriceInput(st,id, newIn);
+    									}
+    									if(chose == cb13){
+    										sql = "UPDATE mat_hang SET Gia_Ban = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
+    										st.executeUpdate (sql);
+    										JOptionPane.showMessageDialog(null, "Giá bán sản phẩm đã được chỉnh sửa!");
+    									}
+    									if(chose == cb14){
+    										sql = "UPDATE mat_hang SET Soluong = '" + newIn + "' WHERE ID_MatHang = '" + id +"';";
+    										st.executeUpdate (sql);
+    										JOptionPane.showMessageDialog(null, "Số lượng sản phẩm đã được chỉnh sửa!");
+    									}
+//    									
+    								}
+    							}
+    						}
+    					}
+    					catch (SQLException e1) {
+    						// TODO Auto-generated catch block
+    						e1.printStackTrace();
+    					}
+                	}
+                }
+            }   	
         });
+	}
+	
+	public static void fixSupplyProduce(){
+		
 	}
 	
 	public static int checkString(String s){

@@ -177,7 +177,7 @@ public class FixInfomationSupply2 {
     		JOptionPane.showMessageDialog(null, "Hãy nhập thông tin mới trước khi chọn chỉnh sửa!");
     	}
     	else{
-    		if(name.length() != 0){
+    		if(name.length() != 0 && id.length() == 0){
         		sql = "Select Id_NCC, Ten_NCC, TTLH from ncc where Ten_NCC = '" + name + "';";            		ResultSet rs;
 				try {
 					rs = st.executeQuery(sql);
@@ -189,7 +189,7 @@ public class FixInfomationSupply2 {
 					else{
 						rs.beforeFirst();
 						TableDatabase stt = new TableDatabase(rs);
-						JOptionPane.showMessageDialog(null, "Nhập mã sản phẩm để thực hiện chỉnh sửa!");
+						JOptionPane.showMessageDialog(null, "Nhập mã nhà cung cấp để thực hiện chỉnh sửa!");
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

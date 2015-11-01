@@ -48,6 +48,7 @@ public class Layer2Interface implements ActionListener {
 	public static String com42 = "Xem chi tiết 1 sự kiện.";
 	public static String com43 = "Tạo thêm 1 sự kiện.";
 	public static String com44 = "Thêm các sản phẩm vào 1 sự kiện.";
+	public static String com45 = "Xóa 1 sự kiện.";
 	
 	public static String com51 = "Xem tất cả các người dùng.";
 	public static String com52 = "Thêm 1 người dùng mới.";
@@ -133,7 +134,7 @@ public class Layer2Interface implements ActionListener {
 		 *	Combobox Tra cứu sự kiện.
 		 */
 		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {com41,com42, com43,com44}));
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {com41,com42, com43,com44,com45}));
 		comboBox_3.setBounds(180, 170, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_3);
 		
@@ -247,16 +248,24 @@ public class Layer2Interface implements ActionListener {
             {
                 chose = comboBox_3.getSelectedItem().toString();
                 if(chose == com41){
-                	em.ShowAllEven();
+                	try {
+						em.ShowAllEven();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
                 if(chose == com42){
                 	em.showOneEven();
                 }
-                if(chose == com33){
-                	pgm.addProductToGroup();
+                if(chose == com43){
+                	em.createEven();
                 }
-                if(chose == com34){
-                	pgm.showProdutInGroup();
+                if(chose == com44){
+                	em.addProduceInEven();
+                }
+                if(chose == com45){
+                	em.deleteEven();
                 }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }

@@ -1,6 +1,7 @@
 package ProcessDatabases;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class EvenManage {
@@ -14,26 +15,25 @@ public class EvenManage {
 		st = sts;
 	}
 	
-	public void deleteSupply(){
-		DeleteSupply ds = new DeleteSupply(st);
+	public void deleteEven(){
+		DeleteEven de = new DeleteEven(st);
+	}
+	
+	public void addProduceInEven(){
+		AddProduceInEven ape = new AddProduceInEven(st);
 	}
 	
 	public void showOneEven(){
 		ShowOneEven soe = new ShowOneEven(st);
 	}
 	
-	public void ShowAllEven(){
+	public void ShowAllEven() throws SQLException{
 		sql = "Select ID_KM, Ten_KM, TGDR, TGKT from khuyen_mai;";
-		inputData(sql);     
+		ResultSet rs = st.executeQuery(sql);
+        TableDatabase stt = new TableDatabase(rs,"Các đợt khuyến mại.");    
 	}
 	
-	
-	public static void inputData(String sql){
-		try {
-            ResultSet rs = st.executeQuery(sql);
-            TableDatabase stt = new TableDatabase(rs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public void createEven (){
+		CreateEven ce = new CreateEven(st);
 	}
 }

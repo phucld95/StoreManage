@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ShowOneEven {
+public class DeleteEven {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -33,7 +33,7 @@ public class ShowOneEven {
 	/**
 	 * Create the application.
 	 */
-	public ShowOneEven(Statement sts) {
+	public DeleteEven(Statement sts) {
 		st = sts;
 		initialize();
 	}
@@ -78,7 +78,7 @@ public class ShowOneEven {
 		}
 		
 		
-		JButton btnNewButton = new JButton("Xem\r\n");
+		JButton btnNewButton = new JButton("Xóa");
 		btnNewButton.setBounds(161, 92, 111, 23);
 		frame.getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -109,14 +109,16 @@ public class ShowOneEven {
 						}
 						
 						if(temp.length() == 0){
-							JOptionPane.showMessageDialog(null, "Không có đợt khuyến mại có mã cần xem!");
+							JOptionPane.showMessageDialog(null, "Không có đợt khuyến mại có mã cần xóa!");
 						}
 						else{
 							//
 							try {						
-								sql = "select mh.ID_MatHang, Ten_MH, Ten_NCC, Soluong, Gia_Nhap, dkm.Gia_KM from mat_hang mh, duoc_khuyen_mai dkm, ncc, cung_cap cc where mh.ID_MatHang = dkm.ID_MatHang and dkm.ID_KM = '" + idG + "'and mh.ID_MatHang = cc.ID_MatHang and cc.ID_NCC = ncc.ID_NCC;";
-								rs = st.executeQuery(sql);
-								TableDatabase stt = new TableDatabase(rs,"Các sản phẩm khuyến mại.");
+								sql = "DELETE FROM khuyen_mai WHERE Id_KM = '"+ idG +"';";
+								st.executeUpdate(sql);
+								sql = "DELETE FROM duoc_khuyen_mai WHERE Id_KM = '"+ idG +"';";
+								st.executeUpdate(sql);
+								JOptionPane.showMessageDialog(null, "Đã xóa thành công đợt khuyến mại!");
 							} catch (SQLException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
