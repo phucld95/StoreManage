@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class DoMain {
 	private static final String url = "jdbc:mysql://localhost";
-	private static String user = "root"; 
-	private static String password = "123456";
+	private static String user = ""; 
+	private static String password = "";
 	private static java.sql.Connection con;
 	private static Statement st;
 	private static ResultSet result;
