@@ -15,39 +15,7 @@ import javax.swing.JTable;
 
 public class TableDatabase extends JFrame{
     private JTable table;
-    //private static String title;
-    /*
-     * Đoạn code dưới đây sẽ được viết trong func mà bạn muốn show ra bảng từ database
-     */
-	 
-	//private static final String user = "root";
-	//
-	//private static final String password = "123456";
-	//
-	//public static void main(String [] args){
-	// inputData();
-	// 
-	//}
-	//
-	//public static void inputData(){
-	//	try {
-	//   	// Connect to database and creat statement.
-	//       java.sql.Connection con = DriverManager.getConnection(url, user, password);
-	//       System.out.println("Connect Success!");
-	//       
-	//       Statement st = con.createStatement();
-	//       st.executeUpdate ("Use lab;");
-	//       
-	//       ResultSet rs = st.executeQuery("select * from mat_hang;");
-	//       SimpleTableTest stt = new SimpleTableTest(rs);
-	//   } catch (Exception e) {
-	//       e.printStackTrace();
-	//   }
-	//}
-    /*
-     * Set tile for table
-     * @see java.awt.Frame#setTitle(java.lang.String)
-     */
+    
     
     public TableDatabase(ResultSet rs, String title) throws SQLException{
         Container pane = getContentPane();
