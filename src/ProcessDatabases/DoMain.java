@@ -21,6 +21,7 @@ public class DoMain {
     	cd.frame.setVisible(true);
     	while(cd.check() == 0);
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
         	user = cd.getUser();
         	password = cd.getPassword();
         	con = DriverManager.getConnection(url, user, password);
