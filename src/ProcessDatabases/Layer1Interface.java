@@ -96,7 +96,7 @@ public class Layer1Interface {
 	                	}
 	                	else if (i == 1){
 	                		frame.setVisible(false);
-	                        Layer3Interface ly3 = new Layer3Interface(st);
+	                        //Layer3Interface ly3 = new Layer3Interface(st);
 	                		//ly3.frame.setVisible(true);
 	                    }
 	                	else if(i == 2){

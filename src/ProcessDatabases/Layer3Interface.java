@@ -62,6 +62,9 @@ public class Layer3Interface {
 	private static String nameP;
 	private static String idP;
 	private static String numP;
+	private static String id_Account;
+	private static String invoice = new String();
+	private static int numProduct = 0;
 	private static int SumPrice = 0;
 	private static int idPint;
 	private static int numPint;
@@ -79,14 +82,15 @@ public class Layer3Interface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Layer3Interface lr = new Layer3Interface(st);
+		Layer3Interface lr = new Layer3Interface(st, "1");
 		lr.frmTnhTin.setVisible(true);
 	}
 	
 	/**
 	 * Create the application.
 	 */
-	public Layer3Interface(Statement sts) {
+	public Layer3Interface(Statement sts, String idC) {
+		id_Account = idC;
 		st = sts;
 		initialize();
 	}
@@ -272,11 +276,41 @@ public class Layer3Interface {
 	}
 	
 	private void buttomThanhToanClick(){
+		String temp;
 		if(SumPrice == 0){
 			JOptionPane.showMessageDialog(null, "Hóa đơn phải có giá trị trên 0đ !");
 		}
 		else{
-			
+			//int i = model.getRowCount();
+			for (int i = 0; i < model.getRowCount(); i++) {
+				row[0] = model.getValueAt(i, 0);
+				row[1] = model.getValueAt(i, 2);
+				int numP = ((Integer) row[1]).intValue();
+				row[2] = model.getValueAt(i, 3);
+				temp = new String();
+				temp = ((String) row[0]);
+				invoice = invoice + "[" + temp;
+				invoice = invoice + "," + numP;
+				temp = new String();
+				temp = ((String) row[2]);
+				invoice = invoice + "," + temp + "]";
+				System.out.println(invoice);					
+			}
+			int tempI = model.getRowCount();
+			for (int i = tempI-1; i >= 0; i--) {
+				model.removeRow(i);
+			}
+			sql = String.format("insert into hoa_don(Noi_Dung,Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%s',%d,%s,'%s')", invoice,
+					SumPrice, id_Account, time.fullDate());
+			try {
+				st.executeUpdate(sql);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			SumPrice = 0;
+			lblSumprice.setText(Integer.toString(SumPrice));
+			invoice = new String();
 		}
 	}
 		
@@ -285,9 +319,20 @@ public class Layer3Interface {
 		if(rows >= 0){
 			row[0] = model.getValueAt(rows, 4);
 			int price = ((Integer) row[0]).intValue();
+			row[1] = model.getValueAt(rows, 2);
+			int numP = ((Integer) row[1]).intValue();
+			row[2] = model.getValueAt(rows, 0);
+			String idTemp = ((String) row[2]);
 			model.removeRow(rows);
 			SumPrice -= price;
 			lblSumprice.setText(Integer.toString(SumPrice));
+			sql = String.format("update mat_hang set Soluong = Soluong + %d where ID_MatHang = %s" ,numP,idTemp);
+			try {
+				st.executeUpdate(sql);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else{
 			JOptionPane.showMessageDialog(null, "Hãy chọn hàng muốn xóa!");
@@ -339,10 +384,10 @@ public class Layer3Interface {
 							JOptionPane.showMessageDialog(null, "Không còn đủ lượng sản phẩm trong kho!");
 						}						
 						else if(price == 0){
-							sql = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
-								"2015-10-11","2015-10-11",idPint);
 //							sql = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
-//									time.Date(),time.Date(),idPint);
+//								"2015-10-11","2015-10-11",idPint);
+							sql = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
+									time.Date(),time.Date(),idPint);
 							rs = st.executeQuery(sql);
 							ChoseEven ce = new ChoseEven(rs);										
 							ce.frmSKinKhuyn.addWindowListener(new WindowAdapter() {
@@ -419,8 +464,7 @@ public class Layer3Interface {
 		}
 		return sum;
 	}
-	
-	
+		
 	private void buttomKiemTraClick(){
 		nameP = textField.getText();
 		if(nameP.length() != 0){
