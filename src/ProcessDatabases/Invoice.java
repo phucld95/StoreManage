@@ -1,14 +1,20 @@
 package ProcessDatabases;
 
+import java.awt.Dialog;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import javax.swing.JDialog;
+
 public class Invoice {
 	private static Statement st;
 	String danhSach = new String();
-	int sumPrice=0, price=0;
+	public int sumPrice = 0;
+	public int price=0;
 	// String time = new String();
 	String Ten_KM = new String();
 	String TGDR = new String();
@@ -16,19 +22,18 @@ public class Invoice {
 	int[] id_KM = new int[100];
 	timeSystem time = new timeSystem();
 	private Scanner Input = new Scanner(System.in);
-
+	private int ids;
+	private int nums;
+	private String SQL;
+	private ResultSet rs;
+	
+	
 	public Invoice(Statement sts) {
 		st = sts;
 	}
 
-	// truyen vao str la idmathang va so luong tra ve so tien !
-	public int getPriceProduct(String str) throws SQLException {
-		SetInfo Info = new SetInfo();
-		Info = Info.cat_Chuoi(str);
-		return tinh_tien(Info.id[0], Info.sum[0]);
-	}
-
 	// in hoa don vao database
+	// Truyền vào chuỗi theo cấu trúc quy định.
 	public void setInvoice(String str, int id_Account) throws SQLException {
 		SetInfo Info = new SetInfo();
 		Info = Info.cat_Chuoi(str);
@@ -63,88 +68,81 @@ public class Invoice {
 	}
 
 	// method tinh tien cua mot san pham !
+	
 	public int tinh_tien(int id, int sum) throws SQLException {
+		ids = id;
+		nums = sum;
+		sumPrice = 0;
 		ResultSet result;
 		int i = 0;
-		int j;
-		String SQL = new String();
-		try {
-			SQL = String.format("select * from khuyen_mai where TGDR <= '%s' and TGKT >= '%s';", time.Date(),
-					time.Date());
-			result = st.executeQuery(SQL);
-			// result.next();
-			while (!result.next()) {
-				id_KM[i] = result.getInt("id_KM");
-				i++;
-			}
-			// kiem tra co bao nhieu dot khuyen mai trung nhau !
-			if (i > 1) {
-				SQL = String.format("id_KM\tTen_KM\tTGDR\tTGKT");
-				System.out.println(SQL);
-				while (i > 0) {
-					SQL = String.format("select * from khuyen_mai where id_KM=%d", id_KM[i]);
-					result = st.executeQuery(SQL);
-					Ten_KM = result.getString("Ten_KM");
-					TGDR = result.getString("TGDR");
-					TGKT = result.getString("TGKT");
-					SQL = String.format("%d\t%s\t%s\t%s", id_KM[i], Ten_KM, TGDR, TGKT);
-					System.out.println(SQL);
-					i--;
+		int j = 0,k;
+		SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", id);
+		result = st.executeQuery(SQL);
+		result.next();
+		k = result.getInt("Soluong");
+		System.out.print(k);
+		if(k < sum){
+			return -1;
+		}
+		else{
+			try {
+				i=0;
+				SQL = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
+						time.Date(),time.Date(),id);
+//				SQL = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
+//						"2015-10-11","2015-10-11",id);
+				result = st.executeQuery(SQL);
+				// result.next();
+				while (result.next()) {
+					id_KM[i] = result.getInt("id_KM");
+					i++;
 				}
-				// chon dot khuyen mai!
-				System.out.print("moi ban chon dot khuyen mai, nhap id dot khuyen mai:");
-				j = Integer.parseInt(Input.nextLine());
-				// tinh tien theo dot khuyen moi nguoi dung chon!
-				SQL = String.format(
-						"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_Mat_Hang = %d and Id_KM = %d;",
-						id, j);
-				result = st.executeQuery(SQL);
-				result.next();
-				price = result.getInt("Gia_KM");
-				sumPrice = price * sum;
-				SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", id);
-				result = st.executeQuery(SQL);
-				result.next();
-
-				SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
-						sum, id);
-				st.executeUpdate(SQL);
-				return sumPrice;
-				// mat hang chi co 1 dot khuyen mai!
-			} else {
-				result.close();
-				SQL = String.format(
-						"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_MatHang = %d and Id_KM = %d;",
-						id, id_KM[0]);
-				result = st.executeQuery(SQL);
-				result.next();
-				price = result.getInt("Gia_KM");
-				sumPrice = sumPrice + price * sum;
-				SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", id);
-				result = st.executeQuery(SQL);
-				result.next();
-				SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
-						sum, id);
-				st.executeUpdate(SQL);
-				return sumPrice;
+				System.out.print("i = |" + i + "|");
+				// kiem tra co bao nhieu dot khuyen mai trung nhau !
+				
+				if(i==1) {
+					result.close();
+					SQL = String.format(
+							"select Gia_KM from mat_hang natural join duoc_khuyen_mai where ID_MatHang = %d and Id_KM = %d;",
+							id, id_KM[0]);
+					result = st.executeQuery(SQL);
+					result.next();
+					price = result.getInt("Gia_KM");
+					sumPrice = sumPrice + price * sum;
+					SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", id);
+					result = st.executeQuery(SQL);
+					result.next();
+					SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"),
+							sum, id);
+					st.executeUpdate(SQL);
+					return sumPrice;
+				}
+				else if(i==0){
+					SQL = String.format("select Gia_Ban from mat_hang where ID_MatHang=%d;", id);
+					result = st.executeQuery(SQL);
+					result.next();
+					price = result.getInt("Gia_Ban");
+					sumPrice = price * sum;
+					// update lai so luong mat hang con lai !
+					
+					SQL = String.format("update mat_hang set Soluong=%d where ID_MatHang=%d",
+							(k - sum),id);
+					st.executeUpdate(SQL);
+					return sumPrice;
+				}
+				else {
+					return 0;
+					// tinh tien theo dot khuyen mai nguoi dung chon!							
+				}
+			} catch (SQLException ex) {	
 			}
-		} catch (SQLException ex) {
-			SQL = String.format("select Gia_Ban from cung_cap where ID_MatHang=%d;", id);
-			result = st.executeQuery(SQL);
-			result.next();
-			price = result.getInt("Gia_Ban");
-			sumPrice = price * sum;
-			// update lai so luong mat hang con lai !
-			SQL = String.format("select Soluong from mat_hang where ID_MatHang=%d", id);
-			result = st.executeQuery(SQL);
-			result.next();
-			SQL = String.format("update mat_hang set Soluong=%d-%d where ID_MatHang=%d", result.getInt("Soluong"), sum,
-					id);
-			st.executeUpdate(SQL);
 			return sumPrice;
 		}
 	}
+	
 }
+
+
 
 // class lay thong tin san pham
 class SetInfo {

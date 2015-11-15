@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JFormattedTextField;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 
 public class test {
 
@@ -13,17 +18,32 @@ public class test {
 	/**
 	 * Launch the application.
 	 */
+	
+	
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					test window = new test();
-					window.frmTestDcmm.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+		String k = "12";
+		System.out.println((int)(k.charAt(0)-48));
+		System.out.println(convertStringToIn("12"));
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					test window = new test();
+//					window.frmTestDcmm.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+	}
+	
+	private static int convertStringToIn(String str){
+		int sum = 0;
+		int i = str.length();
+		for(int j=0;j<i;j++){
+			sum += (int)(str.charAt(j)-48)*Math.pow(10, i-j-1);
+		}
+		return sum;
 	}
 
 	/**
@@ -44,13 +64,9 @@ public class test {
 		frmTestDcmm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTestDcmm.getContentPane().setLayout(null);
 		
-		JLabel lblDcmm = new JLabel("DCMM");
-		lblDcmm.setBounds(78, 65, 46, 14);
-		frmTestDcmm.getContentPane().add(lblDcmm);
-		
-		JLabel lblCh = new JLabel("Ch\u00FA \u00FD : Ph\u1EA3i c\u00E0i \u0111\u1EB7t ph\u1EA7n m\u1EC1m MySQL tr\u01B0\u1EDBc khi s\u1EED d\u1EE5ng ch\u01B0\u01A1ng tr\u00ECnh!");
-		lblCh.setFont(new Font("Tahoma", Font.ITALIC, 8));
-		lblCh.setBounds(24, 143, 397, 21);
-		frmTestDcmm.getContentPane().add(lblCh);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane.setBounds(46, 45, 330, 152);
+		frmTestDcmm.getContentPane().add(scrollPane);
 	}
 }
