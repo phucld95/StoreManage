@@ -63,6 +63,8 @@ public class Layer3Interface {
 	private static String idP;
 	private static String numP;
 	private static String id_Account;
+	private static String acc_Account;
+	private static String name_Account;
 	private static String invoice = new String();
 	private static int numProduct = 0;
 	private static int SumPrice = 0;
@@ -72,25 +74,25 @@ public class Layer3Interface {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String args[]) {
-		try {
-        	con = DriverManager.getConnection(url, user, password);
-            System.out.println("Connect Success!");
-            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            st.executeUpdate ("Use managedatabase;");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Layer3Interface lr = new Layer3Interface(st, "1");
-		lr.frmTnhTin.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		try {
+//        	con = DriverManager.getConnection(url, user, password);
+//            System.out.println("Connect Success!");
+//            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//            st.executeUpdate ("Use managedatabase;");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Layer3Interface lr = new Layer3Interface(st, "admin");
+//		lr.frmTnhTin.setVisible(true);
+//	}
 	
 	/**
 	 * Create the application.
 	 */
 	public Layer3Interface(Statement sts, String idC) {
-		id_Account = idC;
+		acc_Account = idC;
 		st = sts;
 		initialize();
 	}
@@ -105,7 +107,7 @@ public class Layer3Interface {
 		frmTnhTin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTnhTin.getContentPane().setLayout(null);
 		frmTnhTin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
+//		frmTnhTin.setVisible(true);
 //		 String title = "Title";
 //		    boolean modal = true; // whether modal or not
 //		    Dialog dlg=new Dialog(myframe, title, modal); 
@@ -254,17 +256,30 @@ public class Layer3Interface {
 		lblNewLabel.setBounds(171, 236, 141, 20);
 		frmTnhTin.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNamenv = new JLabel("nameNV");
+		JLabel lblNamenv = new JLabel("NameNV");
 		lblNamenv.setBounds(979, 21, 231, 14);
 		frmTnhTin.getContentPane().add(lblNamenv);
+		try {
+			sql = "select ID_Account, tenNV from account where username = '" + acc_Account + "';";
+			rs = st.executeQuery(sql);
+			rs.next();
+			name_Account = rs.getString("tenNV");
+			id_Account = rs.getString("ID_Account");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		lblNamenv.setText(name_Account);
 		
 		JLabel lblIdnv = new JLabel("idNV");
 		lblIdnv.setBounds(981, 43, 229, 14);
 		frmTnhTin.getContentPane().add(lblIdnv);
+		lblIdnv.setText(id_Account);
 		
 		JLabel lblTimenow = new JLabel("timeNow");
 		lblTimenow.setBounds(981, 68, 229, 14);
 		frmTnhTin.getContentPane().add(lblTimenow);		
+		lblTimenow.setText(time.fullDate());
 		
 		lblSumprice = new JLabel("SumPrice");
 		lblSumprice.setFont(new Font("Tahoma", Font.BOLD, 15));

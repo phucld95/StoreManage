@@ -46,8 +46,7 @@ public class DoMain {
 	
 	public static void run(){
 		Layer1Interface ly1 = new Layer1Interface(st);
-        ly1.frame.setVisible(true);
-        
+        ly1.frame.setVisible(true);        
 	}
 	
 	
@@ -63,8 +62,8 @@ public class DoMain {
 			st.executeUpdate("CREATE TABLE if not exists `thuoc_nhom` (`ID_MatHang` int(11) NOT NULL, `ID_NhomHang` int(11) NOT NULL, PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`),FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),FOREIGN KEY(`ID_NhomHang`) REFERENCES `nhomhang`(`ID_NhomHang`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `duoc_khuyen_mai` ( `Id_KM` int(11) NOT NULL,`ID_MatHang` int(11) NOT NULL, `Gia_KM` int NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `account` (`ID_Account` int not null,`username` varchar(10) NOT NULL,`password` varchar(10) NOT NULL,`tenNV` varchar(30) not null,`SDT` int(10),`Dia_Chi` varchar(60), PRIMARY KEY (`ID_Account`,`username`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-			st.executeUpdate("CREATE TABLE if not exists `hoa_don` (`ID_HoaDon` int not null AUTO_INCREMENT,`Noi_Dung` varchar(100) not null,`Tong_Tien` int not null,`ID_ThuNgan` int not null,`Thoi_Gian` datetime not null,PRIMARY KEY (`ID_HoaDon`),FOREIGN KEY (`ID_ThuNgan`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-			st.executeUpdate("CREATE TABLE if not exists `nhap_hang` (`ID_NhanVien` int not null ,`Thoi_Gian` datetime not null, FOREIGN KEY (`ID_NhanVien`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			st.executeUpdate("CREATE TABLE if not exists `hoa_don` (`ID_HoaDon` int not null AUTO_INCREMENT,`Noi_Dung` varchar(100) not null,`Tong_Tien` int not null,`ID_ThuNgan` int not null,`Thoi_Gian` datetime not null,PRIMARY KEY (`ID_HoaDon`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			st.executeUpdate("CREATE TABLE if not exists `nhap_hang` (`ID_NhanVien` int not null ,`Thoi_Gian` datetime not null) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			ResultSet rs = st.executeQuery("select ID_Account from account ;");
 			if(rs.next()==false){
 				st.executeUpdate("INSERT INTO `account`(`ID_Account`,`username`,`password`,`tenNV`) VALUES('1','admin','admin123','taikhoanadmin');");
