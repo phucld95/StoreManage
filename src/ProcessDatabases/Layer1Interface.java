@@ -96,8 +96,8 @@ public class Layer1Interface {
 	                	}
 	                	else if (i == 1){
 	                		frame.setVisible(false);
-	                        //Layer3Interface ly3 = new Layer3Interface(st);
-	                		//ly3.frame.setVisible(true);
+	                        Layer3Interface ly3 = new Layer3Interface(st,acc);
+	                        ly3.frmTnhTin.setVisible(true);
 	                    }
 	                	else if(i == 2){
 	                		frame.setVisible(false);
@@ -112,17 +112,25 @@ public class Layer1Interface {
         {
             public void actionPerformed(ActionEvent e)
             {
-                acc = textField.getText();
+            	acc = textField.getText();
                 pass = passwordField.getText();
                 if(acc.length() == 0 || pass.length() == 0){
                 	JOptionPane.showMessageDialog(null, "Không được để trống thông tin!");
                 }
                 else{
-                	if(check() == 0){
+                	int i = check();
+                	if(i == 0){
                 		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
                 	}
-                	else{
+                	else if (i == 1){
                 		frame.setVisible(false);
+                        Layer3Interface ly3 = new Layer3Interface(st,acc);
+                        ly3.frmTnhTin.setVisible(true);
+                    }
+                	else if(i == 2){
+                		frame.setVisible(false);
+                		Layer2Interface ly2 = new Layer2Interface(st);
+                		ly2.frmStoreManager.setVisible(true);
                 	}
                 }
             }

@@ -86,26 +86,31 @@ public class DeleteAccount {
             	
             	//System.out.println("|"+name+"|"+id+"|");
             	
+            	
             	if(name.length() != 0 && id.length() != 0){
             		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
-            		
-					try {
-						rs = st.executeQuery(sql);
-						//System.out.println("Qua");
-						rs.last();
-						
-						//System.out.print(rs.getRow());
-						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần tìm!");
-						}
-						else{
-							rs.beforeFirst();
-							TableDatabase stt = new TableDatabase(rs);
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}					
+            		if(name.equals("admin") == true){
+                		JOptionPane.showMessageDialog(null, "Không được xóa tài khoản admin!");
+                	}
+            		else{
+						try {
+							rs = st.executeQuery(sql);
+							//System.out.println("Qua");
+							rs.last();
+							
+							//System.out.print(rs.getRow());
+							if(rs.getRow() == 0){
+								JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần tìm!");
+							}
+							else{
+								rs.beforeFirst();
+								TableDatabase stt = new TableDatabase(rs);
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
+            		}
             	}
             	else{
             		JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin trước khi bấm kiểm tra!");
@@ -123,27 +128,32 @@ public class DeleteAccount {
             public void actionPerformed(ActionEvent e){
             	name = textField.getText();
             	id = textField_1.getText();
-            	
+            	System.out.println("|"+name + "|");
             	if(id.length() != 0 && name.length() != 0){
             		sql = "Select ID_Account, username, password, tenNV, SDT, Dia_Chi from account where username = '" + name + "' and password = '" + id +"';";
             		ResultSet rs;
-					try {
-						rs = st.executeQuery(sql);
-						rs.last();
-						//System.out.print(rs.getRow());
-						if(rs.getRow() == 0){
-							JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần tìm!");
-						}
-						else{
-							rs.beforeFirst();
-							sql = "DELETE FROM account WHERE username = '"+ name +"' and password = '" + id + "';";
-							st.executeUpdate(sql);
-							JOptionPane.showMessageDialog(null, "Đã xóa thành công tài khoản!");
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} 
+            		if(name.equals("admin") == true){
+                		JOptionPane.showMessageDialog(null, "Không được xóa tài khoản admin!");
+                	}
+            		else{
+						try {
+							rs = st.executeQuery(sql);
+							rs.last();
+							//System.out.print(rs.getRow());
+							if(rs.getRow() == 0){
+								JOptionPane.showMessageDialog(null, "Không có tài khoản giống cần tìm!");
+							}
+							else{
+								rs.beforeFirst();
+								sql = "DELETE FROM account WHERE username = '"+ name +"' and password = '" + id + "';";
+								st.executeUpdate(sql);
+								JOptionPane.showMessageDialog(null, "Đã xóa thành công tài khoản!");
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} 
+            		}
             	}
             	if(id.length() == 0 || name.length() == 0){
             		JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin trước khi bấm xóa!");
