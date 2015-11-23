@@ -55,6 +55,11 @@ public class Layer2Interface implements ActionListener {
 	public static String com53 = "Xóa 1 người dùng.";
 	public static String com54 = "Sửa thông tin của 1 người dùng.";
 	
+	public static String com61 = "Xem doanh số trung bình của 1 nhân viên.";
+	public static String com62 = "Xem doanh số trung bình của cửa hàng.";
+	public static String com63 = "Xem chi tiết 1 hóa đơn.";
+	public static String com64 = "Xem bảng xếp hạng doanh thu nhân viên.";
+	
 	private static Statement st;
 	/**
 	 * Create the application.
@@ -114,6 +119,10 @@ public class Layer2Interface implements ActionListener {
 		JLabel lblNewLabel_2 = new JLabel("Quản lý người dùng ");
 		lblNewLabel_2.setBounds(10, 203, 146, 14);
 		frmStoreManager.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Quản lý doanh số ");
+		lblNewLabel_3.setBounds(10, 233, 146, 14);
+		frmStoreManager.getContentPane().add(lblNewLabel_3);
 		/*
 		 * 	ComboBox Các nhà cung cấp
 		 */
@@ -137,11 +146,20 @@ public class Layer2Interface implements ActionListener {
 		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {com41,com42, com43,com44,com45}));
 		comboBox_3.setBounds(180, 170, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_3);
-		
+		/*
+		 * Combobox quản lý người dùng.
+		 */
 		JComboBox comboBox_4 = new JComboBox();
 		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {com51,com52, com53,com54}));
 		comboBox_4.setBounds(180, 200, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_4);
+		/*
+		 * Combobox quản lý doanh số
+		 */
+		JComboBox comboBox_5 = new JComboBox();
+		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {com61,com62, com63,com64}));
+		comboBox_5.setBounds(180, 230, 230, 20);
+		frmStoreManager.getContentPane().add(comboBox_5);
 		
 		JButton btnNewButton = new JButton(">");
 		btnNewButton.setBounds(420, 81, 41, 20);
@@ -275,7 +293,7 @@ public class Layer2Interface implements ActionListener {
 		frmStoreManager.getContentPane().add(button_3);
 		
 		/*
-		 * Bắt sự kiện chọn function trong conbobox quản lý sự kiện
+		 * Bắt sự kiện chọn function trong conbobox quản lý người dùng
 		 */
 		button_3.addActionListener(new ActionListener()
         {
@@ -298,6 +316,33 @@ public class Layer2Interface implements ActionListener {
                 }
                 if(chose == com54){
                 	am.fixAccount();
+                }
+            	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
+            }
+        });
+		/*
+		 * buttom bắt sự kiện quản lý doanh số.
+		 */
+		RevenueManage rms = new RevenueManage(st);
+		JButton button_4 = new JButton(">");
+		button_4.setBounds(420, 230, 41, 20);
+		frmStoreManager.getContentPane().add(button_4);
+		button_4.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                chose = comboBox_5.getSelectedItem().toString();
+                if(chose == com61){
+                	rms.showRevenueOf1Account();
+                }
+                if(chose == com62){
+                	rms.showRevenueOfStore();
+                }
+                if(chose == com63){
+                	
+                }
+                if(chose == com64){
+                	rms.showBestAccount();
                 }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }
