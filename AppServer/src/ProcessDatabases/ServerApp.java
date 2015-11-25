@@ -1,5 +1,6 @@
 package ProcessDatabases;
 
+import java.awt.Toolkit;
 import java.io.*;
 import java.net.*;
 import java.sql.DriverManager;
@@ -9,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Set;
 import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class ServerApp {
 	public final static int DEFAULT_PORT = 5000;
@@ -114,7 +118,9 @@ public class ServerApp {
 		}
 	}
 	
-	public static void startServer() {
+	public static void startServer() {	
+		theme window = new theme();
+		window.frame.setVisible(true);
 		try(ServerSocket servSocket = new ServerSocket(DEFAULT_PORT)){
 			while (true){
 				Socket connSocket = servSocket.accept();
@@ -146,9 +152,36 @@ public class ServerApp {
 		ResultSet rs;
 		try {
 			// Lấy dữ liệu từ csdl.
-			rs = st.executeQuery(sql);
-			// Đọc metaData của resultSet.
-			ResultSetMetaData rsMeta = rs.getMetaData();
+			rs = null;
+			str = "P";
+			if(sql.indexOf("select") >-1){
+				rs = st.executeQuery(sql);
+			}
+			else if(sql.indexOf("Select") >-1){
+				rs = st.executeQuery(sql);
+			}
+			else if(sql.indexOf("SELECT") >-1){
+				rs = st.executeQuery(sql);
+			}
+			else{
+				st.executeUpdate(sql);
+				return str;
+			}		
+			str = processData(rs);
+			return str;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+	}
+	private static String processData(ResultSet rs){
+		String str = new String();
+		String temp = new String();
+		// Đọc metaData của resultSet.
+		ResultSetMetaData rsMeta;
+		try {
+			rsMeta = rs.getMetaData();
 			// Lấy số cột của bảng.
 			int columpCount = rsMeta.getColumnCount();
 			// Lặp để lấy dữ liệu sang chuỗi.
@@ -160,11 +193,10 @@ public class ServerApp {
 				}
 				str = str + "||";
 			}
-			return str;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 		return str;
 	}
 }

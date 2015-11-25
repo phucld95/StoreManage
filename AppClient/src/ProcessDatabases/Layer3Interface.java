@@ -25,6 +25,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,50 +72,45 @@ public class Layer3Interface {
 	private static int idPint;
 	private static int numPint;
 	private static int price;
+	private static Client cl;
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String args[]) {
-//		try {
-//        	con = DriverManager.getConnection(url, user, password);
-//            System.out.println("Connect Success!");
-//            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-//            st.executeUpdate ("Use managedatabase;");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		Layer3Interface lr = new Layer3Interface(st, "admin");
-//		lr.frmTnhTin.setVisible(true);
-//	}
+	public static void main(String args[]) {
+		
+		try {
+			Client cls = new Client();
+			Layer3Interface lr;
+			lr = new Layer3Interface(cls, "tranlinh");
+			lr.frmTnhTin.setVisible(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public Layer3Interface(Statement sts, String idC) {
+	public Layer3Interface(Client cls, String idC) throws IOException {
 		acc_Account = idC;
-		st = sts;
+		cl = cls;
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 		frmTnhTin = new JFrame();
 		frmTnhTin.setTitle("T\u00EDnh ti\u1EC1n");
 		frmTnhTin.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 		frmTnhTin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTnhTin.getContentPane().setLayout(null);
 		frmTnhTin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		frmTnhTin.setVisible(true);
-//		 String title = "Title";
-//		    boolean modal = true; // whether modal or not
-//		    Dialog dlg=new Dialog(myframe, title, modal); 
-		
-		
-		
-		
 		
 		JLabel lblThanhTonHa = new JLabel("Thanh to\u00E1n");
 		lblThanhTonHa.setForeground(new Color(255, 51, 0));
@@ -260,16 +256,13 @@ public class Layer3Interface {
 		JLabel lblNamenv = new JLabel("NameNV");
 		lblNamenv.setBounds(979, 21, 231, 14);
 		frmTnhTin.getContentPane().add(lblNamenv);
-		try {
-			sql = "select ID_Account, tenNV from account where username = '" + acc_Account + "';";
-			rs = st.executeQuery(sql);
-			rs.next();
-			name_Account = rs.getString("tenNV");
-			id_Account = rs.getString("ID_Account");
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		sql = "select ID_Account, tenNV from account where username = '" + acc_Account + "';";
+		String[][] a = new String[2][2];
+		int count = cl.getData(sql, 2 , a);
+		name_Account = a[0][1];
+		id_Account = a[0][0];
+		
 		lblNamenv.setText(name_Account);
 		
 		JLabel lblIdnv = new JLabel("idNV");
@@ -316,11 +309,12 @@ public class Layer3Interface {
 			for (int i = tempI-1; i >= 0; i--) {
 				model.removeRow(i);
 			}
-			sql = String.format("insert into hoa_don(Noi_Dung,Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%s',%d,%s,'%s')", invoice,
+			sql = String.format("insert into hoa_don(Noi_Dung,Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%s',%d,%s,'%s');", invoice,
 					SumPrice, id_Account, time.fullDate());
 			try {
-				st.executeUpdate(sql);
-			} catch (SQLException e) {
+				String a = cl.executeServer(sql);
+				JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -344,8 +338,8 @@ public class Layer3Interface {
 			lblSumprice.setText(Integer.toString(SumPrice));
 			sql = String.format("update mat_hang set Soluong = Soluong + %d where ID_MatHang = %s" ,numP,idTemp);
 			try {
-				st.executeUpdate(sql);
-			} catch (SQLException e) {
+				cl.executeServer(sql);
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -384,16 +378,18 @@ public class Layer3Interface {
 			}
 			else{
 				sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and mh.ID_MatHang = '" + idP + "';";
-	        	ResultSet rs = null;
+//	        	ResultSet rs = null;
 				try {
-					rs = st.executeQuery(sql);
-					rs.last();
+//					rs = st.executeQuery(sql);
+//					rs.last();
 					//System.out.print(rs.getRow());
-					if(rs.getRow() == 0){
+					String[][] out = new String[10][7];
+					int count = cl.getData(sql, 7, out);
+					if(count == 0){
 						JOptionPane.showMessageDialog(null, "Không có sản phẩm có mã cần thanh toán!");
 					}
 					else{
-						Invoice iv = new Invoice(st);
+						Invoice iv = new Invoice(cl);
 						price = iv.tinh_tien(idPint, numPint);
 						System.out.println("Trả về sau Invoice = " + price);
 						if(price == -1){
@@ -404,72 +400,74 @@ public class Layer3Interface {
 //								"2015-10-11","2015-10-11",idPint);
 							sql = String.format("select dkm.Id_KM, Ten_KM, ID_MatHang, Gia_KM from khuyen_mai km, duoc_khuyen_mai dkm where TGDR <= '%s' and TGKT >= '%s' and dkm.Id_KM = km.Id_KM and ID_MatHang = '%d';",
 									time.Date(),time.Date(),idPint);
-							rs = st.executeQuery(sql);
-							ChoseEven ce = new ChoseEven(rs);										
-							ce.frmSKinKhuyn.addWindowListener(new WindowAdapter() {
-								@Override
-								public void windowDeactivated(WindowEvent e) {
-									int j = ce.check();
-									ce.temp = 0;
-									specialElse(idPint, j);
-								}							
-							});
+							try {
+								count = cl.getData(sql, 4, out);
+								ChoseEven ce = new ChoseEven(out, count);										
+								ce.frmSKinKhuyn.addWindowListener(new WindowAdapter() {
+									@Override
+									public void windowDeactivated(WindowEvent e) {
+										int j = ce.check();
+										ce.temp = 0;
+										specialElse(idPint, j);
+									}							
+								});
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
 						}
 						else{
 							sql = "select ID_MatHang, Ten_MH, Gia_Ban from mat_hang where ID_MatHang = '" + idP + "';";
 							try {
-								rs = st.executeQuery(sql);
-								rs.next();
-								String price = rs.getString("Gia_Ban");
-								getInTable(rs, idPint, numPint, price);
-							} catch (SQLException e) {
+								count = cl.getData(sql, 3, out);
+								String price = out[0][2];
+								getInTable(out, idPint, numPint, price);
+							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
 					}
-				} catch (SQLException e1) {
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e.printStackTrace();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
 				}
-        	
-			
+				}
 			}
-		}
 	}
 	
 	private void specialElse(int id, int km){
 		sql = "select Gia_KM from duoc_khuyen_mai dkm where ID_MatHang = '" + id +"' and Id_KM = " + km + ";";
 		try {
-			rs = st.executeQuery(sql);
-			rs.next();
-			String price = rs.getString("Gia_KM");
+			String[][] out = new String[2][5];
+			int count = cl.getData(sql, 1, out);
+			String price = out[0][0];
 			sql = "select ID_MatHang, Ten_MH, Gia_Ban from mat_hang where ID_MatHang = '" + idP + "';";
-			rs = st.executeQuery(sql);
-			getInTable(rs, idPint, numPint, price);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
-	private void getInTable(ResultSet rst ,int ids, int numb, String gia){
-		try {
-			rst.beforeFirst();
-			rst.next();
-			row[0] = rst.getString("ID_MatHang");
-			row[1] = rst.getString("Ten_MH");
-			row[3] = gia;
-			row[2] = numb;
-			int price = convertStringToIn(gia)*numb;
-			row[4] = price;
-			model.addRow(row);
-			SumPrice += price;
-			lblSumprice.setText(Integer.toString(SumPrice));
-		} catch (SQLException e) {
+			count = cl.getData(sql, 3, out);
+			getInTable(out, idPint, numPint, price);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void getInTable(String[][] out ,int ids, int numb, String gia){
+		row[0] = out[0][0];
+		row[1] = out[0][1];
+		row[3] = gia;
+		row[2] = numb;
+		int price = convertStringToIn(gia)*numb;
+		row[4] = price;
+		model.addRow(row);
+		SumPrice += price;
+		lblSumprice.setText(Integer.toString(SumPrice));
 	}
 	
 	private static int convertStringToIn(String str){
@@ -487,19 +485,19 @@ public class Layer3Interface {
     		sql = "Select mh.ID_MatHang, Ten_MH, Ten_NCC, Ten_Nhomhang, Soluong, Gia_Nhap, Gia_Ban from mat_hang mh, ncc, cung_cap cc, nhomhang nh, thuoc_nhom tn where mh.ID_MatHang = cc.ID_MatHang and cc.Id_NCC = ncc.ID_NCC and mh.ID_MatHang = tn.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and Ten_MH = '" + nameP + "';";
     		ResultSet rs;
 			try {
-				rs = st.executeQuery(sql);
-				rs.last();
-				//System.out.print(rs.getRow());
-				if(rs.getRow() == 0){
+				String[][] out = new String[5][7];
+				int count = cl.getData(sql, 7, out);
+				if(count == 0){
 					JOptionPane.showMessageDialog(null, "Không có sản phẩm có tên cần tìm!");
 				}
 				else{
-					rs.beforeFirst();
-					TableDatabase stt = new TableDatabase(rs,"Những sản phẩm có tên cần tìm.");
+					String[] nameColumn = {"ID mặt hàng","Tên mặt hàng","Tên nhà cung cấp","Tên nhóm hàng","Số lượng","Giá nhập","Giá bán"};
+					TableDatabase tl = new TableDatabase(nameColumn, out, count, 7);
+					tl.frmBngDLiu.setVisible(true);
 				}
-			} catch (SQLException e1) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
 			}                 
     	}
 		else{
