@@ -23,26 +23,15 @@ public class test {
 	
 	
 	public static void main(String[] args) {
-		Random rn = new Random();
-		for (int i = 0; i < 10000; i++) {
-			System.out.println("(" + rn.nextInt(1000000) + "," + rn.nextInt() + "," + rn.nextInt() +"),");
+		System.out.println(checkTime2("2016-11-10", "2015-11-16"));
+	}		
+		
+	private static int checkTime2 (String t1, String t2){
+		int i;
+		for(i=0; i<=9; i++){
+			if(t1.charAt(i) > t2.charAt(i)) return 0;
 		}
-		
-		
-//	
-//		String k = "12";
-//		System.out.println((int)(k.charAt(0)-48));
-//		System.out.println(convertStringToIn("12"));
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					test window = new test();
-//					window.frmTestDcmm.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
+		return 1;
 	}
 	
 	private static int convertStringToIn(String str){

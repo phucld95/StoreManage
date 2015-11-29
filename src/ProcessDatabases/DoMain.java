@@ -89,17 +89,16 @@ public class DoMain {
 			if(rs.next()==false){
 				st.executeUpdate("INSERT INTO `account`(`ID_Account`,`username`,`password`,`tenNV`) VALUES('1','admin','admin123','taikhoanadmin');");
 			}
-			st.executeUpdate("DELIMITER $$");
-			st.executeUpdate("create trigger bf_khuyenmai_update before insert on khuyen_mai for each row begin if(not dayofmonth(new.TGDR) or not dayofmonth(new.TGKT)or new.TGKT is NULL or new.TGDR  is NULL  or new.TGKT <= new.TGDR or new.Id_KM <=0 or new.Ten_KM is NULL) then SIGNAL sqlstate '45001'; end if; end $$");
-			st.executeUpdate("CREATE TRIGGER bf_ncc_update BEFORE INSERT ON ncc FOR EACH ROW BEGIN  IF (new.Id_NCC IS NULL OR new.Ten_NCC IS NULL OR new.SDT IS NULL OR new.Mail IS NULL OR new.Mail NOT LIKE '%@%.com%' OR new.TTLH IS NULL OR new.Id_NCC <=0) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_nhomhang_update BEFORE INSERT ON nhomhang FOR EACH ROW BEGIN  IF (new.ID_NhomHang IS NULL OR new.ID_NhomHang <= 0 OR new.Ten_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_mathang_update BEFORE INSERT ON mat_hang FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.Gia_Ban IS NULL OR new.SoLuong IS NULL OR new.ID_Mathang <= 0 OR new.Ten_MH IS NULL OR new.Gia_Ban <=1000 OR new.Soluong <=0) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_cungcap_update  BEFORE INSERT ON cung_cap FOR EACH ROW BEGIN IF(NOT new.ID_MatHang OR NOT new.Id_NCC OR  new.Gia_Nhap IS NULL OR new.Gia_Nhap < 1000) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_thuocnhom_update BEFORE INSERT ON thuoc_nhom FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.ID_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_duockhuyenmai_update BEFORE INSERT ON duoc_khuyen_mai FOR EACH ROW BEGIN IF(new.Id_KM IS NULL OR new.ID_MatHang IS NULL OR new.Gia_KM IS NULL OR new.Gia_KM <1000) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END $$");
-			st.executeUpdate("DELIMITER ;");
+			
+			st.execute(" create trigger bf_khuyenmai_update before insert on khuyen_mai for each row begin if(not dayofmonth(new.TGDR) or not dayofmonth(new.TGKT)or new.TGKT is NULL or new.TGDR  is NULL  or new.TGKT <= new.TGDR or new.Id_KM <=0 or new.Ten_KM is NULL) then SIGNAL sqlstate '45001'; end if; end;");
+			st.execute(" CREATE TRIGGER bf_ncc_update BEFORE INSERT ON ncc FOR EACH ROW BEGIN  IF (new.Id_NCC IS NULL OR new.Ten_NCC IS NULL OR new.SDT IS NULL OR new.Mail IS NULL OR new.Mail NOT LIKE '%@%.com%' OR new.TTLH IS NULL OR new.Id_NCC <=0) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+			st.execute("CREATE TRIGGER bf_nhomhang_update BEFORE INSERT ON nhomhang FOR EACH ROW BEGIN  IF (new.ID_NhomHang IS NULL OR new.ID_NhomHang <= 0 OR new.Ten_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
+			st.execute(" CREATE TRIGGER bf_mathang_update BEFORE INSERT ON mat_hang FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.Gia_Ban IS NULL OR new.SoLuong IS NULL OR new.ID_Mathang <= 0 OR new.Ten_MH IS NULL OR new.Gia_Ban <=1000 OR new.Soluong <=0) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
+			st.execute(" CREATE TRIGGER bf_cungcap_update  BEFORE INSERT ON cung_cap FOR EACH ROW BEGIN IF(NOT new.ID_MatHang OR NOT new.Id_NCC OR  new.Gia_Nhap IS NULL OR new.Gia_Nhap < 1000) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+			st.execute(" CREATE TRIGGER bf_thuocnhom_update BEFORE INSERT ON thuoc_nhom FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.ID_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+			st.execute(" CREATE TRIGGER bf_duockhuyenmai_update BEFORE INSERT ON duoc_khuyen_mai FOR EACH ROW BEGIN IF(new.Id_KM IS NULL OR new.ID_MatHang IS NULL OR new.Gia_KM IS NULL OR new.Gia_KM <1000) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
+			st.execute("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+			st.execute(" CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();

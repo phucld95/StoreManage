@@ -55,11 +55,11 @@ public class DeleteEven {
 		frame.getContentPane().add(lblNhmHngCn);
 		
 		JLabel lblHocNhpM = new JLabel("Hoặc nhập mã sự kiện :");
-		lblHocNhpM.setBounds(23, 51, 148, 14);
+		lblHocNhpM.setBounds(23, 65, 148, 14);
 		frame.getContentPane().add(lblHocNhpM);
 		
 		textField = new JTextField();
-		textField.setBounds(198, 48, 199, 20);
+		textField.setBounds(198, 62, 199, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -79,7 +79,7 @@ public class DeleteEven {
 		
 		
 		JButton btnNewButton = new JButton("Xóa");
-		btnNewButton.setBounds(161, 92, 111, 23);
+		btnNewButton.setBounds(162, 104, 111, 23);
 		frame.getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
