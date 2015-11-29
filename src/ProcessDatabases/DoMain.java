@@ -5,7 +5,7 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 
-public class DoMain {
+public class DoMainUpDate {
 	private static final String url = "jdbc:mysql://localhost";
 	private static String user = ""; 
 	private static String password = "";
@@ -82,7 +82,7 @@ public class DoMain {
 			st.executeUpdate("CREATE TABLE if not exists `cung_cap` (`ID_MatHang` int(11)  ,`Id_NCC` int(11)  ,`Gia_Nhap` int(11)  ,PRIMARY KEY (`ID_MatHang`,`Id_NCC`), FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),FOREIGN KEY(`Id_NCC`)REFERENCES `ncc`(`Id_NCC`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `thuoc_nhom` (`ID_MatHang` int(11)  , `ID_NhomHang` int(11)  , PRIMARY KEY (`ID_MatHang`,`ID_NhomHang`),FOREIGN KEY(`ID_MatHang`) REFERENCES `mat_hang`(`ID_MatHang`),FOREIGN KEY(`ID_NhomHang`) REFERENCES `nhomhang`(`ID_NhomHang`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `duoc_khuyen_mai` ( `Id_KM` int(11)  ,`ID_MatHang` int(11)  , `Gia_KM` int  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-			st.executeUpdate("CREATE TABLE if not exists `account` (`ID_Account` int  ,`username` varchar(10)  ,`password` varchar(10)  ,`tenNV` varchar(30)  ,`SDT` int(10),`Dia_Chi` varchar(60), PRIMARY KEY (`ID_Account`,`username`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			st.executeUpdate("CREATE TABLE if not exists `account` (`ID_Account` int  ,`username` varchar(10)  ,`password` varchar(10)  ,`tenNV` varchar(30)  ,`SDT` int(10),`Dia_Chi` varchar(60),`flag` int DEFAULT 0, PRIMARY KEY (`ID_Account`,`username`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `hoa_don` (`ID_HoaDon` int NOT NULL  AUTO_INCREMENT,`Noi_Dung` varchar(100)  ,`Tong_Tien` int  ,`ID_ThuNgan` int  ,`Thoi_Gian` datetime  ,PRIMARY KEY (`ID_HoaDon`),FOREIGN KEY (`ID_ThuNgan`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			st.executeUpdate("CREATE TABLE if not exists `nhap_hang` (`ID_NhanVien` int   ,`Thoi_Gian` datetime  , FOREIGN KEY (`ID_NhanVien`) REFERENCES `account`(`ID_Account`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			ResultSet rs = st.executeQuery("select ID_Account from account ;");
@@ -97,8 +97,15 @@ public class DoMain {
 			st.execute(" CREATE TRIGGER bf_cungcap_update  BEFORE INSERT ON cung_cap FOR EACH ROW BEGIN IF(NOT new.ID_MatHang OR NOT new.Id_NCC OR  new.Gia_Nhap IS NULL OR new.Gia_Nhap < 1000) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute(" CREATE TRIGGER bf_thuocnhom_update BEFORE INSERT ON thuoc_nhom FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.ID_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute(" CREATE TRIGGER bf_duockhuyenmai_update BEFORE INSERT ON duoc_khuyen_mai FOR EACH ROW BEGIN IF(new.Id_KM IS NULL OR new.ID_MatHang IS NULL OR new.Gia_KM IS NULL OR new.Gia_KM <1000) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
+<<<<<<< HEAD
 			st.execute("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute(" CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+=======
+			st.execute("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN if(new.ID_Account in (select account.ID_Account from account)) then signal sqlstate '45001';end if;if(new.username in (select account.username from account)) then signal sqlstate '45001' ;end if; IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF;if(new.flag != 0) Then SIGNAL SQLSTATE '45001';end if; END;");
+			st.execute(" CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
+			st.execute("create procedure updateflag( in id int, in status int) begin if(status in (1,0,-1)) then update account set flag = status where ID_Account = id;end if;end;");
+			//System.out.println("1");
+>>>>>>> 2631f98603b031f1195266bae01339e9494aeb8a
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
