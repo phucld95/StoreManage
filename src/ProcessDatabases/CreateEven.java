@@ -109,6 +109,9 @@ public class CreateEven {
 		if(checkTime(tgdr) == 0 || checkTime(tgkt) == 0){
 			JOptionPane.showMessageDialog(null,"Thời gian viết liền, theo mẫu yyyy-mm-dd (vd: 2015-12-01) !");
 		}
+		else if(checkInputTime(tgdr) == 0 || checkInputTime(tgkt) == 0){
+			JOptionPane.showMessageDialog(null,"Thời gian nhập vào phải có thực!");
+		}
 		else if(checkTime2(tgdr, tgkt) == 0){
 			JOptionPane.showMessageDialog(null,"Thời gian bắt đầu phải trước thời gian kết thúc!");
 		}
@@ -133,7 +136,7 @@ public class CreateEven {
 	
 	private int checkTime2 (String t1, String t2){
 		int i;
-		for(i=0; i<=7; i++){
+		for(i=0; i<=9; i++){
 			if(t1.charAt(i) > t2.charAt(i)) return 0;
 		}
 		return 1;
@@ -155,6 +158,73 @@ public class CreateEven {
 		}
 		return 1;
 	}
+	
+	private static int checkInputTime(String input_Time) {
+
+		int year, month, day;
+
+		// Check year
+		String[] result_String = input_Time.split("-");
+
+		year = Integer.parseInt(result_String[0]);
+		month = Integer.parseInt(result_String[1]);
+		day = Integer.parseInt(result_String[2]);
+		
+		
+
+		// Ki?m tra di?u ki?n t?i thi?u
+		if (year <= 0)
+			return 0;
+		if (month <= 0 || month > 12)
+			return 0;
+		if (day <= 0 || day > 31)
+			return 0;
+
+		// Tru?ng h?p nam ko nhu?n
+		if (year % 4 != 0) {
+			if (month == 4 || month == 6 || month == 9 || month == 11) {
+				if (day <= 0 || day > 30)
+					return 0;
+			}
+			if (month == 2) {
+				if (day <= 0 || day > 28)
+					return 0;
+			}
+
+		}
+
+		// Tru?ng h?p nam nhu?n chia h?t cho 4
+		if (year % 4 == 0) {
+
+			if (year % 400 == 0) {
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day <= 0 || day > 30)
+						return 0;
+				}
+
+				if (month == 2) {
+					if (day <= 0 || day > 29)
+						return 0;
+				}
+			}
+		}
+		
+		// Tru?ng h?p nam chia h?t cho 100 nhung ko chia h?t cho 400 ( ko là nam nhu?n ) 
+
+			if (year % 100 == 0) {
+				if(year % 400 != 0)
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day <= 0 || day > 30)
+						return 0;
+				}
+				if (month == 2) {
+					if (day <= 0 || day > 29)
+						return 0;
+				}
+
+			}
+			return 1;
+		}
 	
 	private int checkSpace(String s){
 		int j;

@@ -21,11 +21,11 @@ import com.mysql.jdbc.Connection;
 
 public class ProductManage {
 
-	private static String sql = new String();
+//	private static String sql = new String();
 	private static String name = new String();
 	private static String id = new String();
-	private static Statement st;
-	private static ResultSet rs;
+//	private static Statement st;
+//	private static ResultSet rs;
 	private static String cb11 = "Tên mặt hàng.";
 	private static String cb12 = "Giá nhập.";
 	private static String cb13 = "Giá bán.";
@@ -53,7 +53,28 @@ public class ProductManage {
 	//private static Statement st;
 	
 	
-	
+	private static final String url = "jdbc:mysql://localhost";
+	private static final String user = "root"; 
+	private static final String password = "sieunhan";
+	private static java.sql.Connection con;
+	private static Statement st;
+	private static ResultSet rs;
+	private static String sql;
+	private JTextField textField_1;
+	public static void main(String args[]) {
+	try {
+    	con = DriverManager.getConnection(url, user, password);
+        System.out.println("Connect Success!");
+        Statement sts;
+        sts = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        sts.executeUpdate ("Use managedatabase;");
+        ProductManage lr = new ProductManage(sts);
+    	lr.addNewProduct();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+	}
 	
 	
 	
@@ -238,11 +259,12 @@ public class ProductManage {
 						if(idS == 0){
 							sql = "select Id_NCC from ncc order by ID_NCC ASC;";
 							rs = st.executeQuery(sql);
+							idS = 0;
 							while( rs.next()) {
 								idS = rs.getInt("Id_NCC");
 								}
 							idS = idS+1;
-							sql = "INSERT INTO ncc(Id_NCC, Ten_NCC, SDT, Mail, TTLH)VALUES (" + idS + ",'" + supply  +"','0000',' ',' ');";
+							sql = "INSERT INTO ncc(Id_NCC, Ten_NCC, SDT, Mail, TTLH)VALUES ('" + idS + "','" + supply  +"','0000','Chưa có @domain.com','Chưa có');";
 							st.executeUpdate(sql);
 							//System.out.println("Qua");
 							
@@ -269,6 +291,7 @@ public class ProductManage {
 						st.executeUpdate(sql);
 						//  + prizeI + "','" + prizeO + "','"  	
 						sql = "INSERT INTO cung_cap(ID_MatHang, ID_NCC, Gia_Nhap)VALUES (" + idP + "," + idS + ",'" +prizeI + "');";
+						System.out.println(sql);
 						st.executeUpdate(sql);
 						sql = "INSERT INTO thuoc_nhom(ID_MatHang, ID_NhomHang)VALUES (" + idP + "," + idG +");";
 						st.executeUpdate(sql);

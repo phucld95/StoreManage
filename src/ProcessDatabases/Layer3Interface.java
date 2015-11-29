@@ -107,12 +107,6 @@ public class Layer3Interface {
 		frmTnhTin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTnhTin.getContentPane().setLayout(null);
 		frmTnhTin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		frmTnhTin.setVisible(true);
-//		 String title = "Title";
-//		    boolean modal = true; // whether modal or not
-//		    Dialog dlg=new Dialog(myframe, title, modal); 
-		
-		
 		
 		
 		
