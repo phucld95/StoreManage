@@ -29,9 +29,7 @@ public class Layer2Interface implements ActionListener {
 	public static String chose = new String();
 	
 	public static String com11 = "Các mặt hàng đang kinh doanh.";
-	public static String com12 = "Tìm kiếm, chỉnh sửa thông tin sản phẩm.";
 	public static String com13 = "Thêm 1 mặt hàng vào cửa hàng.";
-	public static String com14 = "Xóa 1 mặt hàng đã có.";
 	public static String com15 = "Những sản phẩm sắp hết hàng";
 	
 	public static String com21 = "Các nhà cung cấp.";
@@ -56,8 +54,8 @@ public class Layer2Interface implements ActionListener {
 	public static String com54 = "Sửa thông tin của 1 người dùng.";
 	
 	public static String com61 = "Xem doanh số trung bình của 1 nhân viên.";
-	public static String com62 = "Xem doanh số trung bình của cửa hàng.";
-	public static String com63 = "Xem chi tiết 1 hóa đơn.";
+	public static String com62 = "Xem doanh thu của cửa hàng.";
+	//public static String com63 = "Xem chi tiết 1 hóa đơn.";
 	public static String com64 = "Xem bảng xếp hạng doanh thu nhân viên.";
 	
 	private static Statement st;
@@ -99,7 +97,7 @@ public class Layer2Interface implements ActionListener {
 		 *	ComboBox Các mặt hàng đang kinh doanh.
 		 */
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[]{com11, com12, com13, com14, com15} ));
+		comboBox.setModel(new DefaultComboBoxModel(new String[]{com11, com13, com15} ));
 		comboBox.setToolTipText("");
 		comboBox.setBounds(180, 81, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox);
@@ -157,7 +155,7 @@ public class Layer2Interface implements ActionListener {
 		 * Combobox quản lý doanh số
 		 */
 		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {com61,com62, com63,com64}));
+		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {com61,com62,com64}));
 		comboBox_5.setBounds(180, 230, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_5);
 		
@@ -174,17 +172,13 @@ public class Layer2Interface implements ActionListener {
             {
                 chose = comboBox.getSelectedItem().toString();
                 if(chose == com11){
-                	pma.ShowAllProduct();
-                }
-                if(chose == com12){
                 	pma.searchProduct();
                 }
+               
                 if(chose == com13){
                 	pma.addNewProduct();
                 }
-                if(chose == com14){
-                	pma.deleteProduct();
-                }
+                
                 if(chose == com15){
                 	pma.showProductNeedAdd();
                 }
@@ -337,9 +331,6 @@ public class Layer2Interface implements ActionListener {
                 }
                 if(chose == com62){
                 	rms.showRevenueOfStore();
-                }
-                if(chose == com63){
-                	
                 }
                 if(chose == com64){
                 	rms.showBestAccount();

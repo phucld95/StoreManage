@@ -5,7 +5,7 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 
-public class DoMainUpDate {
+public class DoMain {
 	private static final String url = "jdbc:mysql://localhost";
 	private static String user = ""; 
 	private static String password = "";
@@ -96,16 +96,13 @@ public class DoMainUpDate {
 			st.execute(" CREATE TRIGGER bf_mathang_update BEFORE INSERT ON mat_hang FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.Gia_Ban IS NULL OR new.SoLuong IS NULL OR new.ID_Mathang <= 0 OR new.Ten_MH IS NULL OR new.Gia_Ban <=1000 OR new.Soluong <=0) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
 			st.execute(" CREATE TRIGGER bf_cungcap_update  BEFORE INSERT ON cung_cap FOR EACH ROW BEGIN IF(NOT new.ID_MatHang OR NOT new.Id_NCC OR  new.Gia_Nhap IS NULL OR new.Gia_Nhap < 1000) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute(" CREATE TRIGGER bf_thuocnhom_update BEFORE INSERT ON thuoc_nhom FOR EACH ROW BEGIN IF(new.ID_MatHang IS NULL OR new.ID_NhomHang IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
-			st.execute(" CREATE TRIGGER bf_duockhuyenmai_update BEFORE INSERT ON duoc_khuyen_mai FOR EACH ROW BEGIN IF(new.Id_KM IS NULL OR new.ID_MatHang IS NULL OR new.Gia_KM IS NULL OR new.Gia_KM <1000) THEN SIGNAL SQLSTATE '45001'; END IF; END ;");
-<<<<<<< HEAD
+
 			st.execute("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute(" CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
-=======
 			st.execute("CREATE TRIGGER bf_account_update BEFORE INSERT ON account FOR EACH ROW BEGIN if(new.ID_Account in (select account.ID_Account from account)) then signal sqlstate '45001';end if;if(new.username in (select account.username from account)) then signal sqlstate '45001' ;end if; IF(new.ID_Account IS NULL OR new.ID_Account <=0 OR new.username IS NULL OR new.password IS NULL OR new.tenNV IS NULL OR new.SDT IS NULL OR new.Dia_Chi IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; IF(length(new.username) <6 OR length(new.password) <6) THEN SIGNAL SQLSTATE '45001'; END IF;if(new.flag != 0) Then SIGNAL SQLSTATE '45001';end if; END;");
 			st.execute(" CREATE TRIGGER bf_hoadon_update BEFORE INSERT ON hoa_don FOR EACH ROW BEGIN IF(new.Noi_Dung IS NULL OR new.Tong_Tien IS NULL OR new.ID_ThuNgan IS NULL OR new.Thoi_Gian IS NULL) THEN SIGNAL SQLSTATE '45001'; END IF; END;");
 			st.execute("create procedure updateflag( in id int, in status int) begin if(status in (1,0,-1)) then update account set flag = status where ID_Account = id;end if;end;");
 			//System.out.println("1");
->>>>>>> 2631f98603b031f1195266bae01339e9494aeb8a
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
