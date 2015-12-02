@@ -6,10 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -149,17 +152,23 @@ public class ShowRevenueOfStore {
 		else if(checkTime2(startTime, endTime) == 0){
 			JOptionPane.showMessageDialog(null,"Thời gian bắt đầu phải trước thời gian kết thúc!");
 		}
+		else if(checkInputTime(startTime)==0|| checkInputTime(endTime)==0){
+			JOptionPane.showMessageDialog(null,"Thời gian nhập phải là 1 ngày có thực!");
+		}
 		else{
 			try {			
 				sql = "select sum(Tong_Tien) as sum from hoa_don where Thoi_Gian > '" + startTime + " 0:0:0' and Thoi_Gian < '" + endTime + " 0:0:0';";
 				rs = st.executeQuery(sql);
-				rs.next();
-				lblSumprice.setText(rs.getString("sum"));
-				sql = "select avg(Tong_Tien) as avg from hoa_don where Thoi_Gian > '" + startTime + " 0:0:0' and Thoi_Gian < '" + endTime + " 0:0:0';";
-				rs = st.executeQuery(sql);
-				rs.next();
-				String temp = rs.getString("avg");
-				lblNewLabel.setText(temp.substring(0, temp.length() -5));			
+				String s = "0";
+				String a = "0.0";
+				while(rs.next()){
+					int sum = rs.getInt("sum");
+					s = rs.getString("sum");
+					float avg = sum/daysBetween(startTime, endTime);
+					a = Float.toString(avg);
+				}
+				lblSumprice.setText(s);
+				lblNewLabel.setText(a);	
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,11 +176,39 @@ public class ShowRevenueOfStore {
 		}
 	}
 	
-	
+	private long daysBetween(String day1,String day2) {
+
+
+        // Định dạng thời gian
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+
+        // Định nghĩa 2 mốc thời gian ban đầu
+        Date date1 = Date.valueOf(day1);
+        Date date2 = Date.valueOf(day2);
+
+
+        c1.setTime(date1);
+        c2.setTime(date2);
+
+
+        // Công thức tính số ngày giữa 2 mốc thời gian:
+        long noDay = (c2.getTime().getTime() - c1.getTime().getTime())
+                / (24 * 3600 * 1000);
+
+
+       return noDay;
+
+
+    }
 	
 	private int checkTime2 (String t1, String t2){
 		int i;
-		for(i=0; i<=7; i++){
+		for(i=0; i<=9; i++){
 			if(t1.charAt(i) > t2.charAt(i)) return 0;
 		}
 		return 1;
@@ -204,6 +241,73 @@ public class ShowRevenueOfStore {
 		}
 		return 1;
 	}
+	
+	private static int checkInputTime(String input_Time) {
+
+		int year, month, day;
+
+		// Check year
+		String[] result_String = input_Time.split("-");
+
+		year = Integer.parseInt(result_String[0]);
+		month = Integer.parseInt(result_String[1]);
+		day = Integer.parseInt(result_String[2]);
+		
+		
+
+		// Ki?m tra di?u ki?n t?i thi?u
+		if (year <= 0)
+			return 0;
+		if (month <= 0 || month > 12)
+			return 0;
+		if (day <= 0 || day > 31)
+			return 0;
+
+		// Tru?ng h?p nam ko nhu?n
+		if (year % 4 != 0) {
+			if (month == 4 || month == 6 || month == 9 || month == 11) {
+				if (day <= 0 || day > 30)
+					return 0;
+			}
+			if (month == 2) {
+				if (day <= 0 || day > 28)
+					return 0;
+			}
+
+		}
+
+		// Tru?ng h?p nam nhu?n chia h?t cho 4
+		if (year % 4 == 0) {
+
+			if (year % 400 == 0) {
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day <= 0 || day > 30)
+						return 0;
+				}
+
+				if (month == 2) {
+					if (day <= 0 || day > 29)
+						return 0;
+				}
+			}
+		}
+		
+		// Tru?ng h?p nam chia h?t cho 100 nhung ko chia h?t cho 400 ( ko là nam nhu?n ) 
+
+			if (year % 100 == 0) {
+				if(year % 400 != 0)
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day <= 0 || day > 30)
+						return 0;
+				}
+				if (month == 2) {
+					if (day <= 0 || day > 29)
+						return 0;
+				}
+
+			}
+			return 1;
+		}
 	
 	public static int checkString(String s){
 		int j;
