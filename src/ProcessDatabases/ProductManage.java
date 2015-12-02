@@ -95,10 +95,6 @@ public class ProductManage {
         }
 	}
 	
-	public void deleteProduct(){
-		DeleteProduct window = new DeleteProduct(st);
-	}
-	
 	public void ShowAllProduct(){
 		sql = "select mh.ID_MatHang, Ten_MH, Ten_Nhomhang, Soluong, Ten_NCC, Gia_Nhap, Gia_Ban from ncc, cung_cap cc, mat_hang mh, nhomhang nh, thuoc_nhom tn where tn.ID_MatHang = mh.ID_MatHang and tn.ID_NhomHang = nh.ID_NhomHang and cc.ID_MatHang = mh.ID_MatHang and cc.Id_NCC = ncc.Id_NCC;";
 		try {

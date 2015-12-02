@@ -27,6 +27,7 @@ public class Layer1Interface {
 	public static String accS = "1";
 	public static String passS = "1";
 	public static String sql;
+	public static int flag;
 	
 	private JPasswordField passwordField;
 	private static Statement st;
@@ -95,9 +96,17 @@ public class Layer1Interface {
 	                		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
 	                	}
 	                	else if (i == 1){
-	                		frame.setVisible(false);
-	                        Layer3Interface ly3 = new Layer3Interface(st,acc);
-	                        ly3.frmTnhTin.setVisible(true);
+	                		if(flag == 0){
+		                		frame.setVisible(false);
+		                        Layer3Interface ly3 = new Layer3Interface(st,acc);
+		                        ly3.frmTnhTin.setVisible(true);
+	                		}
+	                		else if(flag == -1){
+	                			JOptionPane.showMessageDialog(null, "Tài khoản này đã ngừng hoạt động!");
+	                		}
+	                		else{
+	                			JOptionPane.showMessageDialog(null, "Tài khoản này đang hoạt động trên một thiết bị khác!");
+	                		}
 	                    }
 	                	else if(i == 2){
 	                		frame.setVisible(false);
@@ -123,10 +132,18 @@ public class Layer1Interface {
                 		JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không tồn tại!");
                 	}
                 	else if (i == 1){
-                		frame.setVisible(false);
-                        Layer3Interface ly3 = new Layer3Interface(st,acc);
-                        ly3.frmTnhTin.setVisible(true);
-                    }
+                		if(flag == 0){
+	                		frame.setVisible(false);
+	                        Layer3Interface ly3 = new Layer3Interface(st,acc);
+	                        ly3.frmTnhTin.setVisible(true);
+                		}
+                		else if(flag == -1){
+                			JOptionPane.showMessageDialog(null, "Tài khoản này đã ngừng hoạt động!");
+                		}
+                		else{
+                			JOptionPane.showMessageDialog(null, "Tài khoản này đang hoạt động trên một thiết bị khác!");
+                		}
+                	}
                 	else if(i == 2){
                 		frame.setVisible(false);
                 		Layer2Interface ly2 = new Layer2Interface(st);
@@ -164,6 +181,7 @@ public class Layer1Interface {
 				accS = rs.getString("tenNV");
 				accS = rs.getString("SDT");
 				accS = rs.getString("Dia_Chi");
+				flag = rs.getInt("flag");
 				//System.out.println("|"+passS+"|");
 				if (testString(pass, passS) == 1 && testString(acc, "admin") == 1){
 					return 2;

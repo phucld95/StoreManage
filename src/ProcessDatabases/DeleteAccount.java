@@ -1,5 +1,6 @@
 package ProcessDatabases;
 
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -145,7 +146,7 @@ public class DeleteAccount {
 							}
 							else{
 								rs.beforeFirst();
-								sql = "DELETE FROM account WHERE username = '"+ name +"' and password = '" + id + "';";
+								sql = "UPDATE account SET flag = -1 WHERE username = '"+ name +"' and password = '" + id + "';";
 								st.executeUpdate(sql);
 								JOptionPane.showMessageDialog(null, "Đã xóa thành công tài khoản!");
 							}

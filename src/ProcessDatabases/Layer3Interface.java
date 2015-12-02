@@ -60,6 +60,7 @@ public class Layer3Interface {
 	private static String sql;
 
 	private static String nameP;
+	private static String Acc;
 	private static String idP;
 	private static String numP;
 	private static String id_Account;
@@ -74,32 +75,44 @@ public class Layer3Interface {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String args[]) {
-//		try {
-//        	con = DriverManager.getConnection(url, user, password);
-//            System.out.println("Connect Success!");
-//            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-//            st.executeUpdate ("Use managedatabase;");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		Layer3Interface lr = new Layer3Interface(st, "admin");
-//		lr.frmTnhTin.setVisible(true);
-//	}
+	public static void main(String args[]) {
+		try {
+        	con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connect Success!");
+            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            st.executeUpdate ("Use managedatabase;");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Layer3Interface lr = new Layer3Interface(st, "tranlinh");
+		lr.frmTnhTin.setVisible(true);
+	}
 	
 	/**
 	 * Create the application.
 	 */
 	public Layer3Interface(Statement sts, String idC) {
 		acc_Account = idC;
+		Acc = idC;
 		st = sts;
+		String sql = "UPDATE account SET flag = 1 WHERE username = '"+ idC +"';";
+		try {
+			st.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	private void setAccountTo0(){
+		
+	}
+	
 	private void initialize() {
 		frmTnhTin = new JFrame();
 		frmTnhTin.setTitle("T\u00EDnh ti\u1EC1n");
@@ -108,6 +121,18 @@ public class Layer3Interface {
 		frmTnhTin.getContentPane().setLayout(null);
 		frmTnhTin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		frmTnhTin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				sql = "UPDATE account SET flag = 0 WHERE username = '"+ Acc +"';";
+				try {
+					st.executeUpdate(sql);
+				} catch (SQLException b) {
+					// TODO Auto-generated catch block
+					b.printStackTrace();
+				}
+			}							
+		});
 		
 		
 		JLabel lblThanhTonHa = new JLabel("Thanh to\u00E1n");
