@@ -310,7 +310,7 @@ public class Layer3Interface {
 			for (int i = tempI-1; i >= 0; i--) {
 				model.removeRow(i);
 			}
-			sql = String.format("insert into hoa_don(Noi_Dung,Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%s',%d,%s,'%s')", invoice,
+			sql = String.format("insert into hoa_don(Tong_Tien,ID_ThuNgan,Thoi_Gian) values('%d','%s','%s')",
 					SumPrice, id_Account, time.fullDate());
 			try {
 				st.executeUpdate(sql);

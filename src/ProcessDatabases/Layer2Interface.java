@@ -28,14 +28,12 @@ public class Layer2Interface implements ActionListener {
 	public static JFrame frmStoreManager;
 	public static String chose = new String();
 	
-	public static String com11 = "Các mặt hàng đang kinh doanh.";
+	public static String com11 = "Xem, chỉnh sửa mặt hàng.";
 	public static String com13 = "Thêm 1 mặt hàng vào cửa hàng.";
 	public static String com15 = "Những sản phẩm sắp hết hàng";
 	
-	public static String com21 = "Các nhà cung cấp.";
+	public static String com21 = "Xem, chỉnh sửa nhà cung cấp.";
 	public static String com22 = "Thêm 1 nhà cung cấp.";
-	public static String com23 = "Xóa 1 nhà cung cấp.";
-	public static String com24 = "Sửa thông tin 1 nhà cung cấp.";
 	
 	public static String com31 = "Các nhóm hàng đang có.";
 	public static String com32 = "Thêm 1 nhóm hàng mới.";
@@ -125,7 +123,7 @@ public class Layer2Interface implements ActionListener {
 		 * 	ComboBox Các nhà cung cấp
 		 */
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {com21,com22,com23,com24}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {com21,com22}));
 		comboBox_1.setBounds(180, 111, 230, 20);
 		frmStoreManager.getContentPane().add(comboBox_1);
 		
@@ -199,21 +197,10 @@ public class Layer2Interface implements ActionListener {
             {
                 chose = comboBox_1.getSelectedItem().toString();
                 if(chose == com21){
-                	try {
-						sma.ShowAllSupply();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+                	sma.fixInfomationSupply();
                 }
                 if(chose == com22){
                 	sma.addNewSupply();
-                }
-                if(chose == com23){
-                	sma.deleteSupply();
-                }
-                if(chose == com24){
-                	sma.fixInfomationSupply();
                 }
             	//JOptionPane.showMessageDialog(null, comboBox.getSelectedItem().toString());
             }

@@ -16,20 +16,12 @@ public class SupplyManage {
 	}
 	
 	public void fixInfomationSupply(){
-		FixInfomationSupply2 fx = new FixInfomationSupply2(st);
+		SearchAndFixSupply fx = new SearchAndFixSupply(st);
+		fx.frmTmKimChnh.setVisible(true);
 	}
 	
-	public void deleteSupply(){
-		DeleteSupply ds = new DeleteSupply(st);
-	}
 	
 	public void addNewSupply(){
 		AddNewSupply2 ans = new AddNewSupply2(st);
-	}
-	
-	public void ShowAllSupply() throws SQLException{
-		sql = "Select Id_NCC, Ten_NCC, SDT, Mail, TTLH from ncc;";
-		ResultSet rs = st.executeQuery(sql);
-        TableDatabase stt = new TableDatabase(rs,"Các công ty đang cung cấp sản phẩm cho cửa hàng.");     
 	}
 }

@@ -48,26 +48,26 @@ public class SearchAndFixProduce {
 	/**
 	 * Launch the application.
 	 */
-//	private static final String url = "jdbc:mysql://localhost";
-//	private static final String user = "root"; 
-//	private static final String password = "sieunhan";
-//	private static java.sql.Connection con;
-//	
-//	
-//	public static void main(String args[]) {
-//	try {
-//    	con = DriverManager.getConnection(url, user, password);
-//        System.out.println("Connect Success!");
-//        Statement sts;
-//        sts = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-//        sts.executeUpdate ("Use managedatabase;");
-//        SearchAndFixProduce lr = new SearchAndFixProduce(sts);
-//    	lr.frmTmKimChnh.setVisible(true);
-//	} catch (SQLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//		}	
-//	}
+	private static final String url = "jdbc:mysql://localhost";
+	private static final String user = "root"; 
+	private static final String password = "sieunhan";
+	private static java.sql.Connection con;
+	
+	
+	public static void main(String args[]) {
+	try {
+    	con = DriverManager.getConnection(url, user, password);
+        System.out.println("Connect Success!");
+        Statement sts;
+        sts = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        sts.executeUpdate ("Use managedatabase;");
+        SearchAndFixProduce lr = new SearchAndFixProduce(sts);
+    	lr.frmTmKimChnh.setVisible(true);
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+	}
 
 	/**
 	 * Create the application.
@@ -226,19 +226,31 @@ public class SearchAndFixProduce {
 	
 	private void buttomXoaClick(){
 		int rows = table.getSelectedRow();
-		if(rows >= 0){
-			model.removeRow(rows);
+		if(rows < 0){
+			JOptionPane.showMessageDialog(null, "Hãy chọn mặt hàng muốn sửa! bằng cách click vào hàng tương ứng");
+			return;
+		}	
+		try {
+			String id = (String) model.getValueAt(rows, 0);
+			sql = "DELETE FROM thuoc_nhom WHERE ID_MatHang = '"+ id +"';";
+			st.executeUpdate(sql);
+			sql = "DELETE FROM cung_cap WHERE ID_MatHang = '"+ id +"';";
+			st.executeUpdate(sql);
+			sql = "DELETE FROM mat_hang WHERE ID_MatHang = '"+ id +"';";
+			st.executeUpdate(sql);
 			JOptionPane.showMessageDialog(null, "Đã xóa mặt hàng!");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else{
-			JOptionPane.showMessageDialog(null, "Hãy chọn hàng muốn xóa!");
-		}
+		
 	}
 	
 	
 	private void buttomSuaClick(){
 		int rows = table.getSelectedRow();
 		if(rows < 0){
+			JOptionPane.showMessageDialog(null, "Hãy chọn mặt hàng muốn sửa! bằng cách click vào hàng tương ứng");
 			return;
 		}
 		String id = (String) model.getValueAt(rows, 0);

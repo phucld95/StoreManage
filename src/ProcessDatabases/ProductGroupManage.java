@@ -20,11 +20,6 @@ public class ProductGroupManage {
 		ShowProductInGroup spg = new ShowProductInGroup(st);
 	}
 	
-	
-	public void deleteSupply(){
-		DeleteSupply ds = new DeleteSupply(st);
-	}
-	
 	public void addProductToGroup(){
 		AddProductToGroup apg = new AddProductToGroup(st);
 	}
