@@ -210,6 +210,7 @@ public class ShowRevenueOfStore {
 		int i;
 		for(i=0; i<=9; i++){
 			if(t1.charAt(i) > t2.charAt(i)) return 0;
+			if(t1.charAt(i) < t2.charAt(i)) return 1;
 		}
 		return 1;
 	}

@@ -133,17 +133,18 @@ public class CreateEven {
 			}
 		}
 	}
-	
+	//2015-11-11
 	private int checkTime2 (String t1, String t2){
 		int i;
-		for(i=0; i<=9; i++){
+		for(i=0; i<=10; i++){
 			if(t1.charAt(i) > t2.charAt(i)) return 0;
+			if(t1.charAt(i) < t2.charAt(i)) return 1;
 		}
 		return 1;
 	}
 	
 	private int checkTime(String str){
-		String temp = "2015-11-12";
+		String temp = "2015-11-12";	
 		if(str.length() != temp.length()){
 			
 			return 0;
